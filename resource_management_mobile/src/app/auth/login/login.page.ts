@@ -31,11 +31,11 @@ export class LoginPage implements OnInit {
    if(this.loginForm.status == 'INVALID'){
     this.onSubmit = false
    }
-   this.router.navigate(['main/dashboard'])
-    // this.loginService.postLoginRequest(this.loginForm.value).subscribe(((res:LoginResponse)=>{
-    //   console.log(res);
-    //   this.router.navigate(['/main/dashboard'])
-    // }))
+  
+    this.loginService.postLoginRequest(this.loginForm.value).subscribe(((res:LoginResponse)=>{
+      console.log(res);
+      this.router.navigate(['/main/dashboard'])
+    }))
   }
 
 }
