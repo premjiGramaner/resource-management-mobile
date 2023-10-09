@@ -8,9 +8,10 @@ import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
 
-import { HttpClientModule } from  '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { LoginService } from '../login.service';
-
+import { RouteConstants } from 'src/app/core/constant/routes.constants';
+import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
 
 @NgModule({
   imports: [
@@ -20,11 +21,9 @@ import { LoginService } from '../login.service';
     LoginPageRoutingModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   declarations: [LoginPage],
-  providers:[LoginService]
+  providers: [LoginService, RouteConstants, CookiesConstants],
 })
-export class LoginPageModule {
-  
-}
+export class LoginPageModule {}

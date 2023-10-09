@@ -7,38 +7,33 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
-  // {
-  //   path: 'folder/:id',
-  //   loadChildren: () => import('./folder/folder.module').then( m => m.FolderPageModule)
-  // },
   {
     path: 'login',
-    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./auth/login/login.module').then((m) => m.LoginPageModule),
   },
-  
+
   {
-    path:'main',
-    component:MainComponent,
-    children:[
+    path: 'main',
+    component: MainComponent,
+    children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
+        loadChildren: () =>
+          import('./pages/dashboard/dashboard.module').then(
+            (m) => m.DashboardPageModule
+          ),
       },
-    ]
-  }
-
- 
-
-
-
+    ],
+  },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

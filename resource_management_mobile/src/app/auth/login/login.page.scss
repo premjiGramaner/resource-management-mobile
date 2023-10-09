@@ -1,6 +1,5 @@
+@import "../../../theme//theme.scss";
 
-$font-weight:600;
-$curve-size:47px;
 @mixin flexDisplay {
     display: flex;
     justify-content: center;
@@ -8,26 +7,29 @@ $curve-size:47px;
     align-items: center;
 }
 
-
-.login_header{
+.login_header {
     @include flexDisplay;
     padding-top: 18%;
     color: white;
 }
-.header_text{
-    font-weight:$font-weight;
+
+.header_text {
+    font-weight: $font-weight;
     letter-spacing: 9px;
 }
-.sub_header_text{
+
+.sub_header_text {
     margin-top: 10px;
 }
-.login_background{
+
+.login_background {
     background: linear-gradient(180deg, #050579 0%, rgba(5, 5, 121, 0) 100%);
     filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
     height: calc(80% + 20px);
     position: relative;
 }
-.login_model{
+
+.login_model {
     background-color: white;
     position: absolute;
     top: 50%;
@@ -35,49 +37,42 @@ $curve-size:47px;
     width: 100%;
     border-top-left-radius: $curve-size;
     border-top-right-radius: $curve-size;
-
 }
 
-.login_data_container{
-   @include flexDisplay;
-   padding-top: 13%;
-    // margin-top: 27%;
+.login_data_container {
+    @include flexDisplay;
+    padding-top: 30px;
 }
 
-.admin_login{
-    font-weight:$font-weight;
+.admin_login {
+    font-weight: $font-weight;
     color: #535395;
     font-size: 1.5em;
 }
-.item_list{
+
+.item_list {
     width: 100%;
-    padding: 3% 9%;
+    padding: 3px 20px;
     color: black;
-    // margin-top: 8%;
 }
 
-.item_list > ion-input{
-    margin-top: 7%;
+.input_field {
+    margin-top: 17px;
 }
 
-.eye_icon{
+.eye_icon {
     margin-top: -25px;
     position: absolute;
     right: 38px;
     z-index: 99999;
 }
 
-.login_btn{
-    margin-top: 9%;
-    width: 60%;
-    margin-bottom: 2%;
-
-    // position: absolute;
-    // bottom: 0;
+.login_btn {
+    margin-top: 35px;
+    margin-bottom: 6px;
+    width: 100%;
 }
 
-.alert-danger{
+.alert-danger {
     color: rgb(206, 12, 12);
 }
-
-

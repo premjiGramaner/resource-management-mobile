@@ -5,15 +5,13 @@ import { environment } from 'src/environments/environment';
 import { LoginRequest, LoginResponse } from './models/auth.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoginService {
-  URL = environment.baseUrl
-  
-  constructor(private httpClient:HttpClient) {
+  private URL = environment.baseUrl;
 
-  }
-  postLoginRequest(req:LoginRequest):Observable<LoginResponse>{
-    return this.httpClient.post<LoginResponse>(`${this.URL}user/login`,req)
+  constructor(private httpClient: HttpClient) {}
+  postLoginRequest(req: LoginRequest): Observable<LoginResponse> {
+    return this.httpClient.post<LoginResponse>(`${this.URL}user/login`, req);
   }
 }
