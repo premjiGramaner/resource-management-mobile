@@ -1,0 +1,78 @@
+<ion-header [translucent]="true">
+  <app-header></app-header>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <div class="p-3 shadow">
+      <div class="d-flex justify-content-between m-auto">
+        <h5>Resource List</h5>
+        <ion-icon name="search" size="small" (click)="onSearch()"></ion-icon>
+      </div>
+      <ion-searchbar *ngIf="showSearch" show-cancel-button="never" placeholder="Search" [debounce]="1000" (ionInput)="handleSearch($event)"></ion-searchbar>
+    </div>
+    <div>
+      <ion-list>
+        <ion-item-sliding *ngFor="let item of items; let index" #sliding>
+          <ion-item class="p-0 m-auto">
+            <ion-card class="w-100 p-3 m-auto">
+                <div class="d-flex justify-content-between">
+                  <h5>{{item.name}}</h5>
+                  <span>{{item.experience}} Years</span>
+                </div>
+                <div>
+                  <span>Email:- {{item.email_id}}</span> <br>
+                  <span>Phone:- {{item.mobile_no}}</span>
+                </div>
+            </ion-card>
+
+            <!-- <ion-avatar slot="start">
+              <img [src]="'https://picsum.photos/80/80?random=' + index" alt="avatar" />
+            </ion-avatar>
+            <ion-label>{{ item }}</ion-label> -->
+          </ion-item>
+          <ion-item-options side="end">
+            <!-- <ion-item-option>
+              <ion-icon slot="icon-only" name="heart"></ion-icon>
+            </ion-item-option> -->
+            <ion-item-option color="danger" (click)="deleteModal(item,index,sliding)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+
+        </ion-item-sliding>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+    </div>
+    <!-- <ion-modal trigger="deleteModal" [initialBreakpoint]="0.5" [breakpoints]="[0, 0.5, 1]">
+      <ng-template>
+        <ion-header>
+          <ion-toolbar color="primary">
+            <ion-title>
+              Inline
+            </ion-title>
+          </ion-toolbar>
+        </ion-header>
+        <ion-content>
+          <ion-item>
+            This is so cool!
+            <p>And a bit funny</p>
+          </ion-item>
+        </ion-content>
+      </ng-template>
+    </ion-modal> -->
+  
+  </div>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="onAdd()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
+
+<ion-footer collapse="fade">
+  <app-footer></app-footer>
+</ion-footer>
