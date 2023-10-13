@@ -26,4 +26,4 @@ import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
   declarations: [LoginPage],
   providers: [LoginService, RouteConstants, CookiesConstants],
 })
-export class LoginPageModule {}
+export class LoginPageModule { }

@@ -1,5 +1,38 @@
-/**
-* Login page
-*/
+:root {
+    --main-menu-bg: #050579;
+}
+
 $font-weight: 600;
 $curve-size: 47px;
+$profile-bg: #b5b7cd;
+$profile-border-radious: 50px;
+$white: #ffff;
+$dark-blue: var(--main-menu-bg);
+$light-blue: #0303B0;
+
+
+/**
+* Icon sizes
+*/
+$width: 32px;
+$height: 34px;
+
+@mixin centerElement {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin userName{
+    font-size: 1.5em;
+    color: black;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+@mixin userOtherInfo{
+    font-weight: 500;
+    color: black;
+    font-size: 16px;
+}

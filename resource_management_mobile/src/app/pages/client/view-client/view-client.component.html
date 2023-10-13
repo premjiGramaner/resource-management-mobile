@@ -1,0 +1,99 @@
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col class="center-content">
+        <h3 class="data-header">{{viewClientData.name}}</h3>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Contact Person Name</h4>
+        <p class="value-label">{{viewClientData.contact_person_name}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Contact Person Email-id</h4>
+        <p class="value-label">{{viewClientData.contact_person_email_id}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Contact Person Phone</h4>
+        <p class="value-label">{{viewClientData.contact_person_phone}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Finance Person Name</h4>
+        <p class="value-label">{{viewClientData.finance_person_name}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Finance Person Email-id</h4>
+        <p class="value-label">{{viewClientData.finance_person_email_id}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Finance Person Phone</h4>
+        <p class="value-label">{{viewClientData.finance_person_phone}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Sales Person Name</h4>
+        <p class="value-label">{{viewClientData.sales_person_name}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Sales Person Email-id</h4>
+        <p class="value-label">{{viewClientData.sales_person_email_id}}</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Sales Person Phone</h4>
+        <p class="value-label">{{viewClientData.sales_person_phone}}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Address</h4>
+        <p class="value-label">{{viewClientData.address}}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>
+        <h4 class="key-label">Strength</h4>
+        <p class="value-label">{{viewClientData.strength}}</p>
+      </ion-label>
+    </ion-item>
+
+    <ion-item-group>
+      <ion-item-divider color="medium">
+        <ion-label> Skills </ion-label>
+      </ion-item-divider>
+      <ion-item *ngFor="let item of viewClientData.skills">
+        <ion-grid>
+          <ion-row>
+            <ion-col class="center-content">
+              <p class="data-header">{{item.category}}</p>
+            </ion-col>
+            <ion-col class="skill-description">
+              {{item.description}}
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-item-group>
+  </ion-list>
+
+
+</ion-content>

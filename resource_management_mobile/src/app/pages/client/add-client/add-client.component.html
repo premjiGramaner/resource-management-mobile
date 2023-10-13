@@ -1,0 +1,175 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="clientForm">
+    <ion-grid>
+      <ion-row>
+        <ion-label>Name <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="name" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['name'].invalid && (clientForm.controls['name'].dirty || clientForm.controls['name'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['name'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Contact Person Name <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="contact_person_name" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['contact_person_name'].invalid && (clientForm.controls['contact_person_name'].dirty || clientForm.controls['contact_person_name'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['contact_person_name'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Contact Person Email Id <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="contact_person_email_id" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['contact_person_email_id'].invalid && (clientForm.controls['contact_person_email_id'].dirty || clientForm.controls['contact_person_email_id'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['contact_person_email_id'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Contact Person Phone <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="contact_person_phone" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['contact_person_phone'].invalid && (clientForm.controls['contact_person_phone'].dirty || clientForm.controls['contact_person_phone'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['contact_person_phone'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Ownership Name</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-select label-placement="floating" formControlName="ownership_name" fill="solid" aria-label="user"
+          placeholder="Select User">
+          <ion-select-option *ngFor="let user of userList" value={{user.user_id}}>{{user.name}}</ion-select-option>
+        </ion-select>
+      </ion-row>
+      <ion-row>
+        <ion-label>Sales Person Name</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="sales_person_name" fill="solid"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Sales Person Email Id</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="sales_person_email_id" fill="solid"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Sales Person Phone</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="sales_person_phone" fill="solid"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Finance Person Name</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="finance_person_name" fill="solid"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Finance Person Email Id</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="finance_person_email_id" fill="solid"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Finance Person Phone</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="finance_person_phone" fill="solid"></ion-input>
+      </ion-row>
+      <ion-row>
+        <ion-label>Strength <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="strength" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['strength'].invalid && (clientForm.controls['strength'].dirty || clientForm.controls['strength'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['strength'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Address <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="address" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['address'].invalid && (clientForm.controls['address'].dirty || clientForm.controls['address'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['address'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row class="skill_container">
+        <ion-label class="skill-heading">Skill <span>*</span></ion-label>
+        <ion-label><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
+            name="add-circle-outline"></ion-icon></ion-label>
+      </ion-row>
+      <ion-row *ngFor="let skill of selectedSkillIds; let i = index">
+        <ion-col class="skill-list" size="10">
+          <ion-label class="">{{skill.category}}</ion-label>
+        </ion-col>
+        <ion-col class="skil-del">
+          <ion-label>
+            <ion-icon name="trash-outline" class="add-icon"></ion-icon>
+          </ion-label>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
+      trigger="open-custom-dialog">
+      <ng-template>
+        <div class="wrapper">
+          <h1>Select Skills</h1>
+          <ion-list lines="none">
+            <ion-item button="true">
+              <ion-select detail="false" interface="popover" (ionChange)="handleSkillChange()"
+                label-placement="floating" formControlName="skill_ids" fill="solid" aria-label="user"
+                placeholder="Select User">
+                <ion-select-option *ngFor="let skill of skillList"
+                  value={{skill.skill_id}}>{{skill.category}}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item>
+              <ion-checkbox value=true (ionChange)="primaryskill($event)">Is this primary skill</ion-checkbox>
+            </ion-item>
+            <ion-item>
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="skill-add">
+                    <ion-button expand="block" (click)="setClose()">Add</ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ng-template>
+    </ion-modal>
+  </form>
+</ion-content>
