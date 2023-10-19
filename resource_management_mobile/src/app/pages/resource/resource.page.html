@@ -14,8 +14,8 @@
         <ion-item-sliding *ngFor="let item of items; let index" #sliding>
           <!-- <ion-item class="p-0 m-auto">
             <ion-card class="w-100 p-3 m-auto"> -->
-          <ion-item id="open-modal" expand="block" (click)="setOpen(true)">
-            <ion-card class="shadow" (click)="detailData(item,'edit')">
+          <ion-item id="open-modal" expand="block" (click)="detailData(item,'edit')">
+            <ion-card class="shadow">
               <ion-row>
                 <ion-col class="card-user-info">
                   <ion-row class="d-flex justify-content-between">
@@ -94,17 +94,23 @@
             <ion-button (click)="setOpen(false)">
               <ion-icon size="default" name="arrow-undo-outline"></ion-icon>
             </ion-button>
-            <ion-title size="small">
+            <ion-title *ngIf="modelType === 'edit'" size="small">
+              View Resource
+            </ion-title>
+            <ion-title *ngIf="modelType === 'save' && resourceData" size="small">
+              Edit Resource
+            </ion-title>
+            <ion-title *ngIf="modelType === 'save' && !resourceData" size="small">
               Add Resource
             </ion-title>
           </ion-buttons>
-          <!-- <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('save')" color="primary">Edit</ion-button> -->
+          <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('save')" color="primary" size="small">Edit</ion-button>
           <ion-button slot="end" *ngIf="modelType === 'save'" (click)="saveForm()" color="success" size="small">Save</ion-button>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <!-- <app-view-resource *ngIf="modelType === 'edit'"  [viewData]=resourceData></app-view-resource> -->
-        <app-add-resource *ngIf="modelType === 'save'" #add></app-add-resource>
+        <app-view-resource *ngIf="modelType === 'edit'"  [viewData]=resourceData></app-view-resource>
+        <app-add-resource *ngIf="modelType === 'save'" [viewData]=resourceData #add></app-add-resource>
       </ion-content>
     </ng-template>
   </ion-modal>

@@ -24,7 +24,7 @@ export class SkillCardComponent  implements OnInit {
       skill_id: new FormControl('', Validators.required),
       relevant_experience: new FormControl('', Validators.required),
       rating: new FormControl('', Validators.required),
-      primary: new FormControl(false, Validators.required)
+      primary_skill_ind: new FormControl(false, Validators.required)
     });
   }
 
@@ -34,6 +34,11 @@ export class SkillCardComponent  implements OnInit {
 
   onSubmit(form:FormGroup){
     if(form.valid){
+      if(form.value.primary_skill_ind){
+        form.value.primary_skill_ind = 1;
+      } else {
+        form.value.primary_skill_ind = 0;
+      }
       this.addSkill.emit(form.value);
       this.modalController.dismiss();
     }

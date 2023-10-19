@@ -34,7 +34,11 @@ export class ResourcePage implements OnInit {
   saveForm() {
     console.log('Add form   ',this.add.isFormValid())
     if (this.add.isFormValid()) {
-      console.log('Child form is valid  ',this.add.addform.value);
+      this.resourceService.addresource(this.add.addform.value)
+      .subscribe((data: any) => {
+        this.add.setClose();
+        this.getResources(this.skip,20,this.searchQuery);
+      });
     }
   }
 
@@ -126,10 +130,15 @@ export class ResourcePage implements OnInit {
   detailData(info: any, type: string) {
     this.resourceData = info;
     this.modelType = type;
+    this.isModalOpen = true;
   }
   setOpen(isOpen: boolean) {
+    this.resourceData = undefined;
     this.modelType = isOpen ? 'save' : 'edit';
     this.isModalOpen = isOpen;
   }
 
+  editEvent(type: string) {
+    this.modelType = type;
+  }
 }

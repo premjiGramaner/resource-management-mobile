@@ -2,17 +2,17 @@
   <form [formGroup]="addform">
     <ion-list lines="none">
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Name" formControlName="name" errorText="Invalid name" maxlength="100">
+        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Name" formControlName="name" errorText="Invalid name" maxlength="100" >
           <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="email" fill="outline" labelPlacement="floating" placeholder="Enter Email" formControlName="email" errorText="Invalid email" maxlength="10">
+        <ion-input type="email" fill="outline" labelPlacement="floating" placeholder="Enter Email" formControlName="email_id" errorText="Invalid email" maxlength="10">
           <div slot="label">Email<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="tel" pattern="[0-9]*" maxlength="10" fill="outline" labelPlacement="floating" placeholder="Enter Mobile no." formControlName="mobile" errorText="Invalid mobile">
+        <ion-input type="tel" pattern="[0-9]*" maxlength="10" fill="outline" labelPlacement="floating" placeholder="Enter Mobile no." formControlName="mobile_no" errorText="Invalid mobile">
           <div slot="label">Mobile<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
@@ -46,7 +46,7 @@
           toggleIcon="caret-down-sharp"
           interface="popover"
           placeholder="Select partner"
-          formControlName="partner" 
+          formControlName="Partner_partner_id" 
           errorText="Invalid partner"
         >
         <div slot="label">Select Partner<ion-text color="danger"> *</ion-text></div>
@@ -83,7 +83,7 @@
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Profile Location" formControlName="profileLocation" errorText="Invalid profile location" >
+        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Profile Location" formControlName="profile_location" errorText="Invalid profile location" >
           <div slot="label">Profile Location<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
@@ -95,7 +95,7 @@
           toggleIcon="caret-down-sharp"
           interface="popover"
           placeholder="Select preferred location"
-          formControlName="preferredLocation" 
+          formControlName="preferred_location" 
           errorText="Invalid preferred location"
         >
         <div slot="label">Select Preferred Location<ion-text color="danger"> *</ion-text></div>
@@ -112,7 +112,7 @@
           toggleIcon="caret-down-sharp"
           interface="popover"
           placeholder="Select work location"
-          formControlName="workLocation" 
+          formControlName="work_location" 
           errorText="Invalid work location"
         >
         <div slot="label">Select Work Location<ion-text color="danger"> *</ion-text></div>
@@ -129,7 +129,7 @@
           toggleIcon="caret-down-sharp"
           interface="popover"
           placeholder="Select current location"
-          formControlName="currentLocation" 
+          formControlName="current_location" 
           errorText="Invalid current location"
         >
         <div slot="label">Select Current Location<ion-text color="danger"> *</ion-text></div>
@@ -138,28 +138,28 @@
         </ion-select>
       </ion-item>
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Current Organisation" formControlName="currentOrganisation" errorText="Invalid current organisation" maxLength="100">
+        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Current Organisation" formControlName="current_organisation" errorText="Invalid current organisation" maxLength="100">
           <div slot="label">Current Organisation<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Current Organisation Duration" formControlName="currentOrganisationDuration" errorText="Invalid current organisation duration" >
-          <div slot="label">Current Organisation Duration (in years)<ion-text color="danger"> *</ion-text></div>
+        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Current Organisation Duration" formControlName="current_org_duration" errorText="Invalid current organisation duration"  maxLength="100">
+          <div slot="label">Current Organisation Duration<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Notice Period" formControlName="noticePeriod" errorText="Invalid notice period" >
+        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Notice Period" formControlName="notice_period" errorText="Invalid notice period" >
           <div slot="label">Notice Period (in months)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="date" fill="outline" labelPlacement="floating" placeholder="Enter Earliest Joining Date" formControlName="earliestJoiningDate" errorText="Invalid earliest joining date" >
+        <ion-input type="date" fill="outline" labelPlacement="floating" placeholder="Enter Earliest Joining Date" formControlName="earliest_joining_date" errorText="Invalid earliest joining date" >
           <div slot="label">Earliest Joining Date<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-textarea type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="200" minHeight="40" placeholder="Enter Reason for Change" formControlName="reasonForChange" errorText="Invalid reason for Change" >
+        <ion-textarea type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="200" minHeight="40" placeholder="Enter Reason for Change" formControlName="reason_for_change" errorText="Invalid reason for Change" >
           <div slot="label">Reason For Change<ion-text color="danger"> *</ion-text></div>
         </ion-textarea>
       </ion-item>
