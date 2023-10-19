@@ -92,7 +92,7 @@ export class ClientPage implements OnInit {
   async deleteModal(item: any, index: number, sliding: any) {
     let data = {
       from: 'Client',
-      type: 'Export',
+      type: 'Delete',
       value: item.name,
     };
     const mySubject = new BehaviorSubject(data);
@@ -183,7 +183,6 @@ export class ClientPage implements OnInit {
       });
       await modal.present();
       modal.onDidDismiss().then((_) => {
-        // mySubject.unsubscribe();
       });
     });
   }

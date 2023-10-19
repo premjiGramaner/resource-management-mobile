@@ -33,7 +33,7 @@
         </ion-item-options>
       </ion-item-sliding>
     </ion-list>
-    <ion-list *ngIf="clientData.length==0">
+    <ion-list class="nodata-found" *ngIf="clientData.length==0">
       <h5>Not Data Found!</h5>
     </ion-list>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">

@@ -48,3 +48,13 @@ ion-accordion-group {
 .searchbar-input-container {
     border: 1px solid !important;
 }
+
+.nodata-found {
+    text-align: center;
+    font-weight: 700;
+
+    h5 {
+        font-weight: 700;
+        font-size: 1.5em;
+    }
+}
