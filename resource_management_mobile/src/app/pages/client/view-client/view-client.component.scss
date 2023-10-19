@@ -1,0 +1,28 @@
+@import "../../../../theme/theme.scss";
+
+.center-content {
+    @include centerElement;
+}
+
+.value-label {
+    margin-top: 10px;
+    font-size: 1.0.2em;
+    color: #4f5487;
+    font-weight: 550;
+}
+
+.key-label {
+    font-size: 1em;
+}
+
+
+.data-header {
+    margin-top: 10px;
+    color: #4f5487;
+    font-weight: 550;
+}
+
+.skill-description {
+    display: flex;
+    align-items: center;
+}

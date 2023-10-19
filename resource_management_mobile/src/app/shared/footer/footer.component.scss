@@ -1,0 +1,10 @@
+@import "../../../theme//theme.scss";
+
+.center-icon {
+    @include centerElement();
+}
+
+.icon {
+    width: 50px;
+    height: 29px;
+}

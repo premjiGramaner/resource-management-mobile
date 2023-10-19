@@ -1,0 +1,93 @@
+@import "../../../theme//theme.scss";
+
+
+@mixin profileBaseClass {
+    background: $profile-bg;
+    border-radius: $profile-border-radious;
+}
+
+@mixin bgColors {
+    --background: var(--main-menu-bg);
+    --color: white;
+}
+
+@mixin iconSize {
+    height: $height;
+    width: $width;
+}
+
+.profile_img {
+    @include profileBaseClass;
+    height: 99px;
+    width: 99px;
+    padding: 11px;
+}
+
+.profile_text {
+    font-size: 1.4em;
+    padding-bottom: 9px;
+}
+
+.main_menu {
+    @include bgColors;
+}
+
+.sub_menu {
+    background: $light-blue;
+    border-bottom: 1px solid black;
+}
+
+ion-item {
+    @include bgColors;
+    border-bottom: 2px solid black;
+}
+
+ion-accordion {
+    @include bgColors;
+
+}
+
+.ion-list {
+    background: $dark-blue;
+    border: none;
+}
+
+.header-background {
+    --background: var(--main-menu-bg);
+    padding: 5px;
+    color: $white;
+}
+
+.logout-icon {
+    width: 56px;
+    height: 52px;
+}
+
+.logout-text {
+    color: #c8cae0;
+}
+
+.topbar-profile-img {
+    @include profileBaseClass;
+    @include iconSize;
+    padding: 2px;
+}
+
+.topbar-notification {
+    @include iconSize;
+    margin-right: 10px;
+}
+
+.menu-list-icon {
+    @include iconSize;
+}
+
+ion-icon {
+    .item-detail-icon {
+        display: none;
+    }
+}
+
+.center-profile {
+    @include centerElement();
+}

@@ -1,16 +1,20 @@
-<ion-toolbar>
-  <ion-buttons class="justify-content-around">
-    <ion-button [routerLink]="['/folder/inbox']">
-      <ion-icon slot="icon-only" name="person-circle"></ion-icon>
-    </ion-button>
-    <ion-button [routerLink]="['/folder/outbox']">
-      <ion-icon slot="icon-only" name="search"></ion-icon>
-    </ion-button>
-    <ion-button [routerLink]="['/folder/favorites']">
-      <ion-icon slot="icon-only" name="person-circle"></ion-icon>
-    </ion-button>
-    <ion-button [routerLink]="['/folder/trash']">
-      <ion-icon slot="icon-only" name="search"></ion-icon>
-    </ion-button>
-  </ion-buttons>
-</ion-toolbar>
+<ion-footer>
+  <ion-toolbar>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="center-icon" routerLink={{routeConstants.dashboard}}>
+          <ion-icon class="icon" name="stats-chart-outline"></ion-icon>
+        </ion-col>
+        <ion-col class="center-icon" routerLink={{routeConstants.resource_requirement}}>
+          <ion-icon class="icon" name="people-outline"></ion-icon>
+        </ion-col>
+        <ion-col class="center-icon" routerLink={{routeConstants.resource_hiring}}>
+          <ion-icon class="icon" name="megaphone-outline"></ion-icon>
+        </ion-col>
+        <ion-col class="center-icon" routerLink={{routeConstants.status_tracker}}>
+          <ion-icon class="icon" name="ribbon-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-toolbar>
+</ion-footer>

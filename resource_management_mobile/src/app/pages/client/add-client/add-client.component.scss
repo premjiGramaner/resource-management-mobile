@@ -1,0 +1,70 @@
+@import "../../../../theme/theme.scss";
+
+ion-row {
+  margin: 6px 4px;
+}
+
+ion-label>span {
+  color: red;
+}
+
+.skill_container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.skill-list {
+  background: #2289333B;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.skil-del {
+  display: flex;
+  justify-content: end;
+}
+
+.skill-add {
+  display: flex;
+  justify-content: center;
+}
+
+.add-icon {
+  width: $width;
+  height: $height;
+}
+
+.skill-heading {
+  font-size: 21px;
+}
+
+
+
+ion-modal#skill-modal {
+  --width: fit-content;
+  --min-width: 300px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#skill-modal h1 {
+  margin: 20px 20px 10px 20px;
+}
+
+ion-modal#skill-modal ion-icon {
+  margin-right: 6px;
+
+  width: 48px;
+  height: 48px;
+
+  padding: 4px 0;
+
+  color: #aaaaaa;
+}
+
+ion-modal#skill-modal .wrapper {
+  margin-bottom: 10px;
+}

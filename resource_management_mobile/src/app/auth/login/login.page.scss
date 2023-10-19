@@ -1,0 +1,75 @@
+@import "../../../theme//theme.scss";
+
+@mixin flexDisplay {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login_header {
+    @include flexDisplay;
+    padding-top: 18%;
+    color: white;
+}
+
+.header_text {
+    font-weight: $font-weight;
+    letter-spacing: 9px;
+}
+
+.sub_header_text {
+    margin-top: 10px;
+}
+
+.login_background {
+    background: linear-gradient(180deg, #050579 0%, rgba(5, 5, 121, 0) 100%);
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    height: calc(80% + 20px);
+    position: relative;
+}
+
+.login_model {
+    background-color: white;
+    position: absolute;
+    top: 50%;
+    height: 50%;
+    width: 100%;
+    border-top-left-radius: $curve-size;
+    border-top-right-radius: $curve-size;
+}
+
+.login_data_container {
+    @include flexDisplay;
+    padding-top: 30px;
+}
+
+.admin_login {
+    font-weight: $font-weight;
+    color: #535395;
+    font-size: 1.5em;
+}
+
+.item_list {
+    width: 100%;
+    padding: 3px 20px;
+    color: black;
+}
+
+.input_field {
+    margin-top: 17px;
+}
+
+.eye_icon {
+    margin-top: -25px;
+    position: absolute;
+    right: 38px;
+    z-index: 99999;
+}
+
+.login_btn {
+    margin-top: 35px;
+    margin-bottom: 6px;
+    width: 100%;
+}
+
