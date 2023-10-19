@@ -44,7 +44,6 @@ export class LoginPage implements OnInit {
     if (this.loginForm.status == Status.INVALID) {
       this.onSubmit = false;
     }
-    this.router.navigate([this.routeConstants.dashboard]);
     if (this.loginForm.valid) {
       this.loginService
         .postLoginRequest(this.loginForm.value)
@@ -57,7 +56,6 @@ export class LoginPage implements OnInit {
             );
             this.router.navigate([this.routeConstants.dashboard]);
           } else if (res.statusCode == 400) {
-            // alert('failer')
           }
         });
     }
