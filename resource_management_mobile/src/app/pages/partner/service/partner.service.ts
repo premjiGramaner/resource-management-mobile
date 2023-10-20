@@ -31,4 +31,7 @@ export class PartnerService {
     );
   }
 
+  // getSkill(): Observable<any> {
+  //   return this.http.get<skillData>(`${this.URL}skill`);
+  // }
 }

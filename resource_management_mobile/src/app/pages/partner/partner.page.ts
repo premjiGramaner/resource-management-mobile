@@ -18,6 +18,8 @@ export class PartnerPage implements OnInit {
   searchQuery: string = '';
   isModalOpen: boolean = false;
   modelType!: string;
+  partnerMoreData: any;
+  partnerEdit: boolean = false;
   constructor(
     private partnerService: PartnerService,
     private toastService: ToastService,
@@ -96,8 +98,15 @@ export class PartnerPage implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  setOpen(isOpen: boolean, type: string) {
+  setOpen(isOpen: boolean, type: string, partnerInfo?: any) {
     this.modelType = type;
     this.isModalOpen = isOpen;
+    this.partnerEdit = false;
+    this.partnerMoreData = partnerInfo;
+  }
+  enableEdit() {
+    this.partnerEdit = true;
+    this.modelType = 'save';
+    console.log(this.modelType);
   }
 }

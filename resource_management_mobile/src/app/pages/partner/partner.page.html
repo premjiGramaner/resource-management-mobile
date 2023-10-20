@@ -15,7 +15,7 @@
     <ion-list *ngIf="partnerData.length > 0">
       <ion-item-sliding *ngFor="let partner of partnerData; let index" #sliding>
         <ion-item id="open-modal" expand="block">
-          <ion-card class="shadow" (click)="detailClientData(partner,'edit')">
+          <ion-card class="shadow" (click)="setOpen(true,'edit',partner)">
             <ion-row>
               <ion-col size="10" class="card-user-info">
                 <ion-label class="user"> {{partner.name}} </ion-label>
@@ -53,17 +53,24 @@
             <ion-button (click)="setOpen(false,'save')">
               <ion-icon class="back-icon" name="arrow-undo-outline"></ion-icon>
             </ion-button>
-            <ion-title>
+            <ion-title *ngIf="modelType === 'edit'" size="small">
+              View Partner
+            </ion-title>
+            <ion-title *ngIf="modelType === 'save' && partnerEdit" size="small">
+              Edit Partner
+            </ion-title>
+            <ion-title *ngIf="modelType === 'save' && !partnerEdit" size="small">
+              Add Partner
             </ion-title>
           </ion-buttons>
-          <ion-button slot="end" *ngIf="modelType === 'edit'" color="primary">Edit</ion-button>
+          <ion-button slot="end" *ngIf="modelType === 'edit'" color="primary" (click)="enableEdit()">Edit</ion-button>
           <ion-button slot="end" *ngIf="modelType === 'save' || modelType === 'editable_data'"
             color="success">Save</ion-button>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <app-view-partner *ngIf="modelType === 'edit'"></app-view-partner>
-        <app-add-partner *ngIf="modelType === 'save' || modelType === 'editable_data'"></app-add-partner>
+        <!-- <app-view-partner *ngIf="modelType === 'edit'"></app-view-partner> -->
+        <app-add-partner [flag]="modelType" [viewPartnerData]=partnerMoreData></app-add-partner>
       </ion-content>
     </ng-template>
   </ion-modal>

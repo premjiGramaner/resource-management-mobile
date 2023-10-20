@@ -12,15 +12,16 @@ import { AddPartnerComponent } from './add-partner/add-partner.component';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 
 @NgModule({
+  declarations: [PartnerPage, ViewPartnerComponent, AddPartnerComponent],
+  providers: [PartnerService, ToastConstants, DuplicateRemoverPipe],
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
     PartnerPageRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule
-  ],
-  declarations: [PartnerPage, ViewPartnerComponent, AddPartnerComponent],
-  providers: [PartnerService, ToastConstants, DuplicateRemoverPipe]
+    ReactiveFormsModule,
+    DuplicateRemoverPipe
+  ]
 })
 export class PartnerPageModule { }

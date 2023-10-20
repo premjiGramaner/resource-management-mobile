@@ -12,5 +12,5 @@ export class StaticDataConstants {
         { name: 'Capable', id: 2 },
         { name: 'Beginner', id: 1 }
     ];
-    
+    source_mode = [...this.type, "Both"]
 }
