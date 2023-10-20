@@ -41,6 +41,8 @@ export class SkillCardComponent  implements OnInit {
       }
       this.addSkill.emit(form.value);
       this.modalController.dismiss();
+    } else {
+      this.addform.markAllAsTouched();
     }
   }
 }

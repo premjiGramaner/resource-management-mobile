@@ -26,7 +26,6 @@ export class ExportOptionComponent implements OnInit {
   ngOnInit() { }
 
   DownloadExcel() {
-    console.log(this.exportData.pdfHeader, this.exportData.pdfData);
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
       // Custom header row
       this.exportData.pdfHeader,

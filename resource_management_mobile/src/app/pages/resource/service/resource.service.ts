@@ -30,7 +30,6 @@ export class ResourceService {
     return this.http.post(`${this.URL}resource`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          console.log(error.message);
           return throwError("Error while creating a resource" + error.message);
         }));
   }
@@ -41,7 +40,6 @@ export class ResourceService {
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // this.errorHandler.log("Error while updating a todo", error);
-          console.log(error.message);
           return throwError("Error while updating a resource " + error.message);
         }));
   }
@@ -49,7 +47,6 @@ export class ResourceService {
   deleteResource(id: string) {
     return this.http.delete(`${this.URL}resource/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        console.log(error.message);
         return throwError("Error while deleting a resource " + error.message);
       }));
   }

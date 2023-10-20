@@ -23,7 +23,6 @@ export class TopbarComponent implements OnInit {
     try {
       this.user = this.security.getItem(this.cookiesConstants.user);
     } catch (error) {
-      console.log(error);
     }
   }
 

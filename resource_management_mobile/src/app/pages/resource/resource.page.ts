@@ -33,7 +33,6 @@ export class ResourcePage implements OnInit {
   }
 
   saveForm() {
-    console.log('Add form   ',this.add.isFormValid())
     if (this.add.isFormValid()) {
       this.resourceService.addresource(this.add.addform.value)
       .subscribe((data: any) => {
@@ -69,14 +68,6 @@ export class ResourcePage implements OnInit {
           item.updated_by || '',
         ];
       });
-      let keys = Object.keys(res.data.resourceInfo[0]);
-      // let elementToRemove = 'skills';
-      // let pdfHeader = keys.reduce((result: any, item: any) => {
-      //   if (item !== elementToRemove) {
-      //     result.push(item.split('_').join('').toUpperCase());
-      //   }
-      //   return result;
-      // }, []);
       const pdfHeader = ["Name","Email","Mobile","Experience","Source","Partner Name","Type","Profile Location","Current Organisation","Current Org Duration","CTC","ECTC",
     "Preferred Location","Work Location","Current Location","Notice Period","Earliest Joining Date","Reason for Change","Created By","Updated By"];
       //pdf header details
@@ -119,7 +110,6 @@ export class ResourcePage implements OnInit {
   private getResources(skip:number,limit:number,search:string) {
     this.resourceService.getResources(skip,limit,search)
       .subscribe((data: any) => {
-        console.log("Resources:----  ",data)
         this.items = [...this.items,...data.data.resourceInfo];
       });
 
@@ -176,7 +166,6 @@ export class ResourcePage implements OnInit {
     await modal.present();
 
     mySubject.subscribe((value: any) => {
-      console.log(value)
       if(value== true){
         this.deleteResource(item.resource_id,index);
       }
