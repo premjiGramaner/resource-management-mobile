@@ -1,16 +1,22 @@
 <ion-content [fullscreen]="true">
-  <div id="container">
-    <div class="p-3 shadow">
-      <div class="d-flex justify-content-between m-auto">
+  <ion-grid id="container" class="p-2 ps-3 pe-3 shadow">
+    <ion-row >
+      <ion-col>
         <h5>Resource List</h5>
-        <ion-icon name="search" size="small" (click)="onSearch()"></ion-icon>
-      </div>
+      </ion-col>
+      <ion-col >
+        <ion-icon name="save-outline" size="default" (click)="onSearch()" class="ion-float-right mt-2"></ion-icon>
+        <ion-icon name="search" size="small" (click)="onSearch()" class="ion-float-right mt-2 me-4"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
       <ion-searchbar *ngIf="showSearch" show-cancel-button="never" placeholder="Search" [debounce]="1000"
         (ionInput)="handleSearch($event)"></ion-searchbar>
-    </div>
-
-    <ion-grid>
-      <ion-list lines="none">
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-list lines="none" class="w-100">
         <ion-item-sliding *ngFor="let item of items; let index" #sliding>
           <!-- <ion-item class="p-0 m-auto">
             <ion-card class="w-100 p-3 m-auto"> -->
@@ -50,7 +56,7 @@
           loadingSpinner="bubbles"></ion-infinite-scroll-content>
       </ion-infinite-scroll>
 
-    </ion-grid>
+    </ion-row>
 
 
     <!-- <ion-grid>
@@ -79,7 +85,7 @@
           loadingSpinner="bubbles"></ion-infinite-scroll-content>
       </ion-infinite-scroll>
     </ion-grid> -->
-  </div>
+  </ion-grid>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="add" (click)="setOpen(true)"></ion-icon>
@@ -104,12 +110,14 @@
               Add Resource
             </ion-title>
           </ion-buttons>
-          <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('save')" color="primary" size="small">Edit</ion-button>
-          <ion-button slot="end" *ngIf="modelType === 'save'" (click)="saveForm()" color="success" size="small">Save</ion-button>
+          <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('save')" color="primary"
+            size="small">Edit</ion-button>
+          <ion-button slot="end" *ngIf="modelType === 'save'" (click)="saveForm()" color="success"
+            size="small">Save</ion-button>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
-        <app-view-resource *ngIf="modelType === 'edit'"  [viewData]=resourceData></app-view-resource>
+        <app-view-resource *ngIf="modelType === 'edit'" [viewData]=resourceData></app-view-resource>
         <app-add-resource *ngIf="modelType === 'save'" [viewData]=resourceData #add></app-add-resource>
       </ion-content>
     </ng-template>
