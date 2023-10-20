@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { resourceResponse } from '../models/resource.model';
 
 
 @Injectable({
@@ -18,11 +19,15 @@ export class ResourceService {
     urlParams.append('limit', limit.toString());
     urlParams.append('search', search);
 
-    return this.http.get<any>(`${this.URL}/resource?` + urlParams,);
+    return this.http.get<any>(`${this.URL}resource?` + urlParams,);
+  }
+
+  getResourceAllData() {
+    return this.http.get<resourceResponse>(`${this.URL}resource`);
   }
 
   addresource(data: any) {
-    return this.http.post(`${this.URL}/resource`, data)
+    return this.http.post(`${this.URL}resource`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           console.log(error.message);
@@ -32,7 +37,7 @@ export class ResourceService {
 
 
   updateResource(data: any): Observable<any> {
-    return this.http.put<any>(`${this.URL}/resource`, data)
+    return this.http.put<any>(`${this.URL}resource`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // this.errorHandler.log("Error while updating a todo", error);
@@ -42,7 +47,7 @@ export class ResourceService {
   }
 
   deleteResource(id: string) {
-    return this.http.delete(`${this.URL}/resource/${id}`).pipe(
+    return this.http.delete(`${this.URL}resource/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log(error.message);
         return throwError("Error while deleting a resource " + error.message);
@@ -51,14 +56,14 @@ export class ResourceService {
 
 
   getSkill(): Observable<any> {
-    return this.http.get<any>(`${this.URL}/skill`);
+    return this.http.get<any>(`${this.URL}skill`);
   }
 
   getLocation(): Observable<any> {
-    return this.http.get<any>(`${this.URL}/location`);
+    return this.http.get<any>(`${this.URL}location`);
   }
 
   getPartner(): Observable<any> {
-    return this.http.get<any>(`${this.URL}/partner`);
+    return this.http.get<any>(`${this.URL}partner`);
   }
 }

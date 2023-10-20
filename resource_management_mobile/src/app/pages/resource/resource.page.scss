@@ -20,6 +20,9 @@
     @include userOtherInfo;
 }
 
+.user-status{
+    @include userStatus;
+}
 
 
 ion-card{

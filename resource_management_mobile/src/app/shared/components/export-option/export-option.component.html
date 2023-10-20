@@ -1,12 +1,10 @@
-<ion-content>
-  <ion-grid>
-    <ion-row class="ion-justify-content-center">
-      <ion-col size="8">
-        <ion-button color="success" (click)="DownloadExcel()">Excel</ion-button>
-      </ion-col>
-      <ion-col size="8">
-        <ion-button color="warning" (click)="DownloadPDF()">PDF</ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-</ion-content>
+<div class="text-center rounded-top">
+  <ion-icon name="remove-outline" size="large" color="medium"></ion-icon>
+    <div>
+      <h4 class="text-danger">Export</h4>
+    </div>
+    <div class="m-2 p-2">
+      <ion-button shape="round" expand="block" color="success" strong="true"  (click)="DownloadExcel()" class="mb-3" >Excel</ion-button> 
+      <ion-button shape="round" expand="block" color="primary" strong="true"  (click)="DownloadPDF()" >PDF</ion-button> 
+    </div>
+</div>

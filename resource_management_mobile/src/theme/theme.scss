@@ -35,14 +35,21 @@ $header-font-weight: 600;
 }
 
 @mixin userName {
-    font-size: 1.5em;
+    font-size: 1.2em;
     color: black;
     margin-bottom: 8px;
     font-weight: 600;
 }
 
+@mixin userStatus {
+    font-size: 0.8em;
+    color: gray;
+    margin-bottom: 8px;
+    font-weight: 400;
+}
+
 @mixin userOtherInfo {
-    font-weight: 500;
-    color: black;
-    font-size: 16px;
+    font-size: 1em;
+    font-weight: 400;
+    color: grey;
 }

@@ -6,6 +6,7 @@ import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-
 import { ToastController } from '@ionic/angular';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import {StaticDataConstants} from '../../core/constant/staticData.constants'
+import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.page.html',
@@ -42,6 +43,67 @@ export class ResourcePage implements OnInit {
     }
   }
 
+  async openExportModel() {
+    this.resourceService.getResourceAllData().subscribe(async (res: any) => {
+      const pdfTableData = res.data.resourceInfo.map((item: any) => {
+        return [
+          item.name || '',
+          item.email_id || '',
+          item.mobile_no || '',
+          item.experience || '',
+          item.source || '',
+          item.partner_name? item.partner_name :'',
+          item.type || '',
+          item.profile_location || '',
+          item.current_organisation || '',
+          item.current_org_duration || '',
+          item.ctc || '',
+          item.ectc || '',
+          item.preferred_location_name || '',
+          item.work_location_name || '',
+          item.current_location_name || '',
+          item.notice_period || '',
+          item.earliest_joining_date || '',
+          item.reason_for_change || '',
+          item.created_by || '',
+          item.updated_by || '',
+        ];
+      });
+      let keys = Object.keys(res.data.resourceInfo[0]);
+      // let elementToRemove = 'skills';
+      // let pdfHeader = keys.reduce((result: any, item: any) => {
+      //   if (item !== elementToRemove) {
+      //     result.push(item.split('_').join('').toUpperCase());
+      //   }
+      //   return result;
+      // }, []);
+      const pdfHeader = ["Name","Email","Mobile","Experience","Source","Partner Name","Type","Profile Location","Current Organisation","Current Org Duration","CTC","ECTC",
+    "Preferred Location","Work Location","Current Location","Notice Period","Earliest Joining Date","Reason for Change","Created By","Updated By"];
+      //pdf header details
+      let req = {
+        filename: 'resource',
+        data: res.data.resourceInfo,
+        pdfData: pdfTableData,
+        pdfHeader: pdfHeader,
+        title: 'Resource Report',
+        size: [400, 500],
+      };
+      const exportData = req;
+      const modal = await this.modalCtrl.create({
+        component: ExportOptionComponent,
+        breakpoints: [0, 0.4, 1],
+        initialBreakpoint: 0.3,
+        handle: false,
+        componentProps: {
+          exportData,
+        },
+      });
+      await modal.present();
+      modal.onDidDismiss().then((_) => {
+        // mySubject.unsubscribe();
+      });
+    });
+  }
   onSearch() {
     this.showSearch = !this.showSearch;
   }
@@ -105,7 +167,7 @@ export class ResourcePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: DeleteNavComponent,
       breakpoints: [0, 0.5,1],
-      initialBreakpoint: 0.3,
+      initialBreakpoint: 0.35,
       handle: false,
       componentProps: {
         mySubject
