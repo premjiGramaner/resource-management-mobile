@@ -5,18 +5,17 @@
         <h5 class="header-text"> Partner </h5>
       </ion-col>
       <ion-col class="header-search-container">
-        <ion-button color="medium" >Export</ion-button>
-        <ion-icon name="search"  (click)="onSearch()" class="search-icon" size="small"></ion-icon>
+        <ion-button color="medium">Export</ion-button>
+        <ion-icon name="search" (click)="onSearch()" class="search-icon" size="small"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="showSearch">
-      <ion-searchbar show-cancel-button="never" placeholder="Search" [debounce]="1000"
-     ></ion-searchbar>
+      <ion-searchbar show-cancel-button="never" placeholder="Search" [debounce]="1000"></ion-searchbar>
     </ion-row>
     <ion-list *ngIf="partnerData.length > 0">
       <ion-item-sliding *ngFor="let partner of partnerData; let index" #sliding>
         <ion-item id="open-modal" expand="block">
-          <ion-card class="shadow"  (click)="detailClientData(partner,'edit')">
+          <ion-card class="shadow" (click)="detailClientData(partner,'edit')">
             <ion-row>
               <ion-col size="10" class="card-user-info">
                 <ion-label class="user"> {{partner.name}} </ion-label>
@@ -27,7 +26,7 @@
           </ion-card>
         </ion-item>
         <ion-item-options side="end">
-          <ion-item-option color="danger"  (click)="deleteModal(partner,index,sliding)">
+          <ion-item-option color="danger" (click)="deleteModal(partner,index,sliding)">
             <ion-icon slot="icon-only" name="trash"></ion-icon>
           </ion-item-option>
         </ion-item-options>
@@ -40,9 +39,32 @@
       <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
     </ion-infinite-scroll>
   </ion-grid>
-  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
       <ion-icon name="add" (click)="setOpen(true,'save')"></ion-icon>
     </ion-fab-button>
-  </ion-fab> -->
+  </ion-fab>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="setOpen(false,'save')">
+              <ion-icon class="back-icon" name="arrow-undo-outline"></ion-icon>
+            </ion-button>
+            <ion-title>
+            </ion-title>
+          </ion-buttons>
+          <ion-button slot="end" *ngIf="modelType === 'edit'" color="primary">Edit</ion-button>
+          <ion-button slot="end" *ngIf="modelType === 'save' || modelType === 'editable_data'"
+            color="success">Save</ion-button>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <app-view-partner *ngIf="modelType === 'edit'"></app-view-partner>
+        <app-add-partner *ngIf="modelType === 'save' || modelType === 'editable_data'"></app-add-partner>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
 </ion-content>

@@ -1,0 +1,127 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="partnerForm">
+    <ion-grid>
+      <ion-row>
+        <ion-label>Name <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="name" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['name'].invalid && (partnerForm.controls['name'].dirty || partnerForm.controls['name'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['name'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Contact Person Name <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="contact_person_name" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['contact_person_name'].invalid && (partnerForm.controls['contact_person_name'].dirty || partnerForm.controls['contact_person_name'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['contact_person_name'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Contact Person Email Id <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="contact_person_email_id" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['contact_person_email_id'].invalid && (partnerForm.controls['contact_person_email_id'].dirty || partnerForm.controls['contact_person_email_id'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['contact_person_email_id'].errors?.['required']">
+            This field is required.
+          </ion-label>
+          <ion-label *ngIf="partnerForm.controls['contact_person_email_id'].errors?.['email']">
+            Enter valid e-mail.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Contact Person Phone <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input type="number" label-placement="floating" formControlName="contact_person_phone"
+          fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['contact_person_phone'].invalid && (partnerForm.controls['contact_person_phone'].dirty || partnerForm.controls['contact_person_phone'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['contact_person_phone'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>GSTN <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="gstn" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['gstn'].invalid && (partnerForm.controls['gstn'].dirty || partnerForm.controls['gstn'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['gstn'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>PAN <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="pan" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['pan'].invalid && (partnerForm.controls['pan'].dirty || partnerForm.controls['pan'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['pan'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Registration No <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input label-placement="floating" formControlName="registration_number" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="partnerForm.controls['registration_number'].invalid && (partnerForm.controls['registration_number'].dirty || partnerForm.controls['registration_number'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['registration_number'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Strength <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-textarea label-placement="floating" formControlName="strength" fill="solid"></ion-textarea>
+        <ion-label
+          *ngIf="partnerForm.controls['strength'].invalid && (partnerForm.controls['strength'].dirty || partnerForm.controls['strength'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['strength'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label>Address <span>*</span></ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-textarea label-placement="floating" formControlName="address" fill="solid"></ion-textarea>
+        <ion-label
+          *ngIf="partnerForm.controls['address'].invalid && (partnerForm.controls['address'].dirty || partnerForm.controls['address'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="partnerForm.controls['address'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

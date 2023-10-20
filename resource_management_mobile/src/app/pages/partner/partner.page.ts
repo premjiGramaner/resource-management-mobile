@@ -95,4 +95,9 @@ export class PartnerPage implements OnInit {
   onSearch() {
     this.showSearch = !this.showSearch;
   }
+
+  setOpen(isOpen: boolean, type: string) {
+    this.modelType = type;
+    this.isModalOpen = isOpen;
+  }
 }
