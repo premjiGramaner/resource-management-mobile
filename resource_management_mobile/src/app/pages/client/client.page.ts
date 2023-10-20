@@ -118,7 +118,6 @@ export class ClientPage implements OnInit {
     });
     sliding.close();
   }
-
   detailClientData(clientInfo: any, type: string) {
     this.clientMoreData = clientInfo;
     this.modelType = type;

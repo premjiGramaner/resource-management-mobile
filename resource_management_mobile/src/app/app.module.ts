@@ -7,8 +7,10 @@ import { AppRoutingModule } from './app-routing.module';
 import { MainComponent } from './pages/main/main.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { TopbarComponent } from './shared/topbar/topbar.component';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 import { HttpConfigInterceptor } from './utils/HttpInterceptor/httpConfig.interceptor';
+
 
 @NgModule({
   declarations: [AppComponent, MainComponent, TopbarComponent, FooterComponent],
@@ -16,7 +18,8 @@ import { HttpConfigInterceptor } from './utils/HttpInterceptor/httpConfig.interc
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    IonicModule,
+    HttpClientModule,
+     FormsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
