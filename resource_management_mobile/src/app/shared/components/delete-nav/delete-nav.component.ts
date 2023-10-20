@@ -18,7 +18,7 @@ export class DeleteNavComponent implements OnInit {
 
   ngOnInit() {
     const preselect = this.mySubject.value;
-    this.title = preselect.type + preselect.from;
+    this.title = preselect.type + " "+preselect.from;
     this.describe = "Do you want to " + preselect.type.toLowerCase() + " " + preselect.value.toLowerCase() + " ?";
     this.primarybutton = preselect.type;
   }

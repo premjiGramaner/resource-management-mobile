@@ -32,7 +32,7 @@ export class AddResourceComponent implements OnInit {
   sourceList = this.staticData.source;
   typeList = this.staticData.type;
   rating = this.staticData.rating;
-
+  module:string = 'resource';
   constructor(
     private resourceService: ResourceService,
     private toastService: ToastService,
@@ -46,6 +46,7 @@ export class AddResourceComponent implements OnInit {
     this.getSkillList();
     if (this.viewData) {
       this.addform = new FormGroup({
+        resource_id: new FormControl(this.viewData.resource_id, Validators.required),
         name: new FormControl(this.viewData.name, Validators.required),
         email_id: new FormControl(this.viewData.email_id, Validators.required),
         mobile_no: new FormControl(this.viewData.mobile_no, Validators.required),

@@ -11,21 +11,45 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
   standalone: true,
   imports: [IonicModule, CommonModule, ReactiveFormsModule]
 })
-export class SkillCardComponent  implements OnInit {
+export class SkillCardComponent implements OnInit {
   @Input() skillList: any;
+  @Input() flag: string = '';
+
   addform!: FormGroup;
   @Output() addSkill = new EventEmitter();
   ratingList = this.staticData.rating;
-  constructor(private staticData: StaticDataConstants,     private modalController: ModalController
-    ) { }
+  constructor(private staticData: StaticDataConstants, private modalController: ModalController) { }
 
   ngOnInit() {
     this.addform = new FormGroup({
-      skill_id: new FormControl('', Validators.required),
-      relevant_experience: new FormControl('', Validators.required),
-      rating: new FormControl('', Validators.required),
-      primary_skill_ind: new FormControl(false, Validators.required)
+      skill_id: new FormControl(''),
+      relevant_experience: new FormControl(''),
+      rating: new FormControl(''),
+      primary_skill_ind: new FormControl(false)
     });
+    if (this.flag=="resource") {
+      this.addform = new FormGroup({
+        skill_id: new FormControl('',Validators.required),
+        relevant_experience: new FormControl('',Validators.required),
+        rating: new FormControl('',Validators.required),
+        primary_skill_ind: new FormControl(false,Validators.required)
+      });
+    } else if(this.flag == "client") {
+      this.addform = new FormGroup({
+        skill_id: new FormControl('',Validators.required)
+      });
+    } else if(this.flag=="partner") {
+      this.addform = new FormGroup({
+        skill_id: new FormControl('',Validators.required),
+        specialised_ind: new FormControl('',Validators.required)
+      });
+    } else if (this.flag=="requirement"){
+      this.addform = new FormGroup({
+        skill_id: new FormControl('',Validators.required),
+        relevant_experience: new FormControl('',Validators.required),
+        isMandatory: new FormControl(false,Validators.required)
+      });
+    }
   }
 
   setClose() {

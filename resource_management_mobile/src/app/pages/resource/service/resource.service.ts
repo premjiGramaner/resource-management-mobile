@@ -19,7 +19,7 @@ export class ResourceService {
     urlParams.append('limit', limit.toString());
     urlParams.append('search', search);
 
-    return this.http.get<any>(`${this.URL}resource?` + urlParams,);
+    return this.http.get<resourceResponse>(`${this.URL}resource?` + urlParams,);
   }
 
   getResourceAllData() {

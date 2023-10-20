@@ -170,7 +170,7 @@
     <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
       trigger="open-custom-dialog">
       <ng-template>
-        <app-skill-card [skillList]="skillList" (addSkill)="addSkill($event)"></app-skill-card>
+        <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
       </ng-template>
     </ion-modal>
   </form>
