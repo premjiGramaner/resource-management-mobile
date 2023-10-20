@@ -198,7 +198,6 @@ export class ResourcePage implements OnInit {
   }
 
   async backForm(modelType: string) {
-    console.log("Model type:----  ", modelType)
     if (modelType == 'save') {
       let data = {
         "from": "Resource",
