@@ -35,8 +35,11 @@
         <ion-label
           *ngIf="clientForm.controls['contact_person_email_id'].invalid && (clientForm.controls['contact_person_email_id'].dirty || clientForm.controls['contact_person_email_id'].touched) || !onSubmit"
           class="alert alert-danger">
-          <ion-label *ngIf="clientForm.controls['contact_person_email_id'].errors?.['required'] ">
+          <ion-label *ngIf="clientForm.controls['contact_person_email_id'].errors?.['required']">
             This field is required.
+          </ion-label>
+          <ion-label *ngIf="clientForm.controls['contact_person_email_id'].errors?.['email']">
+            Enter valid e-mail.
           </ion-label>
         </ion-label>
       </ion-row>
@@ -44,7 +47,8 @@
         <ion-label>Contact Person Phone <span>*</span></ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="contact_person_phone" fill="solid"></ion-input>
+        <ion-input type="number" label-placement="floating" formControlName="contact_person_phone"
+          fill="solid"></ion-input>
         <ion-label
           *ngIf="clientForm.controls['contact_person_phone'].invalid && (clientForm.controls['contact_person_phone'].dirty || clientForm.controls['contact_person_phone'].touched) || !onSubmit"
           class="alert alert-danger">
@@ -57,9 +61,10 @@
         <ion-label>Ownership Name</ion-label>
       </ion-row>
       <ion-row>
-        <ion-select label-placement="floating" formControlName="ownership_name" fill="solid" aria-label="user"
-          placeholder="Select User">
-          <ion-select-option *ngFor="let user of userList" value={{user.user_id}}>{{user.name}}</ion-select-option>
+        <ion-select label-placement="floating" interface="popover" formControlName="ownership_id" fill="solid"
+          aria-label="user" placeholder="Select User">
+          <ion-select-option *ngFor="let user of userList  | duplicateRemover"
+            value={{user.user_id}}>{{user.name}}</ion-select-option>
         </ion-select>
       </ion-row>
       <ion-row>
@@ -73,12 +78,20 @@
       </ion-row>
       <ion-row>
         <ion-input label-placement="floating" formControlName="sales_person_email_id" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['sales_person_email_id'].invalid && (clientForm.controls['sales_person_email_id'].dirty || clientForm.controls['sales_person_email_id'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['sales_person_email_id'].errors?.['email']">
+            Enter valid e-mail.
+          </ion-label>
+        </ion-label>
       </ion-row>
       <ion-row>
         <ion-label>Sales Person Phone</ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="sales_person_phone" fill="solid"></ion-input>
+        <ion-input label-placement="floating" type="number" formControlName="sales_person_phone"
+          fill="solid"></ion-input>
       </ion-row>
       <ion-row>
         <ion-label>Finance Person Name</ion-label>
@@ -91,12 +104,20 @@
       </ion-row>
       <ion-row>
         <ion-input label-placement="floating" formControlName="finance_person_email_id" fill="solid"></ion-input>
+        <ion-label
+          *ngIf="clientForm.controls['finance_person_email_id'].invalid && (clientForm.controls['finance_person_email_id'].dirty || clientForm.controls['finance_person_email_id'].touched) || !onSubmit"
+          class="alert alert-danger">
+          <ion-label *ngIf="clientForm.controls['finance_person_email_id'].errors?.['email']">
+            Enter valid e-mail.
+          </ion-label>
+        </ion-label>
       </ion-row>
       <ion-row>
         <ion-label>Finance Person Phone</ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="finance_person_phone" fill="solid"></ion-input>
+        <ion-input label-placement="floating" type="number" formControlName="finance_person_phone"
+          fill="solid"></ion-input>
       </ion-row>
       <ion-row>
         <ion-label>Strength <span>*</span></ion-label>
@@ -129,13 +150,13 @@
         <ion-label><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
             name="add-circle-outline"></ion-icon></ion-label>
       </ion-row>
-      <ion-row *ngFor="let skill of selectedSkillIds; let i = index">
-        <ion-col class="skill-list" size="10">
+      <ion-row *ngFor="let skill of selectedSkillIds ; let i = index">
+        <ion-col class="secondary_skill-list" size="10">
           <ion-label class="">{{skill.category}}</ion-label>
         </ion-col>
         <ion-col class="skil-del">
           <ion-label>
-            <ion-icon name="trash-outline" class="add-icon"></ion-icon>
+            <ion-icon name="trash-outline" (click)="deleteModal(i)" class="add-icon"></ion-icon>
           </ion-label>
         </ion-col>
       </ion-row>
@@ -149,20 +170,17 @@
           <ion-list lines="none">
             <ion-item button="true">
               <ion-select detail="false" interface="popover" (ionChange)="handleSkillChange()"
-                label-placement="floating" formControlName="skill_ids" fill="solid" aria-label="user"
+                label-placement="floating" formControlName="skill_id" fill="solid" aria-label="user"
                 placeholder="Select User">
                 <ion-select-option *ngFor="let skill of skillList"
                   value={{skill.skill_id}}>{{skill.category}}</ion-select-option>
               </ion-select>
             </ion-item>
             <ion-item>
-              <ion-checkbox value=true (ionChange)="primaryskill($event)">Is this primary skill</ion-checkbox>
-            </ion-item>
-            <ion-item>
               <ion-grid>
-                <ion-row>
-                  <ion-col class="skill-add">
-                    <ion-button expand="block" (click)="setClose()">Add</ion-button>
+                <ion-row class="skill-add">
+                  <ion-col size="6">
+                    <ion-button expand="block" (click)="addSkill()">Add</ion-button>
                   </ion-col>
                 </ion-row>
               </ion-grid>

@@ -80,7 +80,11 @@
       <ion-item-divider color="medium">
         <ion-label> Skills </ion-label>
       </ion-item-divider>
+<<<<<<< HEAD
       <ion-item *ngFor="let item of viewClientData.skills">
+=======
+      <ion-item *ngFor="let item of viewClientData.skills | duplicateRemover">
+>>>>>>> f9ee66405f19c5d35faae098942adb9796dece44
         <ion-grid>
           <ion-row>
             <ion-col class="center-content">

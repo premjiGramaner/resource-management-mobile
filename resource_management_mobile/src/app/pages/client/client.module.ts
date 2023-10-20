@@ -11,7 +11,8 @@ import { ClientService } from './service/client.service';
 import { HttpClientModule } from '@angular/common/http';
 import { AddClientComponent } from './add-client/add-client.component';
 import { ViewClientComponent } from './view-client/view-client.component';
-
+import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @NgModule({
   imports: [
@@ -21,9 +22,10 @@ import { ViewClientComponent } from './view-client/view-client.component';
     ClientPageRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ViewClientComponent
+    ViewClientComponent,
+    DuplicateRemoverPipe,
   ],
   declarations: [ClientPage, AddClientComponent],
-  providers: [ClientService],
+  providers: [ClientService, DuplicateRemoverPipe, ToastConstants],
 })
 export class ClientPageModule { }

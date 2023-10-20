@@ -4,6 +4,10 @@ ion-row {
   margin: 6px 4px;
 }
 
+ion-button {
+  width: 100%;
+}
+
 ion-label>span {
   color: red;
 }
@@ -14,8 +18,15 @@ ion-label>span {
   margin-top: 30px;
 }
 
-.skill-list {
+.primary_skill-list {
   background: #2289333B;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.secondary_skill-list {
+  background: #aeb1b83b;
   display: flex;
   align-items: center;
   border-radius: 8px;

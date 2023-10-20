@@ -9,37 +9,40 @@ $profile-border-radious: 50px;
 $white: #ffff;
 $dark-blue: var(--main-menu-bg);
 $light-blue: #0303B0;
-
-
+$display: flex;
+$center-align-items: center;
+$justify-content-space-between: space-between;
+$justify-content-center: center;
+$flex-direction-column: column;
 /**
 * Icon sizes
 */
 $width: 32px;
 $height: 34px;
 
+/**
+* component Header
+*/
+$header-font-size: 1.5em;
+$header-font-weight: 600;
+
+
 @mixin centerElement {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: $display;
+    flex-direction: $flex-direction-column;
+    align-items: $center-align-items;
+    justify-content: $justify-content-center;
 }
 
-@mixin userName{
-    font-size: 1.2em;
+@mixin userName {
+    font-size: 1.5em;
     color: black;
     margin-bottom: 8px;
+    font-weight: 600;
+}
+
+@mixin userOtherInfo {
     font-weight: 500;
-}
-
-@mixin labelStatus{
-    font-size: 0.7em;
-    color: gray;
-    margin-bottom: 8px;
-    font-weight: 400;
-}
-
-@mixin userOtherInfo{
-    font-weight: 400;
-    color: grey;
-    font-size: 1em;
+    color: black;
+    font-size: 16px;
 }
