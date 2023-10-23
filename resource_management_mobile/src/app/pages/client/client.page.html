@@ -4,9 +4,10 @@
       <ion-col>
         <h5 class="header-text"> Client </h5>
       </ion-col>
-      <ion-col class="header-search-container">
-        <ion-button color="medium" (click)="openExportModel()">Export</ion-button>
-        <ion-icon name="search" (click)="onSearch()" class="search-icon" size="small"></ion-icon>
+      <ion-col class="mt-3">
+        <ion-icon name="save-outline" size="default" (click)="openExportModel()"
+          class="search-icon ion-float-right"></ion-icon>
+        <ion-icon name="search" size="default" (click)="onSearch()" class="search-icon ion-float-right me-4"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="showSearch">
@@ -50,10 +51,17 @@
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-button (click)="setOpen(false,'save')">
+            <ion-button (click)="backForm(modelType)">
               <ion-icon class="back-icon" name="arrow-undo-outline"></ion-icon>
             </ion-button>
-            <ion-title>
+            <ion-title *ngIf="modelType === 'edit'" size="small">
+              View Client
+            </ion-title>
+            <ion-title *ngIf="modelType === 'editable_data' && clientEdit" size="small">
+              Edit Client
+            </ion-title>
+            <ion-title *ngIf="modelType === 'save' && !clientEdit" size="small">
+              Add Client
             </ion-title>
           </ion-buttons>
           <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('editable_data')"
