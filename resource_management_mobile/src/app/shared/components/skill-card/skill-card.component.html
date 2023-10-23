@@ -13,21 +13,31 @@
             value={{skill.skill_id}}>{{skill.description}}</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="flag=='resource'|| flag== 'requirement'">
         <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Relevant Experience"
           formControlName="relevant_experience" errorText="Invalid relevant experience" required>
           <div slot="label">Relevant Experience<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="flag=='resource'">
         <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select rating" formControlName="rating" errorText="Invalid rating" required>
           <div slot="label">Select Rating<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let rating of ratingList" value={{rating.id}}>{{rating.name}}</ion-select-option>
         </ion-select>
       </ion-item>
-      <ion-item>
+      <ion-item *ngIf="flag=='partner'">
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select rating" formControlName="specialised_ind" errorText="Invalid rating" required>
+          <div slot="label">Select Rating<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let rating of ratingList" value={{rating.id}}>{{rating.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="flag=='resource'">
         <ion-toggle formControlName="primary_skill_ind">Primary Skill</ion-toggle>
+      </ion-item>
+      <ion-item *ngIf="flag=='requirement'">
+        <ion-toggle formControlName="isMandatory">Mandatory</ion-toggle>
       </ion-item>
       <ion-item>
         <ion-grid>

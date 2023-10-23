@@ -4,9 +4,9 @@
       <ion-col>
         <h5>Resource List</h5>
       </ion-col>
-      <ion-col >
-        <ion-icon name="save-outline" size="default" (click)="onSearch()" class="ion-float-right mt-2"></ion-icon>
-        <ion-icon name="search" size="small" (click)="onSearch()" class="ion-float-right mt-2 me-4"></ion-icon>
+      <ion-col class="mt-3">
+        <ion-icon name="save-outline" size="default" (click)="openExportModel()" class="ion-float-right"></ion-icon>
+        <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row>
@@ -18,29 +18,20 @@
     <ion-row>
       <ion-list lines="none" class="w-100">
         <ion-item-sliding *ngFor="let item of items; let index" #sliding>
-          <!-- <ion-item class="p-0 m-auto">
-            <ion-card class="w-100 p-3 m-auto"> -->
+         
           <ion-item id="open-modal" expand="block" (click)="detailData(item,'edit')">
             <ion-card class="shadow">
               <ion-row>
                 <ion-col class="card-user-info">
                   <ion-row class="d-flex justify-content-between">
                     <ion-label class="user"> {{item.name}} </ion-label>
-                    <ion-label class="user-status"> {{item.experience}} Years</ion-label>
+                    <ion-label class="user-status"> {{item.experience}} Y</ion-label>
                   </ion-row>
                   <ion-label class="user-label"><span>Email:- </span> {{item.email_id}}</ion-label>
                   <ion-label class="user-label"><span>Phone:- </span> {{item.mobile_no}}</ion-label>
                 </ion-col>
               </ion-row>
 
-              <!-- <div class="d-flex justify-content-between">
-                  <h5>{{item.name}}</h5>
-                  <span>{{item.experience}} Years</span>
-                </div>
-                <div>
-                  <span>Email:- {{item.email_id}}</span> <br>
-                  <span>Phone:- {{item.mobile_no}}</span>
-                </div> -->
             </ion-card>
           </ion-item>
           <ion-item-options side="end">
@@ -57,34 +48,6 @@
       </ion-infinite-scroll>
 
     </ion-row>
-
-
-    <!-- <ion-grid>
-      <ion-list>
-        <ion-item-sliding *ngFor="let client of clientData; let index" #sliding>
-          <ion-item id="open-modal" expand="block" (click)="setOpen(true)">
-            <ion-card class="shadow" (click)="detailClientData(client,'edit')">
-              <ion-row>
-                <ion-col size="10" class="card-user-info">
-                  <ion-label class="user"> {{client.name}} </ion-label>
-                  <ion-label class="user-label"><span>Email:- </span> {{client.contact_person_email_id}}</ion-label>
-                  <ion-label class="user-label"><span>Phone:- </span> {{client.contact_person_phone}}</ion-label>
-                </ion-col>
-              </ion-row>
-            </ion-card>
-          </ion-item>
-          <ion-item-options side="end">
-            <ion-item-option color="danger" (click)="deleteModal(client,index,sliding)">
-              <ion-icon slot="icon-only" name="trash"></ion-icon>
-            </ion-item-option>
-          </ion-item-options>
-        </ion-item-sliding>
-      </ion-list>
-      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-        <ion-infinite-scroll-content loadingText="Please wait..."
-          loadingSpinner="bubbles"></ion-infinite-scroll-content>
-      </ion-infinite-scroll>
-    </ion-grid> -->
   </ion-grid>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>
@@ -95,9 +58,9 @@
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar class="pe-2">
           <ion-buttons slot="start">
-            <ion-button (click)="setOpen(false)">
+            <ion-button (click)="backForm(modelType)">
               <ion-icon size="default" name="arrow-undo-outline"></ion-icon>
             </ion-button>
             <ion-title *ngIf="modelType === 'edit'" size="small">

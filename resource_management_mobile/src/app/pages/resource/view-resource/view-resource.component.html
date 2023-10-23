@@ -26,7 +26,7 @@
         </ion-input>
       </ion-item>
 
-      <ion-item>
+      <ion-item *ngIf="viewData.partner_name">
         <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.partner_name" [readonly]="true">
           <div slot="label">Partner<ion-text color="danger"> *</ion-text></div>
         </ion-input>
@@ -107,14 +107,14 @@
               </ion-row>
               <ion-row>
                 <ion-list class="w-100">
-                  <ion-item *ngFor="let skill of viewData.skills; let i = index">
-                    <ion-col class="skill-list d-flex justify-content-between" size="10">
+                  <ion-item *ngFor="let skill of viewData.skills; let i = index" class="mb-2">
+                    <ion-col class="skill-list d-flex justify-content-between w-100">
                       <div>
                         <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
                       <ion-label class="w-100 skill-describe">{{skill.ratingName}}</ion-label>
                       </div>
                       <div>
-                        <ion-label class="w-100 skill-side">{{skill.relevant_experience}} Years</ion-label>
+                        <ion-label class="w-100 skill-side">{{skill.relevant_experience}} Y</ion-label>
                       </div>
                     </ion-col>
                   </ion-item>

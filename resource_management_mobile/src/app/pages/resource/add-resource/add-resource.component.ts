@@ -9,7 +9,7 @@ import {
 import { Status } from 'src/app/core/enum/status.enum';
 import { ResourceService } from '../service/resource.service';
 import { ToastService } from 'src/app/core/toast/toast.service';
-import { ModalController } from '@ionic/angular';
+import { IonItemSliding, ItemSlidingCustomEvent, ModalController } from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 @Component({
   selector: 'app-add-resource',
@@ -32,7 +32,7 @@ export class AddResourceComponent implements OnInit {
   sourceList = this.staticData.source;
   typeList = this.staticData.type;
   rating = this.staticData.rating;
-
+  module:string = 'resource';
   constructor(
     private resourceService: ResourceService,
     private toastService: ToastService,
@@ -44,9 +44,9 @@ export class AddResourceComponent implements OnInit {
     this.getLocationList();
     this.getPartnerList();
     this.getSkillList();
-    console.log(this.viewData)
     if (this.viewData) {
       this.addform = new FormGroup({
+        resource_id: new FormControl(this.viewData.resource_id, Validators.required),
         name: new FormControl(this.viewData.name, Validators.required),
         email_id: new FormControl(this.viewData.email_id, Validators.required),
         mobile_no: new FormControl(this.viewData.mobile_no, Validators.required),
@@ -71,7 +71,7 @@ export class AddResourceComponent implements OnInit {
     } else {
       this.addform = new FormGroup({
         name: new FormControl('', Validators.required),
-        email_id: new FormControl('', Validators.required),
+        email_id: new FormControl('', [Validators.required,Validators.email]),
         mobile_no: new FormControl('', Validators.required),
         experience: new FormControl('', Validators.required),
         source: new FormControl('', Validators.required),
@@ -92,16 +92,26 @@ export class AddResourceComponent implements OnInit {
       });
     }
 
-
-
+    this.addform.controls['source'].valueChanges.subscribe(val => {
+      if (val=="Partner") {
+        this.addform.controls['Partner_partner_id'].setValidators([Validators.required]);
+      } else {
+        this.addform.controls['Partner_partner_id'].clearValidators();
+      }
+      this.addform.controls['Partner_partner_id'].updateValueAndValidity();
+    });
   }
+
+  
+  
   isFormValid() {
     if (this.addform.status == Status.INVALID) {
       this.onSubmit = false;
+      this.addform.markAllAsTouched();
       return false;
     }
     if (this.selectedSkillIds.length == 0) {
-      this.toastService.presentToast('Enter atleast one skill');
+      this.toastService.errorToast('Enter atleast one skill');
       return false;
     }
     return this.addform.valid;
@@ -130,7 +140,6 @@ export class AddResourceComponent implements OnInit {
     for (var val of this.addform.value.skills) {
       this.removeItinerary(val.skill_id);
     }
-    console.log(this.skillList);
   }
 
   removeItinerary(removeId: number) {
@@ -142,11 +151,16 @@ export class AddResourceComponent implements OnInit {
 
 
   addSkill(skill: any) {
-    console.log("   1   ", skill);
     this.addform.value.skills.push(skill);
     this.skillObj(skill);
   }
 
+  deleteSkill(i:number,sliding:IonItemSliding){
+    this.addform.value.skills.splice(i,1);
+    this.arrangeSkillData(this.addform.value.skills);
+    sliding.close();
+
+  }
   arrangeSkillData(skills:any){
     this.selectedSkillIds = [];
     for (var val of skills) {
@@ -154,21 +168,17 @@ export class AddResourceComponent implements OnInit {
     }
   }
   skillObj(skill:any){
-    // const index = this.skillList.findIndex((el: any) => el.skill_id === parseInt(skill.skill_id))
-    // if (index >= 0) {
-      Object.assign(skill, { description: skill.skill.description })
-    // }
+    const index = this.skillList.findIndex((el: any) => el.skill_id === parseInt(skill.skill_id))
+    if (index >= 0) {
+      Object.assign(skill, { description: this.skillList[index].description })
+    }
     const ind = this.rating.findIndex((el: any) => el.id === parseInt(skill.rating))
     if (ind >= 0) {
       Object.assign(skill, { ratingName: this.rating[ind].name })
     }
     this.selectedSkillIds.push(skill);
-    console.log("   2   ", skill);
   }
-  // primaryskill(event: any) {
-  //   this.skills['primary_skill'] = event.detail.checked;
-  //   this.skills = '';
-  // }
+  
   setClose() {
     this.modalController.dismiss();
   }

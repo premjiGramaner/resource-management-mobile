@@ -18,30 +18,7 @@ import jsPDF from 'jspdf';
 export class ExportOptionComponent implements OnInit {
   @Input() exportData: any;
   unixTimestampInSeconds!: number;
-  dataArray = [
-    {
-      created_date: '17/10/2023 12:00:00',
-      updated_date: '17/10/2023 12:00:00',
-      client_id: 0,
-      name: 'asds',
-      contact_person_name: 'a',
-      contact_person_email_id: 'asd@gmial.com',
-      contact_person_phone: '2323',
-      ownership_id: null,
-      sales_person_name: null,
-      sales_person_email_id: null,
-      sales_person_phone: null,
-      finance_person_name: null,
-      finance_person_email_id: null,
-      finance_person_phone: null,
-      strength: '23',
-      address: 'asa',
-      created_by: 'Local Test Admin',
-      updated_by: 'Local Test Admin',
-      ownership_name: 'alpha',
-    },
-    // Add other data objects here
-  ];
+
   constructor(private modalCtrl: ModalController) {
     const unixTimestamp = Date.now(); // Returns the timestamp in milliseconds
     this.unixTimestampInSeconds = Math.floor(unixTimestamp / 1000);
@@ -49,7 +26,6 @@ export class ExportOptionComponent implements OnInit {
   ngOnInit() { }
 
   DownloadExcel() {
-    console.log(this.exportData.pdfHeader, this.exportData.pdfData);
     const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet([
       // Custom header row
       this.exportData.pdfHeader,
