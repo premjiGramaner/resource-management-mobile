@@ -10,6 +10,7 @@ import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ViewPartnerComponent } from './view-partner/view-partner.component';
 import { AddPartnerComponent } from './add-partner/add-partner.component';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
+import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
 
 @NgModule({
   declarations: [PartnerPage, ViewPartnerComponent, AddPartnerComponent],
@@ -21,7 +22,8 @@ import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-rem
     PartnerPageRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    DuplicateRemoverPipe
-  ]
+    DuplicateRemoverPipe,
+    SkillCardComponent,
+  ],
 })
 export class PartnerPageModule { }

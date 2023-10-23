@@ -9,14 +9,14 @@ export class DuplicateRemoverPipe implements PipeTransform {
     if (!Array.isArray(array)) {
       return array;
     }
-    const seen = new Set();
+
+    const uniqueIds = new Set();
     return array.filter((item) => {
-      const serializedItem = JSON.stringify(item);
-      if (seen.has(serializedItem)) {
-        return false;
+      if (!uniqueIds.has(item.skill_id)) {
+        uniqueIds.add(item.skill_id);
+        return true;
       }
-      seen.add(serializedItem);
-      return true;
+      return false;
     });
   }
 }

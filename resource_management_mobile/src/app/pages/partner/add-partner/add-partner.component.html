@@ -1,7 +1,6 @@
 <ion-content [fullscreen]="true">
   <form [formGroup]="partnerForm">
     <ion-grid>
-      {{this.flag}}
       <ion-row>
         <ion-input label-placement="floating" formControlName="name" fill="outline" [readonly]="isEnableEdit">
           <ion-text slot="label">Name<ion-text color="danger"> *</ion-text></ion-text>
@@ -15,7 +14,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="contact_person_name" fill="outline"  [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="contact_person_name" fill="outline"
+          [readonly]="isEnableEdit">
           <ion-text slot="label">Contact Person Name<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -27,7 +27,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="contact_person_email_id" fill="outline"  [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="contact_person_email_id" fill="outline"
+          [readonly]="isEnableEdit">
           <ion-text slot="label">Contact Person Email Id <ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -42,7 +43,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input type="number" label-placement="floating" formControlName="contact_person_phone" fill="outline"  [readonly]="isEnableEdit">
+        <ion-input type="number" label-placement="floating" formControlName="contact_person_phone" fill="outline"
+          [readonly]="isEnableEdit">
           <ion-text slot="label">Contact Person Phone <ion-text color="danger"> *</ion-text></ion-text></ion-input>
         <ion-label
           *ngIf="partnerForm.controls['contact_person_phone'].invalid && (partnerForm.controls['contact_person_phone'].dirty || partnerForm.controls['contact_person_phone'].touched) || !onSubmit"
@@ -53,19 +55,19 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-select label-placement="floating" interface="popover" formControlName="supported_mode" fill="outline"  *ngIf="!isEnableEdit"
-          aria-label="user" placeholder="Select User" >
+        <ion-select label-placement="floating" interface="popover" formControlName="supported_mode" fill="outline"
+          *ngIf="!isEnableEdit" aria-label="user" placeholder="Select User">
           <ion-text slot="label">Source Mode<ion-text color="danger"> *</ion-text></ion-text>
-          <ion-select-option *ngFor="let user of supportMode"
-            value={{user}}>{{user}}</ion-select-option>
+          <ion-select-option *ngFor="let user of supportMode" value={{user}}>{{user}}</ion-select-option>
         </ion-select>
         <!-- view state -->
-        <ion-input label-placement="floating" formControlName="supported_mode" fill="outline" *ngIf="isEnableEdit"  [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="supported_mode" fill="outline" *ngIf="isEnableEdit"
+          [readonly]="isEnableEdit">
           <ion-text slot="label">Source Mode<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="gstn" fill="outline"  [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="gstn" fill="outline" [readonly]="isEnableEdit">
           <ion-text slot="label">GSTN<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -77,7 +79,7 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="pan" fill="outline"  [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="pan" fill="outline" [readonly]="isEnableEdit">
           <ion-text slot="label">PAN<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -89,7 +91,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input label-placement="floating" formControlName="registration_number" fill="outline"  [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="registration_number" fill="outline"
+          [readonly]="isEnableEdit">
           <ion-text slot="label">Registration No<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -101,7 +104,7 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-textarea label-placement="floating" formControlName="strength" fill="outline"  [readonly]="isEnableEdit">
+        <ion-textarea label-placement="floating" formControlName="strength" fill="outline" [readonly]="isEnableEdit">
           <ion-text slot="label">Strength<ion-text color="danger"> *</ion-text></ion-text>
         </ion-textarea>
         <ion-label
@@ -113,7 +116,7 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-textarea label-placement="floating" formControlName="address" fill="outline"  [readonly]="isEnableEdit">
+        <ion-textarea label-placement="floating" formControlName="address" fill="outline" [readonly]="isEnableEdit">
           <ion-text slot="label">Address<ion-text color="danger"> *</ion-text></ion-text>
         </ion-textarea>
         <ion-label
@@ -124,50 +127,44 @@
           </ion-label>
         </ion-label>
       </ion-row>
-      <ion-row class="skill_container">
-        <ion-label class="skill-heading">Skill <span>*</span></ion-label>
-        <ion-label><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
-            name="add-circle-outline"></ion-icon></ion-label>
-      </ion-row>
-      <ion-row *ngFor="let skill of selectedSkillIds ; let i = index">
-        <ion-col class="secondary_skill-list" size="10">
-          <ion-label class="">{{skill.category}}</ion-label>
-        </ion-col>
-        <ion-col class="skil-del">
-          <ion-label>
-            <ion-icon name="trash-outline" (click)="deleteSkill(i)" class="add-icon"></ion-icon>
-          </ion-label>
-        </ion-col>
-      </ion-row>
+      <ion-card class="w-100">
+        <ion-row>
+          <ion-col class="card-user-info ">
+            <ion-row class="d-flex justify-content-between">
+              <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
+              <ion-label *ngIf="flag != 'edit'"><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
+                  name="add-circle-outline"></ion-icon></ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding>
+                <ion-item id="open-modal" expand="block">
+                  <ion-col class="skill-list d-flex justify-content-between w-100">
+                    <div>
+                      <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                      <ion-label class="w-100 skill-describe">{{skill.ratingName}}</ion-label>
+                    </div>
+                    <div>
+                      <ion-label class="w-100 skill-side">{{skill.specialised_ind}} Y</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-item>
+                <ion-item-options side="end" *ngIf="flag != 'edit'">
+                  <ion-item-option color="light" (click)="deleteSkill(i,sliding)">
+                    <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small" color="danger"></ion-icon>
+                  </ion-item-option>
+                </ion-item-options>
+              </ion-item-sliding>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card>
     </ion-grid>
   </form>
 
   <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
-  trigger="open-custom-dialog">
-  <ng-template>
-    <div class="wrapper">
-      <h1>Select Skills</h1>
-      <ion-list lines="none">
-        <ion-item button="true">
-          
-          <!-- <ion-select detail="false" interface="popover" 
-            label-placement="floating" formControlName="skill_id" fill="outline" aria-label="user"
-            placeholder="Select User">
-            <ion-select-option *ngFor="let skill of skillList"
-              value={{skill.skill_id}}>{{skill.category}}</ion-select-option>
-          </ion-select> -->
-        </ion-item>
-        <ion-item>
-          <ion-grid>
-            <ion-row class="skill-add">
-              <ion-col size="6">
-                <ion-button expand="block" >Add</ion-button>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ion-item>
-      </ion-list>
-    </div>
-  </ng-template>
-</ion-modal>
+    *ngIf="flag != 'edit'" trigger="open-custom-dialog">
+    <ng-template>
+      <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
+    </ng-template>
+  </ion-modal>
 </ion-content>

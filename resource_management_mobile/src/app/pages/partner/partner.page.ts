@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PartnerService } from './service/partner.service';
 import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { AddPartnerComponent } from './add-partner/add-partner.component';
+import { Status } from 'src/app/core/enum/status.enum';
 
 @Component({
   selector: 'app-partner',
@@ -20,11 +22,14 @@ export class PartnerPage implements OnInit {
   modelType!: string;
   partnerMoreData: any;
   partnerEdit: boolean = false;
+  selectedIndex: any;
+  @ViewChild('addPartner') addPartner!: AddPartnerComponent;
   constructor(
     private partnerService: PartnerService,
     private toastService: ToastService,
     private modalCtrl: ModalController,
-    private toastConstants: ToastConstants) { }
+    private toastConstants: ToastConstants
+  ) { }
 
   ngOnInit() {
     this.getPartner(this.skip, 20, this.searchQuery);
@@ -37,6 +42,31 @@ export class PartnerPage implements OnInit {
         console.log('data', data);
         this.partnerData = [...this.partnerData, ...data.data.partnerInfo];
       });
+  }
+  savePartnerForm() {
+    if (this.addPartner.isPartnerFormValid()) {
+      if (!this.partnerEdit) {
+        alert('save');
+        this.partnerService
+          .postPartner(this.addPartner.partnerForm.value)
+          .subscribe((res: any) => {
+            this.toastService.presentToast(res.message);
+            // save data to local array
+            this.partnerData.unshift(this.addPartner.partnerForm.value);
+          });
+      } else {
+        let updateReq = this.addPartner.partnerForm.value;
+        updateReq['partner_id'] = this.partnerMoreData.partner_id;
+        this.partnerService
+          .editPartner(this.addPartner.partnerForm.value)
+          .subscribe((res: any) => {
+            this.toastService.presentToast(res.message);
+            // save data to local array
+            this.partnerData.splice(this.selectedIndex, 1);
+            this.partnerData.unshift(this.addPartner.partnerForm.value);
+          });
+      }
+    }
   }
 
   onIonInfinite(ev: any) {
@@ -56,10 +86,12 @@ export class PartnerPage implements OnInit {
     this.partnerService.deletePartner(id).subscribe({
       next: (response: any) => {
         this.partnerData.splice(index, 1);
-        this.toastService.presentToast(this.toastConstants.Delete_success_message)
+        this.toastService.presentToast(
+          this.toastConstants.Delete_success_message
+        );
       },
       error: (response) => {
-        this.toastService.presentToast(this.toastConstants.try_again)
+        this.toastService.presentToast(this.toastConstants.try_again);
       },
     });
   }
@@ -98,11 +130,12 @@ export class PartnerPage implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  setOpen(isOpen: boolean, type: string, partnerInfo?: any) {
+  setOpen(isOpen: boolean, type: string, partnerInfo?: any, index?: number) {
     this.modelType = type;
     this.isModalOpen = isOpen;
     this.partnerEdit = false;
     this.partnerMoreData = partnerInfo;
+    this.selectedIndex = index;
   }
   enableEdit() {
     this.partnerEdit = true;
