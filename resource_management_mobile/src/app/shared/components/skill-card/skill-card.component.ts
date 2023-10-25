@@ -21,7 +21,6 @@ export class SkillCardComponent implements OnInit {
   constructor(private staticData: StaticDataConstants, private modalController: ModalController) { }
 
   ngOnInit() {
-    console.log("Skill list   ",this.skillList)
     if (this.flag=="resource") {
       this.addform = new FormGroup({
         skill_id: new FormControl('',Validators.required),
