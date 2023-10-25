@@ -12,5 +12,7 @@ export class StaticDataConstants {
         { name: 'Capable', id: 2 },
         { name: 'Beginner', id: 1 }
     ];
+    source_mode = ["Hire", "Contract", "Both", "Freelancing"];
+    priority=["High", "Medium", "Low"];
     
 }

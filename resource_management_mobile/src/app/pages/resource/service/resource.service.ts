@@ -50,17 +50,4 @@ export class ResourceService {
         return throwError("Error while deleting a resource " + error.message);
       }));
   }
-
-
-  getSkill(): Observable<any> {
-    return this.http.get<any>(`${this.URL}skill`);
-  }
-
-  getLocation(): Observable<any> {
-    return this.http.get<any>(`${this.URL}location`);
-  }
-
-  getPartner(): Observable<any> {
-    return this.http.get<any>(`${this.URL}partner`);
-  }
 }

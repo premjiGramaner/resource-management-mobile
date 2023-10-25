@@ -1,0 +1,149 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="addform">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Name" formControlName="name"
+          errorText="Invalid name" maxlength="100">
+          <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select client" formControlName="Client_client_id"
+          errorText="Invalid client">
+          <div slot="label">Select Client<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let client of clientList"
+            value={{client.client_id}}>{{client.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select location" formControlName="Location_Location_ID"
+          errorText="Invalid location">
+          <div slot="label">Select Location<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let location of locationList"
+            value={{location.Location_ID}}>{{location.Description}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Experience (in years)"
+          formControlName="experience" errorText="Invalid experience">
+          <div slot="label">Experience (in years)<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select SPOC" formControlName="SPOC_id"
+          errorText="Invalid SPOC">
+          <div slot="label">Select SPOC<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let user of userList"
+            value={{user.user_id}}>{{user.name}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select source" formControlName="source_mode" errorText="Invalid source">
+          <div slot="label">Select Source<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let source of sourceList" value={{source}}>{{source}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item *ngIf="(addform.value.source_mode=='Hire' || addform.value.source_mode=='Both')">
+        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Hire Budget" 
+          formControlName="hire_budget" errorText="Invalid Hire Budget">
+          <div slot="label">Hire Budget<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item *ngIf="(addform.value.source_mode=='Contract' || addform.value.source_mode=='Freelancing' || addform.value.source_mode=='Both')">
+        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Contract Budget" 
+          formControlName="contract_budget" errorText="Invalid Contract Budget">
+          <div slot="label">Contract Budget<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Duration (in Months)"
+          formControlName="duration" errorText="Invalid duration">
+          <div slot="label">Duration (in Months)<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Notice Period (in Months)"
+          formControlName="notice_period" errorText="Invalid Notice Period">
+          <div slot="label">Notice Period (in Months)<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+     
+      
+      <ion-item>
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select Priority" formControlName="priority"
+          errorText="Invalid Priority">
+          <div slot="label">Select Priority<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let priority of priorityList"
+            value={{priority}}>{{priority}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select status" formControlName="status"
+          errorText="Invalid status">
+          <div slot="label">Select Status<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let status of statusList"
+            value={{status.status_id}}>{{status.description}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      
+
+      <ion-item>
+        <ion-textarea type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="2000"
+          minHeight="40" placeholder="Enter Job Description" formControlName="jd"
+          errorText="Invalid Job Description">
+          <div slot="label">Job Description<ion-text color="danger"> *</ion-text></div>
+        </ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-card class="w-100">
+          <ion-row>
+            <ion-col class="card-user-info ">
+              <ion-row class="d-flex justify-content-between">
+                <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
+                <ion-label><ion-icon id="open-custom-dialog" expand="block" size="small" color="primary"
+                    (click)="filterSkills()" name="add-outline"></ion-icon></ion-label>
+              </ion-row>
+              <ion-row>
+                <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding >
+                  <ion-item id="open-modal" expand="block">
+                    <ion-col class="skill-list d-flex justify-content-between w-100">
+                      <div>
+                        <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                      </div>
+                      <div>
+                        <ion-label class="w-100 skill-side">{{skill.relevant_experience}} Y</ion-label>
+                      </div>
+                    </ion-col>
+                  </ion-item>
+                  <ion-item-options side="end">
+                    <ion-item-option color="light" (click)="deleteSkill(i,sliding)">
+                      <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small" color="danger"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-item>
+    </ion-list>
+
+    <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
+      trigger="open-custom-dialog">
+      <ng-template>
+        <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
+      </ng-template>
+    </ion-modal>
+  </form>
+</ion-content>
