@@ -75,7 +75,6 @@ export class RequirementPage implements OnInit {
       });
       await modal.present();
       modal.onDidDismiss().then((_) => {
-        // mySubject.unsubscribe();
       });
     });
   }
@@ -213,22 +212,24 @@ export class RequirementPage implements OnInit {
 
 
   saveForm() {
-    // if (this.add.isFormValid()) {
-    //   this.addEditCall(this.requirementData)
-    //     .subscribe((data: any) => {
-    //       this.add.setClose();
-    //       this.items = [];
-    //       this.getRequirements(this.skip, 20, this.searchQuery);
-    //     });
-    // }
+    if (this.add.isFormValid()) {
+      this.addEditCall(this.requirementData)
+        .subscribe((data: any) => {
+          this.add.setClose();
+          this.items = [];
+          this.getRequirements(this.skip, 20, this.searchQuery);
+        });
+    } else {
+      this.add.addform.markAllAsTouched();
+    }
   }
 
   addEditCall(editData: any) {
-    // if (editData) {
-    //   return this.requirementService.updateRequirement(this.add.addform.value)
-    // } else {
-    //   return this.requirementService.addRequirement(this.add.addform.value)
-    // }
+    if (editData) {
+      return this.requirementService.updateRequirement(this.add.addform.value)
+    } else {
+      return this.requirementService.addRequirement(this.add.addform.value)
+    }
   }
 
   editEvent(type: string) {

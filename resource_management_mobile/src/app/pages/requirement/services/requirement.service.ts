@@ -25,6 +25,23 @@ export class RequirementService {
     return this.http.get<requirementResponse>(`${this.URL}requirement`);
   }
 
+  addRequirement(data: any) {
+    return this.http.post(`${this.URL}requirement`, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError("Error while creating a resource" + error.message);
+        }));
+  }
+
+
+  updateRequirement(data: any): Observable<any> {
+    return this.http.put<any>(`${this.URL}requirement`, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError("Error while updating a resource " + error.message);
+        }));
+  }
+
   deleteRequirement(id: string) {
     return this.http.delete(`${this.URL}requirement/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {

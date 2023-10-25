@@ -117,7 +117,7 @@
               <ion-row>
                 <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding >
                   <ion-item id="open-modal" expand="block">
-                    <ion-col class="skill-list d-flex justify-content-between w-100">
+                    <ion-col class="d-flex justify-content-between w-100" [ngClass]="skill.mandatory_skill==1 ? 'primary_skill_list' : 'secondary_skill_list' ">
                       <div>
                         <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
                       </div>
@@ -137,12 +137,52 @@
           </ion-row>
         </ion-card>
       </ion-item>
+
+      <ion-item [disabled]="!(addform.value.skills?.length>0 && addform.value.source_mode != '') ">
+        <ion-card class="w-100">
+          <ion-row>
+            <ion-col class="card-user-info ">
+              <ion-row class="d-flex justify-content-between">
+                <ion-label class="skill-heading">Partner <ion-text color="danger"> *</ion-text></ion-label>
+                <ion-label><ion-icon id="open-partner-dialog" expand="block" size="small" color="primary"
+                  (click)="filterPartners()"  name="add-outline"></ion-icon></ion-label>
+              </ion-row>
+              <ion-row>
+                <ion-item-sliding *ngFor="let partner of selectedPartners; let i = index" #sliding >
+                  <ion-item id="open-modal" expand="block">
+                    <ion-col class="secondary_skill_list d-flex justify-content-between w-100" >
+                      <div>
+                        <ion-label class="w-100 skill-heading">{{partner.name}}</ion-label>
+                      </div>
+                      <div>
+                        <ion-label class="w-100 skill-side">{{partner.shared_on}}</ion-label>
+                      </div>
+                    </ion-col>
+                  </ion-item>
+                  <ion-item-options side="end">
+                    <ion-item-option color="light" (click)="deletePartner(i,sliding)">
+                      <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small" color="danger"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-row>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-item>
     </ion-list>
 
     <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
       trigger="open-custom-dialog">
       <ng-template>
         <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
+      </ng-template>
+    </ion-modal>
+
+    <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #partnerModal
+      trigger="open-partner-dialog">
+      <ng-template>
+        <app-partner-crad [partnerList]="partnerList" (addPartner)="addPartner($event)"></app-partner-crad>
       </ng-template>
     </ion-modal>
   </form>

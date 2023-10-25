@@ -114,7 +114,7 @@ export class AddResourceComponent implements OnInit {
       this.addform.markAllAsTouched();
       return false;
     }
-    if (this.selectedSkillIds.length == 0) {
+    if (this.addform.value.skills.length == 0) {
       this.toastService.errorToast('Enter atleast one skill');
       return false;
     }
@@ -142,7 +142,7 @@ export class AddResourceComponent implements OnInit {
   filterSkills() {
     this.skillList = [...this.orgSkillList];
     for (var val of this.addform.value.skills) {
-      this.removeItinerary(val.skill_id);
+      this.removeItinerary(parseInt(val.skill_id));
     }
   }
 

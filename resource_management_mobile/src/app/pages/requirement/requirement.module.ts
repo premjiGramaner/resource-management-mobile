@@ -12,6 +12,7 @@ import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-
 import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
 import { ViewRequirementComponent } from './view-requirement/view-requirement.component';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
+import { PartnerCradComponent } from 'src/app/shared/components/partner-crad/partner-crad.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,8 @@ import { AddRequirementComponent } from './add-requirement/add-requirement.compo
     HttpClientModule,
     DeleteNavComponent,
     ReactiveFormsModule,
-    SkillCardComponent
+    SkillCardComponent,
+    PartnerCradComponent
   ],
   declarations: [RequirementPage,ViewRequirementComponent,AddRequirementComponent]
 })
