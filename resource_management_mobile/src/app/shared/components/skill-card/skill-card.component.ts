@@ -21,6 +21,7 @@ export class SkillCardComponent implements OnInit {
   constructor(private staticData: StaticDataConstants, private modalController: ModalController) { }
 
   ngOnInit() {
+    console.log("Skill list   ",this.skillList)
     if (this.flag=="resource") {
       this.addform = new FormGroup({
         skill_id: new FormControl('',Validators.required),
@@ -71,7 +72,7 @@ export class SkillCardComponent implements OnInit {
           form.value.specialised_ind = 0;
         }
       }
-      
+      form.value.skill_id = parseInt(form.value.skill_id);
       this.addSkill.emit(form.value);
       this.modalController.dismiss();
     } else {
