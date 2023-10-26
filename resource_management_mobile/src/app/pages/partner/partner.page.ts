@@ -6,7 +6,8 @@ import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { AddPartnerComponent } from './add-partner/add-partner.component';
-import { Status } from 'src/app/core/enum/status.enum';
+import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
+import { partnerData, partnerResponce } from './models/partner.model';
 
 @Component({
   selector: 'app-partner',
@@ -14,15 +15,15 @@ import { Status } from 'src/app/core/enum/status.enum';
   styleUrls: ['./partner.page.scss'],
 })
 export class PartnerPage implements OnInit {
-  partnerData: any = [];
+  partnerData: partnerData[] = [];
   showSearch: boolean = false;
   skip: number = 0;
   searchQuery: string = '';
   isModalOpen: boolean = false;
   modelType!: string;
-  partnerMoreData: any;
+  partnerMoreData!: partnerData;
   partnerEdit: boolean = false;
-  selectedIndex: any;
+  selectedIndex: number = 0;
   @ViewChild('addPartner') addPartner!: AddPartnerComponent;
   constructor(
     private partnerService: PartnerService,
@@ -38,15 +39,13 @@ export class PartnerPage implements OnInit {
   getPartner(skip: number, limit: number, search: string) {
     this.partnerService
       .getClient(skip, limit, search)
-      .subscribe((data: any) => {
-        console.log('data', data);
+      .subscribe((data: partnerResponce) => {
         this.partnerData = [...this.partnerData, ...data.data.partnerInfo];
       });
   }
   savePartnerForm() {
     if (this.addPartner.isPartnerFormValid()) {
       if (!this.partnerEdit) {
-        alert('save');
         this.partnerService
           .postPartner(this.addPartner.partnerForm.value)
           .subscribe((res: any) => {
@@ -96,7 +95,7 @@ export class PartnerPage implements OnInit {
     });
   }
 
-  async deleteModal(item: any, index: number, sliding: any) {
+  async deleteModal(item: any, index: any, sliding: any) {
     let data = {
       from: 'Partner',
       type: 'Delete',
@@ -130,7 +129,7 @@ export class PartnerPage implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  setOpen(isOpen: boolean, type: string, partnerInfo?: any, index?: number) {
+  setOpen(isOpen: boolean, type: string, partnerInfo?: any, index?: any) {
     this.modelType = type;
     this.isModalOpen = isOpen;
     this.partnerEdit = false;
@@ -141,5 +140,105 @@ export class PartnerPage implements OnInit {
     this.partnerEdit = true;
     this.modelType = 'save';
     console.log(this.modelType);
+  }
+
+  handleSearch(event: any) {
+    this.searchQuery = event.target.value.toLowerCase();
+    this.partnerData = [];
+    this.skip = 0;
+    this.getPartner(this.skip, 20, this.searchQuery);
+  }
+
+  async openExportModel() {
+    this.partnerService
+      .getPartnerAllData()
+      .subscribe(async (res: partnerResponce) => {
+        const pdfTableData = res.data.partnerInfo.map((item: partnerData) => {
+          return [
+            item.name || '',
+            item.pan || '',
+            item.partner_id || '',
+            item.registration_number || '',
+            item.strength || '',
+            item.supported_mode || '',
+            item.updated_by || '',
+            item.updated_by_id || '',
+            item.updated_date || '',
+            item.gstn || '',
+            item.created_date || '',
+            item.created_by_id || '',
+            item.created_by || '',
+            item.contact_person_phone || '',
+            item.contact_person_name || '',
+            item.contact_person_email_id || '',
+            item.address || '',
+          ];
+        });
+        let keys = Object.keys(res.data.partnerInfo[0]);
+        let elementToRemove = 'skills';
+        let pdfHeader = keys.reduce((result: any, item: any) => {
+          if (item !== elementToRemove) {
+            result.push(item.split('_').join('').toUpperCase());
+          }
+          return result;
+        }, []);
+        //pdf header details
+        let req = {
+          filename: 'partner',
+          data: res.data.partnerInfo,
+          pdfData: pdfTableData,
+          pdfHeader: pdfHeader,
+          title: 'Partner PDF Report',
+          size: [400, 600],
+        };
+        const exportData = req;
+        const modal = await this.modalCtrl.create({
+          component: ExportOptionComponent,
+          breakpoints: [0, 0.4, 1],
+          initialBreakpoint: 0.3,
+          handle: false,
+          componentProps: {
+            exportData,
+          },
+        });
+        await modal.present();
+        modal.onDidDismiss().then((_) => { });
+      });
+  }
+
+  async backForm(modelType: string) {
+    if (modelType == 'save' || this.partnerEdit) {
+      let data = {
+        from: 'Partner',
+        type: 'Discard',
+        value: '',
+      };
+      const mySubject = new BehaviorSubject(data);
+
+      const modal = await this.modalCtrl.create({
+        component: DeleteNavComponent,
+        breakpoints: [0, 0.5, 1],
+        initialBreakpoint: 0.35,
+        handle: false,
+        componentProps: {
+          mySubject,
+        },
+      });
+      await modal.present();
+
+      mySubject.subscribe((value: any) => {
+        if (value == true) {
+          this.modelType = 'save';
+          this.isModalOpen = false;
+          modal.dismiss();
+        }
+      });
+
+      modal.onDidDismiss().then((_) => {
+        mySubject.unsubscribe();
+      });
+    } else {
+      this.isModalOpen = false;
+    }
   }
 }

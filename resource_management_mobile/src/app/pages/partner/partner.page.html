@@ -5,12 +5,14 @@
         <h5 class="header-text"> Partner </h5>
       </ion-col>
       <ion-col class="mt-3">
-        <ion-icon name="save-outline" size="default" class="search-icon ion-float-right"></ion-icon>
+        <ion-icon name="save-outline" size="default" (click)="openExportModel()"
+          class="search-icon ion-float-right"></ion-icon>
         <ion-icon name="search" size="default" (click)="onSearch()" class="search-icon ion-float-right me-4"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="showSearch">
-      <ion-searchbar show-cancel-button="never" placeholder="Search" [debounce]="1000"></ion-searchbar>
+      <ion-searchbar show-cancel-button="never" placeholder="Search" (ionInput)="handleSearch($event)"
+        [debounce]="1000"></ion-searchbar>
     </ion-row>
     <ion-list *ngIf="partnerData.length > 0">
       <ion-item-sliding *ngFor="let partner of partnerData; let index" #sliding>
@@ -50,7 +52,7 @@
       <ion-header>
         <ion-toolbar>
           <ion-buttons slot="start">
-            <ion-button (click)="setOpen(false,'save')">
+            <ion-button (click)="backForm(modelType)">
               <ion-icon class="back-icon" name="arrow-undo-outline"></ion-icon>
             </ion-button>
             <ion-title *ngIf="modelType === 'edit'" size="small">

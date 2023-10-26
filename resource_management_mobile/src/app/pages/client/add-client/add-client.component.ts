@@ -21,7 +21,7 @@ import { ModalController } from '@ionic/angular';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { BehaviorSubject } from 'rxjs';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
-import { ClientArrayData, UserInfo, skill } from '../models/client.model';
+import { ClientArrayData, UserInfo, Clientskill } from '../models/client.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @Component({
@@ -36,8 +36,8 @@ export class AddClientComponent implements OnInit {
   @Input() flag!: string;
   onSubmit: boolean = true;
   userList: UserInfo[] = [];
-  skillList: skill[] = [];
-  selectedSkillIds: skill[] = [];
+  skillList: Clientskill[] = [];
+  selectedSkillIds: Clientskill[] = [];
   skilId: any;
   isModalOpen = false;
   constructor(

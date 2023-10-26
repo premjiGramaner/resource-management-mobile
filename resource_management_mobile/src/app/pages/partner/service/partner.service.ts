@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { skillData } from '../../client/models/client.model';
+import { partnerData, partnerResponce, skillResponce } from '../models/partner.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,24 +13,24 @@ export class PartnerService {
 
   constructor(private http: HttpClient) { }
 
-  getClient(skip: number, limit: number, search: string): Observable<any> {
+  getClient(skip: number, limit: number, search: string): Observable<partnerResponce> {
     let urlParams = new URLSearchParams();
     urlParams.append('skip', skip.toString());
     urlParams.append('limit', limit.toString());
     urlParams.append('search', search);
-    return this.http.get<any>(`${this.URL}partner?` + urlParams);
+    return this.http.get<partnerResponce>(`${this.URL}partner?` + urlParams);
   }
 
-  postPartner(req: any) {
-    return this.http.post(`${this.URL}partner`, req).pipe(
+  postPartner(PartnerSaveReq: partnerData) {
+    return this.http.post(`${this.URL}partner`, PartnerSaveReq).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('Error while posting a data ' + error.message);
       })
     );
   }
 
-  editPartner(req: any) {
-    return this.http.put(`${this.URL}partner`, req).pipe(
+  editPartner(PartnerUpdateReq: partnerData) {
+    return this.http.put(`${this.URL}partner`, PartnerUpdateReq).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('Error while update a data ' + error.message);
       })
@@ -44,7 +45,11 @@ export class PartnerService {
     );
   }
 
-  getSkill(): Observable<skillData> {
-    return this.http.get<skillData>(`${this.URL}skill`);
+  getSkill(): Observable<skillResponce> {
+    return this.http.get<skillResponce>(`${this.URL}skill`);
+  }
+
+  getPartnerAllData(): Observable<partnerResponce> {
+    return this.http.get<partnerResponce>(`${this.URL}partner`);
   }
 }

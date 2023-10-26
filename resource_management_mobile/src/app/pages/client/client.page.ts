@@ -193,13 +193,12 @@ export class ClientPage implements OnInit {
   }
 
   async backForm(modelType: string) {
-    console.log('>>>>>>>>>>>', modelType)
     if (modelType == 'save') {
       let data = {
-        "from": "Client",
-        "type": "Discard",
-        "value": ''
-      }
+        from: 'Client',
+        type: 'Discard',
+        value: '',
+      };
       const mySubject = new BehaviorSubject(data);
 
       const modal = await this.modalCtrl.create({
@@ -208,7 +207,7 @@ export class ClientPage implements OnInit {
         initialBreakpoint: 0.35,
         handle: false,
         componentProps: {
-          mySubject
+          mySubject,
         },
       });
       await modal.present();
@@ -222,13 +221,12 @@ export class ClientPage implements OnInit {
         }
       });
 
-      modal.onDidDismiss().then((_ => {
+      modal.onDidDismiss().then((_) => {
         mySubject.unsubscribe();
-      }));
+      });
     } else {
       // this.clientData = undefined;
       this.isModalOpen = false;
-
     }
   }
   handleSearch(event: any) {

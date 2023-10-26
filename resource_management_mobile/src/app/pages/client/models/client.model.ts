@@ -1,3 +1,5 @@
+import { skill } from 'src/app/core/base-model/base.model';
+
 export interface clientResponce {
     statusCode: number;
     data: {
@@ -58,15 +60,12 @@ export interface ClientArrayData {
 export interface skillData {
     statusCode: number;
     data: {
-        skillInfo: skill[];
+        skillInfo: Clientskill[];
     };
     message: string;
 }
 
-export interface skill {
-    skill_id: number;
-    category: string;
-    description: string;
+export interface Clientskill extends skill {
     primary_skill?: boolean;
 }
 
