@@ -80,6 +80,10 @@ export class AddClientComponent implements OnInit {
     }
   }
 
+  setClose() {
+    this.modalController.dismiss();
+  }
+
   showEditableData() {
     if (this.viewClientData != undefined) {
       this.clientForm.patchValue({

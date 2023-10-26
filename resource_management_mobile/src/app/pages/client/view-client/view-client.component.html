@@ -1,99 +1,97 @@
 <ion-content [fullscreen]="true">
-  <ion-grid>
-    <ion-row>
-      <ion-col class="center-content">
-        <h3 class="data-header">{{viewClientData.name}}</h3>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <ion-list>
+  <ion-list lines="none">
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Contact Person Name</h4>
-        <p class="value-label">{{viewClientData.contact_person_name}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.name" [readonly]="true">
+        <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Contact Person Email-id</h4>
-        <p class="value-label">{{viewClientData.contact_person_email_id}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_name"
+        [readonly]="true">
+        <div slot="label">Contact Person Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Contact Person Phone</h4>
-        <p class="value-label">{{viewClientData.contact_person_phone}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_phone"
+        [readonly]="true">
+        <div slot="label">CContact Person Phone<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Finance Person Name</h4>
-        <p class="value-label">{{viewClientData.finance_person_name}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_email_id"
+        [readonly]="true">
+        <div slot="label">Contact Person Email-id<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Finance Person Email-id</h4>
-        <p class="value-label">{{viewClientData.finance_person_email_id}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_name"
+        [readonly]="true">
+        <div slot="label">Finance Person Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Finance Person Phone</h4>
-        <p class="value-label">{{viewClientData.finance_person_phone}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_email_id"
+        [readonly]="true">
+        <div slot="label">Finance Person Email-id<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Sales Person Name</h4>
-        <p class="value-label">{{viewClientData.sales_person_name}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_phone"
+        [readonly]="true">
+        <div slot="label">Finance Person Phone<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Sales Person Email-id</h4>
-        <p class="value-label">{{viewClientData.sales_person_email_id}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_name"
+        [readonly]="true">
+        <div slot="label">Sales Person Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Sales Person Phone</h4>
-        <p class="value-label">{{viewClientData.sales_person_phone}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_email_id"
+        [readonly]="true">
+        <div slot="label">Sales Person Email-id<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
-
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Address</h4>
-        <p class="value-label">{{viewClientData.address}}</p>
-      </ion-label>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_phone"
+        [readonly]="true">
+        <div slot="label">Sales Person Phone<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
     </ion-item>
-
     <ion-item>
-      <ion-label>
-        <h4 class="key-label">Strength</h4>
-        <p class="value-label">{{viewClientData.strength}}</p>
-      </ion-label>
+      <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.address"
+        [readonly]="true">
+        <div slot="label">Address<ion-text color="danger"> *</ion-text></div>
+      </ion-textarea>
     </ion-item>
-
-    <ion-item-group>
-      <ion-item-divider color="medium">
-        <ion-label> Skills </ion-label>
-      </ion-item-divider>
-      <ion-item *ngFor="let item of viewClientData.skills | duplicateRemover">
-        <ion-grid>
-          <ion-row>
-            <ion-col class="center-content">
-              <p class="data-header">{{item.category}}</p>
-            </ion-col>
-            <ion-col class="skill-description">
-              {{item.description}}
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-    </ion-item-group>
+    <ion-item>
+      <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.strength"
+        [readonly]="true">
+        <div slot="label">Strength<ion-text color="danger"> *</ion-text></div>
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-card class="w-100">
+        <ion-row>
+          <ion-col class="card-user-info ">
+            <ion-row class="d-flex justify-content-between">
+              <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-list class="w-100">
+                <ion-item *ngFor="let skill of viewClientData.skills |duplicateRemover; let i = index" class="mb-2">
+                  <ion-col class="skill-list d-flex justify-content-between w-100">
+                    <div>
+                      <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-item>
+              </ion-list>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-item>
   </ion-list>
-
-
 </ion-content>

@@ -25,7 +25,8 @@ export class ClientPage implements OnInit {
   skip: number = 0;
   searchQuery: string = '';
   isModalOpen: boolean = false;
-  modelType!: string;
+  modelType: string = 'save';
+  clientEdit: boolean = false;
   @ViewChild('addClient') addClient!: AddClientComponent;
   constructor(
     private clientService: ClientService,
@@ -70,6 +71,7 @@ export class ClientPage implements OnInit {
 
   editEvent(type: string) {
     this.modelType = type;
+    this.clientEdit = true;
   }
 
   onIonInfinite(ev: any) {
@@ -92,7 +94,7 @@ export class ClientPage implements OnInit {
   async deleteModal(item: any, index: number, sliding: any) {
     let data = {
       from: 'Client',
-      type: 'Export',
+      type: 'Delete',
       value: item.name,
     };
     const mySubject = new BehaviorSubject(data);
@@ -126,6 +128,7 @@ export class ClientPage implements OnInit {
   setOpen(isOpen: boolean, type: string) {
     this.modelType = type;
     this.isModalOpen = isOpen;
+    this.clientEdit = false;
   }
 
   async openExportModel() {
@@ -174,16 +177,14 @@ export class ClientPage implements OnInit {
       const modal = await this.modalCtrl.create({
         component: ExportOptionComponent,
         breakpoints: [0, 0.4, 1],
-        initialBreakpoint: 0.2,
+        initialBreakpoint: 0.3,
         handle: false,
         componentProps: {
           exportData,
         },
       });
       await modal.present();
-      modal.onDidDismiss().then((_) => {
-        // mySubject.unsubscribe();
-      });
+      modal.onDidDismiss().then((_) => { });
     });
   }
 
@@ -191,6 +192,45 @@ export class ClientPage implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
+  async backForm(modelType: string) {
+    console.log('>>>>>>>>>>>', modelType)
+    if (modelType == 'save') {
+      let data = {
+        "from": "Client",
+        "type": "Discard",
+        "value": ''
+      }
+      const mySubject = new BehaviorSubject(data);
+
+      const modal = await this.modalCtrl.create({
+        component: DeleteNavComponent,
+        breakpoints: [0, 0.5, 1],
+        initialBreakpoint: 0.35,
+        handle: false,
+        componentProps: {
+          mySubject
+        },
+      });
+      await modal.present();
+
+      mySubject.subscribe((value: any) => {
+        if (value == true) {
+          // this.clientData = undefined;
+          this.modelType = 'save';
+          this.isModalOpen = false;
+          modal.dismiss();
+        }
+      });
+
+      modal.onDidDismiss().then((_ => {
+        mySubject.unsubscribe();
+      }));
+    } else {
+      // this.clientData = undefined;
+      this.isModalOpen = false;
+
+    }
+  }
   handleSearch(event: any) {
     this.searchQuery = event.target.value.toLowerCase();
     this.clientData = [];

@@ -15,4 +15,5 @@ export class StaticDataConstants {
     source_mode = ["Hire", "Contract", "Both", "Freelancing"];
     priority=["High", "Medium", "Low"];
     
+    partner_source_mode = [...this.type, "Both"]
 }

@@ -51,17 +51,7 @@ ion-label>span {
   font-size: 21px;
 }
 
-ion-input,
-ion-select {
-  margin: 10px 0px;
-  --padding-start: 12px !important;
-}
 
-.skill_pophead {
-  display: flex;
-  justify-content: space-between;
-  margin: 0px 10px;
-}
 
 ion-modal#skill-modal {
   --width: fit-content;
@@ -89,15 +79,13 @@ ion-modal#skill-modal ion-icon {
 ion-modal#skill-modal .wrapper {
   margin-bottom: 10px;
 }
-
-ion-input,
-ion-textarea,
-ion-select {
+ion-input, ion-textarea, ion-select {
   margin: 10px 0px;
   --padding-start: 12px !important;
 }
 
-ion-textarea {
+ion-textarea{
   min-height: 8em !important;
   max-height: 12em !important;
 }
+

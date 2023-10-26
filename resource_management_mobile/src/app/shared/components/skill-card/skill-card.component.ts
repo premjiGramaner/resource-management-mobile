@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 
@@ -9,7 +14,7 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
   templateUrl: './skill-card.component.html',
   styleUrls: ['./skill-card.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, ReactiveFormsModule],
 })
 export class SkillCardComponent implements OnInit {
   @Input() skillList: any;
@@ -18,26 +23,29 @@ export class SkillCardComponent implements OnInit {
   addform!: FormGroup;
   @Output() addSkill = new EventEmitter();
   ratingList = this.staticData.rating;
-  constructor(private staticData: StaticDataConstants, private modalController: ModalController) { }
+  constructor(
+    private staticData: StaticDataConstants,
+    private modalController: ModalController
+  ) { }
 
   ngOnInit() {
     if (this.flag=="resource") {
       this.addform = new FormGroup({
-        skill_id: new FormControl('',Validators.required),
-        relevant_experience: new FormControl('',Validators.required),
-        rating: new FormControl('',Validators.required),
-        primary_skill_ind: new FormControl(false,Validators.required)
+        skill_id: new FormControl('', Validators.required),
+        relevant_experience: new FormControl('', Validators.required),
+        rating: new FormControl('', Validators.required),
+        primary_skill_ind: new FormControl(false, Validators.required),
       });
-    } else if(this.flag == "client") {
+    } else if (this.flag == 'client') {
       this.addform = new FormGroup({
-        skill_id: new FormControl('',Validators.required)
+        skill_id: new FormControl('', Validators.required),
       });
-    } else if(this.flag=="partner") {
+    } else if (this.flag == 'partner') {
       this.addform = new FormGroup({
-        skill_id: new FormControl('',Validators.required),
-        specialised_ind: new FormControl('',Validators.required)
+        skill_id: new FormControl('', Validators.required),
+        relevant_experience: new FormControl('', Validators.required),
       });
-    } else if (this.flag=="requirement"){
+    } else if (this.flag == 'requirement') {
       this.addform = new FormGroup({
         skill_id: new FormControl('',Validators.required),
         relevant_experience: new FormControl('',Validators.required),
