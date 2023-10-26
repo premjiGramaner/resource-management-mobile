@@ -30,7 +30,7 @@ export class AddPartnerComponent implements OnInit, OnChanges {
   partnerForm!: FormGroup;
   onSubmit: boolean = true;
   selectedSkillIds: any[] = [];
-  supportMode = this.staticData.source_mode;
+  supportMode = this.staticData.partner_source_mode;
   isModalOpen = false;
   @Input() flag!: string;
   @Input() viewPartnerData!: any;

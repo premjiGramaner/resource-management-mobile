@@ -7,10 +7,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { Status } from 'src/app/core/enum/status.enum';
-import { ResourceService } from '../service/resource.service';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { IonItemSliding, ItemSlidingCustomEvent, ModalController } from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { SkillService } from '../../skill/services/skill.service';
+import { LocationService } from '../../location/services/location.service';
+import { PartnerService } from '../../partner/services/partner.service';
 @Component({
   selector: 'app-add-resource',
   templateUrl: './add-resource.component.html',
@@ -34,7 +36,9 @@ export class AddResourceComponent implements OnInit {
   rating = this.staticData.rating;
   module:string = 'resource';
   constructor(
-    private resourceService: ResourceService,
+    private skillService: SkillService,
+    private locationService: LocationService,
+    private partnerService: PartnerService,
     private toastService: ToastService,
     private modalController: ModalController,
     private staticData: StaticDataConstants
@@ -110,7 +114,7 @@ export class AddResourceComponent implements OnInit {
       this.addform.markAllAsTouched();
       return false;
     }
-    if (this.selectedSkillIds.length == 0) {
+    if (this.addform.value.skills.length == 0) {
       this.toastService.errorToast('Enter atleast one skill');
       return false;
     }
@@ -118,19 +122,19 @@ export class AddResourceComponent implements OnInit {
   }
 
   getLocationList() {
-    this.resourceService.getLocation().subscribe((res) => {
+    this.locationService.getAllLocation().subscribe((res) => {
       this.locationList = res.data.locationInfo;
     });
   }
 
   getPartnerList() {
-    this.resourceService.getPartner().subscribe((res) => {
+    this.partnerService.getAllPartner().subscribe((res) => {
       this.partnerList = res.data.partnerInfo;
     });
   }
 
   getSkillList() {
-    this.resourceService.getSkill().subscribe((res) => {
+    this.skillService.getAllSkill().subscribe((res) => {
       this.orgSkillList = res.data.skillInfo;
     });
   }
@@ -138,7 +142,7 @@ export class AddResourceComponent implements OnInit {
   filterSkills() {
     this.skillList = [...this.orgSkillList];
     for (var val of this.addform.value.skills) {
-      this.removeItinerary(val.skill_id);
+      this.removeItinerary(parseInt(val.skill_id));
     }
   }
 

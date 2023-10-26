@@ -29,13 +29,7 @@ export class SkillCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.addform = new FormGroup({
-      skill_id: new FormControl(''),
-      relevant_experience: new FormControl(''),
-      rating: new FormControl(''),
-      primary_skill_ind: new FormControl(false),
-    });
-    if (this.flag == 'resource') {
+    if (this.flag=="resource") {
       this.addform = new FormGroup({
         skill_id: new FormControl('', Validators.required),
         relevant_experience: new FormControl('', Validators.required),
@@ -53,24 +47,39 @@ export class SkillCardComponent implements OnInit {
       });
     } else if (this.flag == 'requirement') {
       this.addform = new FormGroup({
-        skill_id: new FormControl('', Validators.required),
-        relevant_experience: new FormControl('', Validators.required),
-        isMandatory: new FormControl(false, Validators.required),
+        skill_id: new FormControl('',Validators.required),
+        relevant_experience: new FormControl('',Validators.required),
+        mandatory_skill: new FormControl(false,Validators.required)
       });
-    }
+    } 
   }
 
   setClose() {
     this.modalController.dismiss();
   }
 
-  onSubmit(form: FormGroup) {
-    if (form.valid) {
-      if (form.value.primary_skill_ind) {
-        form.value.primary_skill_ind = 1;
-      } else {
-        form.value.primary_skill_ind = 0;
+  onSubmit(form:FormGroup){
+    if(form.valid){
+      if(this.flag=='resource'){
+        if(form.value.primary_skill_ind){
+          form.value.primary_skill_ind = 1;
+        } else {
+          form.value.primary_skill_ind = 0;
+        }
+      } else if(this.flag=='requirement'){
+        if(form.value.mandatory_skill){
+          form.value.mandatory_skill = 1;
+        } else {
+          form.value.mandatory_skill = 0;
+        }
+      } else if(this.flag=='partner'){
+        if(form.value.specialised_ind){
+          form.value.specialised_ind = 1;
+        } else {
+          form.value.specialised_ind = 0;
+        }
       }
+      form.value.skill_id = parseInt(form.value.skill_id);
       this.addSkill.emit(form.value);
       this.modalController.dismiss();
     } else {

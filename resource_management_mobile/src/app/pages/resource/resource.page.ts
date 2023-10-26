@@ -40,6 +40,8 @@ export class ResourcePage implements OnInit {
           this.items = [];
           this.getResources(this.skip, 20, this.searchQuery);
         });
+    } else {
+      this.add.addform.markAllAsTouched();
     }
   }
 
@@ -99,7 +101,6 @@ export class ResourcePage implements OnInit {
       });
       await modal.present();
       modal.onDidDismiss().then((_) => {
-        // mySubject.unsubscribe();
       });
     });
   }
