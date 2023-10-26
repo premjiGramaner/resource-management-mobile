@@ -14,7 +14,7 @@
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_phone"
         [readonly]="true">
-        <div slot="label">CContact Person Phone<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Contact Person Phone<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
@@ -79,7 +79,7 @@
               <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
             </ion-row>
             <ion-row>
-              <ion-list class="w-100">
+              <ion-list class="w-100" lines="none">
                 <ion-item *ngFor="let skill of viewClientData.skills |duplicateRemover; let i = index" class="mb-2">
                   <ion-col class="skill-list d-flex justify-content-between w-100">
                     <div>

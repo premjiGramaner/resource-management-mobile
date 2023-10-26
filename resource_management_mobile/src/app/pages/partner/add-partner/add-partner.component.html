@@ -136,24 +136,27 @@
                   name="add-circle-outline"></ion-icon></ion-label>
             </ion-row>
             <ion-row>
-              <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding>
-                <ion-item id="open-modal" expand="block">
-                  <ion-col class="skill-list d-flex justify-content-between w-100">
-                    <div>
-                      <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
-                      <ion-label class="w-100 skill-describe">{{skill.ratingName}}</ion-label>
-                    </div>
-                    <div>
-                      <ion-label class="w-100 skill-side">{{skill.specialised_ind}} Y</ion-label>
-                    </div>
-                  </ion-col>
-                </ion-item>
-                <ion-item-options side="end" *ngIf="flag != 'edit'">
-                  <ion-item-option color="light" (click)="deleteSkill(i,sliding)">
-                    <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small" color="danger"></ion-icon>
-                  </ion-item-option>
-                </ion-item-options>
-              </ion-item-sliding>
+              <ion-list class="w-100" lines="none">
+                <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding>
+                  <ion-item id="open-modal" expand="block">
+                    <ion-col class="skill-list d-flex justify-content-between w-100">
+                      <div>
+                        <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                        <ion-label class="w-100 skill-describe">{{skill.ratingName}}</ion-label>
+                      </div>
+                      <div>
+                        <ion-label class="w-100 skill-side">{{skill.specialised_ind}} Y</ion-label>
+                      </div>
+                    </ion-col>
+                  </ion-item>
+                  <ion-item-options side="end" *ngIf="flag != 'edit'">
+                    <ion-item-option color="light" (click)="deleteSkill(i,sliding)">
+                      <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small"
+                        color="danger"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
             </ion-row>
           </ion-col>
         </ion-row>

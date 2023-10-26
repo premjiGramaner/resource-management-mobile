@@ -4,6 +4,12 @@
     font-weight: $header-font-weight
 }
 
+.shadow {
+    -webkit-box-shadow: 4px 6px 13px 5px gray gray;
+    -moz-box-shadow: 4px 6px 13px 5px gray gray;
+    box-shadow: 4px 6px 13px 5px gray gray;
+}
+
 .header-search-container {
     display: $display;
     align-items: $center-align-items;
@@ -15,11 +21,6 @@
     height: $height;
 }
 
-.shadow {
-    -webkit-box-shadow: 4px 6px 13px 5px gray gray;
-    -moz-box-shadow: 4px 6px 13px 5px gray gray;
-    box-shadow: 4px 6px 13px 5px gray gray;
-}
 
 .card-user-info {
     display: flex;
@@ -41,22 +42,6 @@ ion-card {
 }
 
 .back-icon {
-    width: $width;
-    height: $height;
-}
-
-.header-text {
-    font-size: $header-font-size;
-    font-weight: $header-font-weight
-}
-
-.header-search-container {
-    display: $display;
-    align-items: $center-align-items;
-    justify-content: $justify-content-space-between;
-}
-
-.search-icon {
     width: $width;
     height: $height;
 }

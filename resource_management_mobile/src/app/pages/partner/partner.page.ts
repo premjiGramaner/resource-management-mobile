@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { PartnerService } from './service/partner.service';
+
 import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { BehaviorSubject } from 'rxjs';
@@ -8,6 +8,7 @@ import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { AddPartnerComponent } from './add-partner/add-partner.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { partnerData, partnerResponce } from './models/partner.model';
+import { PartnerService } from './services/partner.service';
 
 @Component({
   selector: 'app-partner',
@@ -38,7 +39,7 @@ export class PartnerPage implements OnInit {
 
   getPartner(skip: number, limit: number, search: string) {
     this.partnerService
-      .getClient(skip, limit, search)
+      .getPartner(skip, limit, search)
       .subscribe((data: partnerResponce) => {
         this.partnerData = [...this.partnerData, ...data.data.partnerInfo];
       });
@@ -151,7 +152,7 @@ export class PartnerPage implements OnInit {
 
   async openExportModel() {
     this.partnerService
-      .getPartnerAllData()
+      .getAllPartner()
       .subscribe(async (res: partnerResponce) => {
         const pdfTableData = res.data.partnerInfo.map((item: partnerData) => {
           return [

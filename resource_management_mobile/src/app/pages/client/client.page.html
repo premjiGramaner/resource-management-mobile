@@ -1,45 +1,50 @@
 <ion-content [fullscreen]="true">
-  <ion-grid>
+  <ion-grid class="p-2 ps-3 pe-3 shadow">
     <ion-row>
       <ion-col>
-        <h5 class="header-text"> Client </h5>
+        <h5> Client </h5>
       </ion-col>
       <ion-col class="mt-3">
         <ion-icon name="save-outline" size="default" (click)="openExportModel()"
-          class="search-icon ion-float-right"></ion-icon>
-        <ion-icon name="search" size="default" (click)="onSearch()" class="search-icon ion-float-right me-4"></ion-icon>
+          class="ion-float-right"></ion-icon>
+        <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
       </ion-col>
     </ion-row>
     <ion-row *ngIf="showSearch">
       <ion-searchbar show-cancel-button="never" placeholder="Search" [debounce]="1000"
         (ionInput)="handleSearch($event)"></ion-searchbar>
     </ion-row>
-    <ion-list *ngIf="clientData.length>0">
-      <ion-item-sliding *ngFor="let client of clientData; let index" #sliding>
-        <ion-item id="open-modal" expand="block" (click)="setOpen(true,'edit')">
-          <ion-card class="shadow" (click)="detailClientData(client,'edit')">
-            <ion-row>
-              <ion-col size="10" class="card-user-info">
-                <ion-label class="user"> {{client.name}} </ion-label>
-                <ion-label class="user-label"><span>Email:- </span> {{client.contact_person_email_id}}</ion-label>
-                <ion-label class="user-label"><span>Phone:- </span> {{client.contact_person_phone}}</ion-label>
-              </ion-col>
-            </ion-row>
-          </ion-card>
-        </ion-item>
-        <ion-item-options side="end">
-          <ion-item-option color="danger" (click)="deleteModal(client,index,sliding)">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-item-option>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
-    <ion-list class="nodata-found" *ngIf="clientData.length==0">
-      <h5>Not Data Found!</h5>
-    </ion-list>
-    <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
-      <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles"></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-list *ngIf="clientData.length>0" lines="none" class="w-100">
+        <ion-item-sliding *ngFor="let client of clientData; let index" #sliding>
+          <ion-item id="open-modal" expand="block" (click)="setOpen(true,'edit')">
+            <ion-card class="shadow" (click)="detailClientData(client,'edit')">
+              <ion-row>
+                <ion-col size="10" class="card-user-info">
+                  <ion-label class="user"> {{client.name}} </ion-label>
+                  <ion-label class="user-label"><span>Email:- </span> {{client.contact_person_email_id}}</ion-label>
+                  <ion-label class="user-label"><span>Phone:- </span> {{client.contact_person_phone}}</ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteModal(client,index,sliding)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <ion-list class="nodata-found" lines="none" *ngIf="clientData.length==0">
+        <h5>Not Data Found!</h5>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Please wait..."
+          loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-row>
   </ion-grid>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button>

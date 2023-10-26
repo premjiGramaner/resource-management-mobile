@@ -15,11 +15,12 @@ import {
 } from '@angular/forms';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
-import { PartnerService } from '../service/partner.service';
+
 import { Status } from 'src/app/core/enum/status.enum';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
+import { PartnerService } from '../services/partner.service';
 
 @Component({
   selector: 'app-add-partner',
@@ -113,7 +114,6 @@ export class AddPartnerComponent implements OnInit, OnChanges {
       Object.assign(skill, { description: this.skillList[index].description });
     }
     this.selectedSkillIds.push(skill);
-
   }
   getSkillList() {
     this.partnerService.getSkill().subscribe((res) => {

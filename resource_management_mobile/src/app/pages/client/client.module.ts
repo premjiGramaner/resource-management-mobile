@@ -13,6 +13,7 @@ import { AddClientComponent } from './add-client/add-client.component';
 import { ViewClientComponent } from './view-client/view-client.component';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
     HttpClientModule,
     ViewClientComponent,
     DuplicateRemoverPipe,
+    SkillCardComponent
   ],
   declarations: [ClientPage, AddClientComponent],
   providers: [ClientService, DuplicateRemoverPipe, ToastConstants],

@@ -136,20 +136,23 @@
                   name="add-circle-outline"></ion-icon></ion-label>
             </ion-row>
             <ion-row>
-              <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding>
-                <ion-item id="open-modal" expand="block">
-                  <ion-col class="skill-list d-flex justify-content-between w-100">
-                    <div>
-                      <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
-                    </div>
-                  </ion-col>
-                </ion-item>
-                <ion-item-options side="end" *ngIf="flag != 'edit'">
-                  <ion-item-option color="light" (click)="deleteSkill(i)">
-                    <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small" color="danger"></ion-icon>
-                  </ion-item-option>
-                </ion-item-options>
-              </ion-item-sliding>
+              <ion-list class="w-100" lines="none">
+                <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding>
+                  <ion-item id="open-modal" expand="block">
+                    <ion-col class="skill-list d-flex justify-content-between w-100">
+                      <div>
+                        <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                      </div>
+                    </ion-col>
+                  </ion-item>
+                  <ion-item-options side="end" *ngIf="flag != 'edit'">
+                    <ion-item-option color="light" (click)="deleteSkill(i)">
+                      <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small"
+                        color="danger"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
             </ion-row>
           </ion-col>
         </ion-row>
@@ -160,29 +163,10 @@
       trigger="open-custom-dialog">
       <ng-template>
         <div class="wrapper">
-          <div class="skill_pophead">
-            <h4>Add Skill</h4>
-            <ion-icon name="close" size="default" (click)="setClose()" class="align-self-center"></ion-icon>
-          </div>
-          <ion-list lines="none">
-            <ion-item button="true">
-              <ion-select detail="false" interface="popover" (ionChange)="handleSkillChange()"
-                label-placement="floating" formControlName="skill_id" fill="outline" aria-label="user"
-                placeholder="Select User">
-                <ion-select-option *ngFor="let skill of skillList"
-                  value={{skill.skill_id}}>{{skill.category}}</ion-select-option>
-              </ion-select>
-            </ion-item>
-            <ion-item>
-              <ion-grid>
-                <ion-row class="skill-add">
-                  <ion-col>
-                    <ion-button expand="block" (click)="addSkill()">Add</ion-button>
-                  </ion-col>
-                </ion-row>
-              </ion-grid>
-            </ion-item>
+          <ion-list class="w-100" lines="none">
+            <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
           </ion-list>
+
         </div>
       </ng-template>
     </ion-modal>

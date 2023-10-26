@@ -37,6 +37,7 @@ export class AddClientComponent implements OnInit {
   onSubmit: boolean = true;
   userList: UserInfo[] = [];
   skillList: Clientskill[] = [];
+  module: string = 'client';
   selectedSkillIds: Clientskill[] = [];
   skilId: any;
   isModalOpen = false;
@@ -148,7 +149,7 @@ export class AddClientComponent implements OnInit {
     this.skilId['primary_skill'] = event.detail.checked;
   }
 
-  addSkill() {
+  addSkill(skill?: any) {
     if (this.skilId) {
       if (this.skilId?.primary_skill) {
         this.selectedSkillIds.unshift(this.skilId);
@@ -160,6 +161,16 @@ export class AddClientComponent implements OnInit {
     idsFormArray.push(new FormControl(this.clientForm.value.skill_id));
     this.modalController.dismiss();
     this.skilId = '';
+    this.skillObj(skill);
+  }
+  skillObj(skill: any) {
+    const index = this.skillList.findIndex(
+      (el: any) => el.skill_id == parseInt(skill.skill_id)
+    );
+    if (index >= 0) {
+      Object.assign(skill, { description: this.skillList[index].description });
+    }
+    this.selectedSkillIds.push(skill);
   }
 
   deleteSkill(i: number) {
