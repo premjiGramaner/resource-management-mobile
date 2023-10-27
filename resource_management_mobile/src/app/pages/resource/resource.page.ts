@@ -36,7 +36,9 @@ export class ResourcePage implements OnInit {
     if (this.add.isFormValid()) {
       this.addEditCall(this.resourceData)
         .subscribe((data: any) => {
-          this.add.setClose();
+          this.resourceData = undefined;
+          this.modelType = false ? 'save' : 'edit';
+          this.isModalOpen = false;
           this.items = [];
           this.getResources(this.skip, 20, this.searchQuery);
         });
@@ -119,6 +121,9 @@ export class ResourcePage implements OnInit {
   private getResources(skip: number, limit: number, search: string) {
     this.resourceService.getResources(skip, limit, search)
       .subscribe((data: resourceResponse) => {
+        if(data.data.resourceInfo.length==0 && skip>0){
+          this.skip= skip-20;
+        }
         this.items = [...this.items, ...data.data.resourceInfo];
       });
 

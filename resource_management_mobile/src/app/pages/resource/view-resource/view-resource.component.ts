@@ -8,12 +8,12 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 })
 export class ViewResourceComponent  implements OnInit {
   @Input() viewData: any;
-  rating = this.staticData.rating;
+  rating = this.staticData?.rating;
 
   constructor(private staticData :StaticDataConstants) { }
 
   ngOnInit() {
-    this.arrangeSkillData(this.viewData.skills);
+    this.arrangeSkillData(this.viewData?.skills);
   }
 
   arrangeSkillData(skills:any){
@@ -23,11 +23,11 @@ export class ViewResourceComponent  implements OnInit {
   }
   skillObj(skill:any){
     
-      Object.assign(skill, { description: skill.skill.description })
+      Object.assign(skill, { description: skill?.skill?.description })
     
-    const ind = this.rating.findIndex((el: any) => el.id === parseInt(skill.rating))
+    const ind = this.rating?.findIndex((el: any) => el.id === parseInt(skill?.rating))
     if (ind >= 0) {
-      Object.assign(skill, { ratingName: this.rating[ind].name })
+      Object.assign(skill, { ratingName: this.rating[ind]?.name })
     }
 
   }

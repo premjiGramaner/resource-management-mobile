@@ -1,98 +1,98 @@
 <ion-content [fullscreen]="true">
     <ion-list lines="none">
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.name" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.name" [readonly]="true">
           <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="email" fill="outline" labelPlacement="floating" [value]="viewData.email_id" [readonly]="true">
+        <ion-input type="email" fill="outline" labelPlacement="floating" [value]="viewData?.email_id" [readonly]="true">
           <div slot="label">Email<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="tel" fill="outline" labelPlacement="floating" [value]="viewData.mobile_no" [readonly]="true">
+        <ion-input type="tel" fill="outline" labelPlacement="floating" [value]="viewData?.mobile_no" [readonly]="true">
           <div slot="label">Mobile<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData.experience" [readonly]="true">
+        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData?.experience" [readonly]="true">
           <div slot="label">Experience (in years)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.source" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.source" [readonly]="true">
           <div slot="label">Source<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
-      <ion-item *ngIf="viewData.partner_name">
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.partner_name" [readonly]="true">
+      <ion-item *ngIf="viewData?.partner_name">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.partner_name" [readonly]="true">
           <div slot="label">Partner<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
     
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.type" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.type" [readonly]="true">
           <div slot="label">Type<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item >
-        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData.ctc" [readonly]="true">
+        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData?.ctc" [readonly]="true">
           <div slot="label">CTC (in LPA)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData.ectc" [readonly]="true">
+        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData?.ectc" [readonly]="true">
           <div slot="label">ECTC (in LPA)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.profile_location" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.profile_location" [readonly]="true">
           <div slot="label">Profile Location<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.preferred_location_name" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.preferred_location_name" [readonly]="true">
           <div slot="label">Preferred Location<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.work_location_name" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.work_location_name" [readonly]="true">
           <div slot="label">Work Location<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.current_location_name" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.current_location_name" [readonly]="true">
           <div slot="label">Current Location<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.current_organisation" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.current_organisation" [readonly]="true">
           <div slot="label">Current Organisation<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.current_org_duration" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.current_org_duration" [readonly]="true">
           <div slot="label">Current Organisation Duration<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData.notice_period" [readonly]="true">
+        <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData?.notice_period" [readonly]="true">
           <div slot="label">Notice Period (in months)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item >
-        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData.earliest_joining_date" [readonly]="true">
+        <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.earliest_joining_date" [readonly]="true">
           <div slot="label">Earliest Joining Date<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewData.reason_for_change" [readonly]="true" >
+        <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewData?.reason_for_change" [readonly]="true" >
           <div slot="label">Reason For Change<ion-text color="danger"> *</ion-text></div>
         </ion-textarea>
       </ion-item>
@@ -107,14 +107,14 @@
               </ion-row>
               <ion-row>
                 <ion-list class="w-100">
-                  <ion-item *ngFor="let skill of viewData.skills; let i = index" class="mb-2">
+                  <ion-item *ngFor="let skill of viewData?.skills; let i = index" class="mb-2">
                     <ion-col class="d-flex justify-content-between w-100" [ngClass]="skill.primary_skill_ind==1 ? 'primary_skill_list' : 'secondary_skill_list' ">
                       <div>
-                        <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
-                      <ion-label class="w-100 skill-describe">{{skill.ratingName}}</ion-label>
+                        <ion-label class="w-100 skill-heading">{{skill?.description}}</ion-label>
+                      <ion-label class="w-100 skill-describe">{{skill?.ratingName}}</ion-label>
                       </div>
                       <div>
-                        <ion-label class="w-100 skill-side">{{skill.relevant_experience}} Y</ion-label>
+                        <ion-label class="w-100 skill-side">{{skill?.relevant_experience}} Y</ion-label>
                       </div>
                     </ion-col>
                   </ion-item>

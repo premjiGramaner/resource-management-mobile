@@ -29,7 +29,6 @@ export class RequirementPage implements OnInit {
 
   ngOnInit() {
     this.getRequirements(this.skip, 20, this.searchQuery);
-
   }
 
   async openExportModel() {
@@ -93,6 +92,9 @@ export class RequirementPage implements OnInit {
   private getRequirements(skip: number, limit: number, search: string) {
     this.requirementService.getRequirement(skip, limit, search)
       .subscribe((data: requirementResponse) => {
+        if(data.data.requirementInfo.length==0 && skip>0){
+          this.skip= skip-20;
+        }
         this.items = [...this.items, ...data.data.requirementInfo];
       });
   }
@@ -215,7 +217,9 @@ export class RequirementPage implements OnInit {
     if (this.add.isFormValid()) {
       this.addEditCall(this.requirementData)
         .subscribe((data: any) => {
-          this.add.setClose();
+          this.requirementData = undefined;
+          this.modelType = false ? 'save' : 'edit';
+          this.isModalOpen = false;
           this.items = [];
           this.getRequirements(this.skip, 20, this.searchQuery);
         });

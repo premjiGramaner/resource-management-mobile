@@ -14,18 +14,18 @@ export class ViewRequirementComponent implements OnInit {
   }
 
   arrangeData(data: any) {
-    for (var val of data.skills) {
+    for (var val of data?.skills) {
       this.skillObj(val);
     }
-    for (var val of data.partner) {
+    for (var val of data?.partner) {
       this.partnerObj(val);
     }
   }
   skillObj(skill: any) {
-    Object.assign(skill, { description: skill.skill.description })
+    Object.assign(skill, { description: skill?.skill?.description })
   }
 
   partnerObj(partner: any) {
-    Object.assign(partner, { name: partner.name })
+    Object.assign(partner, { name: partner?.name })
   }
 }
