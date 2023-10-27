@@ -1,0 +1,97 @@
+<ion-content [fullscreen]="true">
+  <ion-list lines="none">
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.name" [readonly]="true">
+        <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_name"
+        [readonly]="true">
+        <div slot="label">Contact Person Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_phone"
+        [readonly]="true">
+        <div slot="label">Contact Person Phone<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_email_id"
+        [readonly]="true">
+        <div slot="label">Contact Person Email-id<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_name"
+        [readonly]="true">
+        <div slot="label">Finance Person Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_email_id"
+        [readonly]="true">
+        <div slot="label">Finance Person Email-id<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_phone"
+        [readonly]="true">
+        <div slot="label">Finance Person Phone<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_name"
+        [readonly]="true">
+        <div slot="label">Sales Person Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_email_id"
+        [readonly]="true">
+        <div slot="label">Sales Person Email-id<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_phone"
+        [readonly]="true">
+        <div slot="label">Sales Person Phone<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.address"
+        [readonly]="true">
+        <div slot="label">Address<ion-text color="danger"> *</ion-text></div>
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.strength"
+        [readonly]="true">
+        <div slot="label">Strength<ion-text color="danger"> *</ion-text></div>
+      </ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-card class="w-100">
+        <ion-row>
+          <ion-col class="card-user-info ">
+            <ion-row class="d-flex justify-content-between">
+              <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-list class="w-100" lines="none">
+                <ion-item *ngFor="let skill of viewClientData.skills |duplicateRemover; let i = index" class="mb-2">
+                  <ion-col class="skill-list d-flex justify-content-between w-100">
+                    <div>
+                      <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                    </div>
+                  </ion-col>
+                </ion-item>
+              </ion-list>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-item>
+  </ion-list>
+</ion-content>

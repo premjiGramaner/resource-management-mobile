@@ -25,3 +25,55 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
+
+ion-accordion-group {
+    ion-accordion {
+        .ion-accordion-toggle-icon {
+            color: white;
+        }
+    }
+
+    ion-item {
+        .item-native {
+            padding-inline-start: 0px;
+        }
+    }
+
+}
+
+.alert-danger {
+    color: rgb(206, 12, 12);
+    background: white;
+    border: none;
+    width: 100%;
+    padding-left: 2px;
+    padding-top: 5px;
+}
+
+.searchbar-input-container {
+    border: 1px solid !important;
+}
+
+.nodata-found {
+    text-align: center;
+    font-weight: 700;
+
+    h5 {
+        font-weight: 700;
+        font-size: 1.5em;
+    }
+}
+
+.skill-list {
+    background: rgb(150 150 165 / 23%);;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+    padding: 4px 10px;
+}
+
+.shadow {
+    -webkit-box-shadow: 4px 6px 13px 5px gray gray;
+    -moz-box-shadow: 4px 6px 13px 5px gray gray;
+    box-shadow: 4px 6px 13px 5px gray gray;
+}

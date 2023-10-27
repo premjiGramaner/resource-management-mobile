@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
     private security: SecurityService,
     private routeConstants: RouteConstants,
     private cookiesConstants: CookiesConstants
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -44,14 +44,18 @@ export class LoginPage implements OnInit {
     if (this.loginForm.status == Status.INVALID) {
       this.onSubmit = false;
     }
-
     if (this.loginForm.valid) {
       this.loginService
         .postLoginRequest(this.loginForm.value)
         .subscribe((res: LoginResponse) => {
           if (res.statusCode == 200) {
             this.security.setItem(this.cookiesConstants.token, res.data.jwt);
+            this.security.setItem(
+              this.cookiesConstants.user,
+              res.data.userData
+            );
             this.router.navigate([this.routeConstants.dashboard]);
+          } else if (res.statusCode == 400) {
           }
         });
     }

@@ -11,11 +11,13 @@ export interface LoginResponse {
 
 export interface UserInformation {
   jwt: string;
-  userData: {
-    Role_role_id: number;
-    name: string;
-    password: string;
-    user_id: number;
-    user_name: string;
-  };
+  userData: User;
+}
+
+export interface User {
+  Role_role_id: number;
+  name: string;
+  password: string;
+  user_id: number;
+  user_name: string;
 }

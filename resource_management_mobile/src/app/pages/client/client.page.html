@@ -1,0 +1,85 @@
+<ion-content [fullscreen]="true">
+  <ion-grid class="p-2 ps-3 pe-3 shadow">
+    <ion-row>
+      <ion-col>
+        <h5> Client </h5>
+      </ion-col>
+      <ion-col class="mt-3">
+        <ion-icon name="save-outline" size="default" (click)="openExportModel()"
+          class="ion-float-right"></ion-icon>
+        <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="showSearch">
+      <ion-searchbar show-cancel-button="never" placeholder="Search" [debounce]="1000"
+        (ionInput)="handleSearch($event)"></ion-searchbar>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-list *ngIf="clientData.length>0" lines="none" class="w-100">
+        <ion-item-sliding *ngFor="let client of clientData; let index" #sliding>
+          <ion-item id="open-modal" expand="block" (click)="setOpen(true,'edit')">
+            <ion-card class="shadow" (click)="detailClientData(client,'edit')">
+              <ion-row>
+                <ion-col size="10" class="card-user-info">
+                  <ion-label class="user"> {{client.name}} </ion-label>
+                  <ion-label class="user-label"><span>Email:- </span> {{client.contact_person_email_id}}</ion-label>
+                  <ion-label class="user-label"><span>Phone:- </span> {{client.contact_person_phone}}</ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger" (click)="deleteModal(client,index,sliding)">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <ion-list class="nodata-found" lines="none" *ngIf="clientData.length==0">
+        <h5>Not Data Found!</h5>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Please wait..."
+          loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add" (click)="setOpen(true,'save')"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar>
+          <ion-buttons slot="start">
+            <ion-button (click)="backForm(modelType)">
+              <ion-icon class="back-icon" name="arrow-undo-outline"></ion-icon>
+            </ion-button>
+            <ion-title *ngIf="modelType === 'edit'" size="small">
+              View Client
+            </ion-title>
+            <ion-title *ngIf="modelType === 'editable_data' && clientEdit" size="small">
+              Edit Client
+            </ion-title>
+            <ion-title *ngIf="modelType === 'save' && !clientEdit" size="small">
+              Add Client
+            </ion-title>
+          </ion-buttons>
+          <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('editable_data')"
+            color="primary">Edit</ion-button>
+          <ion-button slot="end" *ngIf="modelType === 'save' || modelType === 'editable_data'"
+            (click)="saveClientForm()" color="success">Save</ion-button>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <app-view-client *ngIf="modelType === 'edit'" [viewClientData]=clientMoreData></app-view-client>
+        <app-add-client *ngIf="modelType === 'save' || modelType === 'editable_data'" [flag]="modelType"
+          [viewClientData]=clientMoreData #addClient></app-add-client>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+</ion-content>

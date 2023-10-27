@@ -10,7 +10,7 @@ import { LoginRequest, LoginResponse } from './models/auth.model';
 export class LoginService {
   private URL = environment.baseUrl;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
   postLoginRequest(req: LoginRequest): Observable<LoginResponse> {
     return this.httpClient.post<LoginResponse>(`${this.URL}user/login`, req);
   }

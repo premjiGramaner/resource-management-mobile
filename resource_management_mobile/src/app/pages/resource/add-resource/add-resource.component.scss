@@ -1,0 +1,109 @@
+@import "../../../../theme/theme.scss";
+
+ion-row {
+  margin: 6px 4px;
+}
+
+ion-label>span {
+  color: red;
+}
+
+ion-input, ion-textarea, ion-select {
+    margin: 10px 0px;
+    --padding-start: 12px !important;
+}
+
+ion-textarea{
+    min-height: 8em !important;
+    max-height: 12em !important;
+}
+
+.skill_container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.skill-list {
+  background: #2289333B;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  padding: 0px 10px;
+}
+
+.skil-del {
+  display: flex;
+  justify-content: end;
+}
+
+.skill-add {
+  display: flex;
+  justify-content: center;
+}
+
+.add-icon {
+  width: $width;
+  height: $height;
+}
+
+.skill-heading {
+  font-size: 1em;
+  font-weight: 400;
+}
+
+
+
+ion-modal#skill-modal {
+  --width: fit-content;
+  --min-width: 300px;
+  --height: fit-content;
+  --border-radius: 6px;
+  --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#skill-modal h1 {
+  margin: 20px 20px 10px 20px;
+}
+
+ion-modal#skill-modal ion-icon {
+  margin-right: 6px;
+
+  width: 48px;
+  height: 48px;
+
+  padding: 4px 0;
+
+  color: #aaaaaa;
+}
+
+ion-modal#skill-modal .wrapper {
+  margin-bottom: 10px;
+}
+
+
+.skill-describe{
+  font-size: 0.8em;
+  font-weight: 300;
+  color: grey;
+}
+
+.skill-side{
+  font-size: 0.8em;
+  font-weight: 200;
+  color: gray;
+}
+
+.primary_skill_list {
+  background: #2289333B;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}
+
+.secondary_skill_list {
+  background: #aeb1b83b;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+}

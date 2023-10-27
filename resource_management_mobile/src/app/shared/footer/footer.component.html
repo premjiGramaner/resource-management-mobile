@@ -1,5 +1,20 @@
 <ion-footer>
   <ion-toolbar>
-    <ion-title> Footer </ion-title>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="center-icon" routerLink={{routeConstants.dashboard}}>
+          <ion-icon class="icon" name="stats-chart-outline"></ion-icon>
+        </ion-col>
+        <ion-col class="center-icon" routerLink={{routeConstants.resource_requirement}}>
+          <ion-icon class="icon" name="people-outline"></ion-icon>
+        </ion-col>
+        <ion-col class="center-icon" routerLink={{routeConstants.resource_hiring}}>
+          <ion-icon class="icon" name="megaphone-outline"></ion-icon>
+        </ion-col>
+        <ion-col class="center-icon" routerLink={{routeConstants.status_tracker}}>
+          <ion-icon class="icon" name="ribbon-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-toolbar>
 </ion-footer>
