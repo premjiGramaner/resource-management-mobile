@@ -1,0 +1,18 @@
+ion-input,
+ion-textarea,
+ion-select {
+    margin: 10px 0px;
+    --padding-start: 12px !important;
+}
+
+.skill_pophead {
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 10px;
+}
+
+ion-textarea {
+    min-height: 8em !important;
+    max-height: 12em !important;
+}
+

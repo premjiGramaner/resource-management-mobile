@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController, ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { RequirementService } from './services/requirement.service';
 import { requiementData, requirementResponse } from './models/requirement.model';
 import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
+import { ToastService } from 'src/app/core/toast/toast.service';
 
 @Component({
   selector: 'app-requirement',
@@ -25,7 +26,7 @@ export class RequirementPage implements OnInit {
 
   @ViewChild('add') add !: AddRequirementComponent;
 
-  constructor(private requirementService: RequirementService, private modalCtrl: ModalController, private toastController: ToastController) { }
+  constructor(private requirementService: RequirementService, private modalCtrl: ModalController, private toastService: ToastService) { }
 
   ngOnInit() {
     this.getRequirements(this.skip, 20, this.searchQuery);
@@ -102,24 +103,14 @@ export class RequirementPage implements OnInit {
   private deleteRequirement(id: string, index: number) {
     this.requirementService.deleteRequirement(id).subscribe({
       next: (response: any) => {
-        this.presentToast(response?.message)
+        this.toastService.presentToast(response?.message)
         this.modalCtrl.dismiss();
         this.items.splice(index, 1);
       },
       error: (response) => {
-        this.presentToast(response.message)
+        this.toastService.errorToast(response.message)
       },
     });
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      position: 'top'
-    });
-
-    await toast.present();
   }
 
   onIonInfinite(ev: any) {
@@ -221,6 +212,7 @@ export class RequirementPage implements OnInit {
           this.modelType = false ? 'save' : 'edit';
           this.isModalOpen = false;
           this.items = [];
+          this.skip = 0;
           this.getRequirements(this.skip, 20, this.searchQuery);
         });
     } else {

@@ -3,10 +3,10 @@ import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { ResourceService } from './service/resource.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
-import { ToastController } from '@ionic/angular';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { resourceResponse } from './models/resource.model';
+import { ToastService } from 'src/app/core/toast/toast.service';
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.page.html',
@@ -26,7 +26,7 @@ export class ResourcePage implements OnInit {
 
   @ViewChild('add') add !: AddResourceComponent;
 
-  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastController: ToastController) { }
+  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastService: ToastService) { }
 
   ngOnInit() {
     this.getResources(this.skip, 20, this.searchQuery);
@@ -40,6 +40,7 @@ export class ResourcePage implements OnInit {
           this.modelType = false ? 'save' : 'edit';
           this.isModalOpen = false;
           this.items = [];
+          this.skip = 0;
           this.getResources(this.skip, 20, this.searchQuery);
         });
     } else {
@@ -132,24 +133,14 @@ export class ResourcePage implements OnInit {
   private deleteResource(id: string, index: number) {
     this.resourceService.deleteResource(id).subscribe({
       next: (response: any) => {
-        this.presentToast(response?.message)
+        this.toastService.presentToast(response?.message)
         this.modalCtrl.dismiss();
         this.items.splice(index, 1);
       },
       error: (response) => {
-        this.presentToast(response.message)
+        this.toastService.errorToast(response.message)
       },
     });
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      position: 'top'
-    });
-
-    await toast.present();
   }
 
   onIonInfinite(ev: any) {

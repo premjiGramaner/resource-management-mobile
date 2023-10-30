@@ -1,0 +1,19 @@
+@import "../../../../theme/theme.scss";
+
+ion-row {
+  margin: 6px 4px;
+}
+
+ion-label>span {
+  color: red;
+}
+
+ion-input, ion-textarea, ion-select {
+    margin: 10px 0px;
+    --padding-start: 12px !important;
+}
+
+ion-textarea{
+    min-height: 8em !important;
+    max-height: 12em !important;
+}

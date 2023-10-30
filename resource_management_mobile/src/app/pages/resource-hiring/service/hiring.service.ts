@@ -31,4 +31,31 @@ export class HiringService {
         return throwError("Error while deleting a hiring " + error.message);
       }));
   }
+
+  addHiring(data: any) {
+    return this.http.post(`${this.URL}resource/hiring`, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          return throwError("Error while creating a hiring" + error.message);
+        }));
+  }
+
+
+  updateHiring(data: any): Observable<any> {
+    return this.http.put<any>(`${this.URL}resource/hiring`, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          // this.errorHandler.log("Error while updating a todo", error);
+          return throwError("Error while updating a hiring " + error.message);
+        }));
+  }
+
+  updateHiringStatus(data: any): Observable<any> {
+    return this.http.put<any>(`${this.URL}resource/hiring/status`, data)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          // this.errorHandler.log("Error while updating a todo", error);
+          return throwError("Error while updating a hiring status" + error.message);
+        }));
+  }
 }

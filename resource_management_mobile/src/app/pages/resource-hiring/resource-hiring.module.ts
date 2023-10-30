@@ -8,6 +8,8 @@ import { ResourceHiringPageRoutingModule } from './resource-hiring-routing.modul
 
 import { ResourceHiringPage } from './resource-hiring.page';
 import { ViewHiringComponent } from './view-hiring/view-hiring.component';
+import { AddHiringComponent } from './add-hiring/add-hiring.component';
+import { HiringChangeCardComponent } from 'src/app/shared/components/hiring-change-card/hiring-change-card.component';
 
 @NgModule({
   imports: [
@@ -15,8 +17,9 @@ import { ViewHiringComponent } from './view-hiring/view-hiring.component';
     FormsModule,
     IonicModule,
     ResourceHiringPageRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HiringChangeCardComponent
   ],
-  declarations: [ResourceHiringPage, ViewHiringComponent]
+  declarations: [ResourceHiringPage, AddHiringComponent, ViewHiringComponent]
 })
 export class ResourceHiringPageModule {}

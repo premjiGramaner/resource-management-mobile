@@ -33,3 +33,30 @@ ion-card{
     width: $width;
     height: $height;
 }
+
+ion-modal#change-modal {
+    --width: fit-content;
+    --min-width: 300px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  }
+  
+  ion-modal#change-modal h1 {
+    margin: 20px 20px 10px 20px;
+  }
+  
+  ion-modal#change-modal ion-icon {
+    margin-right: 6px;
+  
+    width: 48px;
+    height: 48px;
+  
+    padding: 4px 0;
+  
+    color: #aaaaaa;
+  }
+  
+  ion-modal#change-modal .wrapper {
+    margin-bottom: 10px;
+  }

@@ -12,8 +12,12 @@ export class StaticDataConstants {
         { name: 'Capable', id: 2 },
         { name: 'Beginner', id: 1 }
     ];
-    source_mode = ["Hire", "Contract", "Both", "Freelancing"];
+    source_mode = [...this.type, "Both", "Freelancing"];
     priority=["High", "Medium", "Low"];
     
-    partner_source_mode = [...this.type, "Both"]
+    partner_source_mode = [...this.type, "Both"];
+
+    hiring_stage = ["Screening", "R1 Interview", "L1 Interview", "HR Interview", "Management Interview"];
+    hiring_status = ["Shortilisted", "On Hold", "Awaiting Feedback", "Rejected"];
+
 }

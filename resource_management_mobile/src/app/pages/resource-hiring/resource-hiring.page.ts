@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController, ToastController } from '@ionic/angular';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { HiringService } from './service/hiring.service';
 import { hiringData, hiringResponse } from './model/hiring.model';
 import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
+import { AddHiringComponent } from './add-hiring/add-hiring.component';
+import { ToastService } from 'src/app/core/toast/toast.service';
 
 @Component({
   selector: 'app-resource-hiring',
@@ -12,7 +14,7 @@ import { ExportOptionComponent } from 'src/app/shared/components/export-option/e
   styleUrls: ['./resource-hiring.page.scss'],
 })
 export class ResourceHiringPage implements OnInit {
-  
+
   showSearch: boolean = false;
   items: any = [];
   skip: number = 0;
@@ -20,34 +22,41 @@ export class ResourceHiringPage implements OnInit {
 
   hiringData: any;
   isModalOpen: boolean = false;
+  isChangeOpen: boolean = false;
   modelType!: string;
-  constructor(private hiringService: HiringService, private modalCtrl: ModalController, private toastController: ToastController) { }
+
+  hiringItem: any;
+
+  @ViewChild('add') add !: AddHiringComponent;
+
+  constructor(private hiringService: HiringService, private modalCtrl: ModalController, private toastService: ToastService) { }
 
   ngOnInit() {
     this.getHiring(this.skip, 20, this.searchQuery);
   }
 
   saveForm() {
-    // if (this.add.isFormValid()) {
-    //   this.addEditCall(this.resourceData)
-    //     .subscribe((data: any) => {
-    //       this.resourceData = undefined;
-          // this.modelType = false ? 'save' : 'edit';
-          // this.isModalOpen = false;
-    //       this.items = [];
-    //       this.getResources(this.skip, 20, this.searchQuery);
-    //     });
-    // } else {
-    //   this.add.addform.markAllAsTouched();
-    // }
+    if (this.add.isFormValid()) {
+      this.addEditCall(this.hiringData)
+        .subscribe((data: any) => {
+          this.hiringData = undefined;
+          this.modelType = false ? 'save' : 'edit';
+          this.isModalOpen = false;
+          this.items = [];
+          this.skip = 0;
+          this.getHiring(this.skip, 20, this.searchQuery);
+        });
+    } else {
+      this.add.addform.markAllAsTouched();
+    }
   }
 
   addEditCall(editData: any) {
-    // if (editData) {
-    //   return this.resourceService.updateResource(this.add.addform.value)
-    // } else {
-    //   return this.resourceService.addresource(this.add.addform.value)
-    // }
+    if (editData) {
+      return this.hiringService.updateHiring(this.add.addform.value)
+    } else {
+      return this.hiringService.addHiring(this.add.addform.value)
+    }
   }
 
   async openExportModel() {
@@ -103,8 +112,8 @@ export class ResourceHiringPage implements OnInit {
   private getHiring(skip: number, limit: number, search: string) {
     this.hiringService.getHirings(skip, limit, search)
       .subscribe((data: hiringResponse) => {
-        if(data.data.HiringInfo.length==0 && skip>0){
-          this.skip= skip-20;
+        if (data.data.HiringInfo.length == 0 && skip > 0) {
+          this.skip = skip - 20;
         }
         this.items = [...this.items, ...data.data.HiringInfo];
       });
@@ -114,24 +123,14 @@ export class ResourceHiringPage implements OnInit {
   private deleteHiring(id: number, index: number) {
     this.hiringService.deleteHiring(id).subscribe({
       next: (response: any) => {
-        this.presentToast(response?.message)
+        this.toastService.presentToast(response?.message)
         this.modalCtrl.dismiss();
         this.items.splice(index, 1);
       },
       error: (response) => {
-        this.presentToast(response.message)
+        this.toastService.errorToast(response.message)
       },
     });
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      position: 'top'
-    });
-
-    await toast.present();
   }
 
   onIonInfinite(ev: any) {
@@ -143,8 +142,34 @@ export class ResourceHiringPage implements OnInit {
   }
 
   changeModal(item: any, index: number, sliding: any) {
-    
+    this.isChangeOpen = true;
+    this.hiringItem = item;
+    sliding.close();
   }
+
+  changeStatus(form: any) {
+    this.hiringService.updateHiringStatus(form)
+      .subscribe({
+        next: (response: any) => {
+          this.toastService.presentToast(response?.message)
+          this.hiringItem = undefined;
+          this.isChangeOpen = false;
+          this.items = [];
+          this.skip = 0;
+          this.getHiring(this.skip, 20, this.searchQuery);
+        },
+        error: (response) => {
+          this.toastService.errorToast(response.message)
+        },
+
+      });
+  }
+
+  closeStatus() {
+    this.isChangeOpen = false;
+    this.hiringItem = null;
+  }
+
   async deleteModal(item: hiringData, index: number, sliding: any) {
     let data = {
       "from": "Hiring",
