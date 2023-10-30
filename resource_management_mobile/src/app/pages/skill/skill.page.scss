@@ -16,12 +16,6 @@
     height: $height;
 }
 
-.shadow {
-    -webkit-box-shadow: 4px 6px 13px 5px gray gray;
-    -moz-box-shadow: 4px 6px 13px 5px gray gray;
-    box-shadow: 4px 6px 13px 5px gray gray;
-}
-
 .card-user-info {
     display: flex;
     flex-direction: column;
@@ -48,7 +42,7 @@ ion-row {
 ion-textarea {
     min-height: 8em !important;
     max-height: 12em !important;
-  }
+}
 
 ion-input,
 ion-textarea,
