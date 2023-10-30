@@ -1,3 +1,58 @@
 <ion-content [fullscreen]="true">
-  <p>Location works!</p>
+  <ion-grid id="container" class="p-2 ps-3 pe-3 shadow">
+    <ion-row>
+      <ion-col>
+        <h5>Requirement List</h5>
+      </ion-col>
+      <ion-col class="mt-3">
+        <ion-icon name="save-outline" size="default" class="ion-float-right"></ion-icon>
+        <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-searchbar *ngIf="showSearch" (ionInput)="handleSearch($event)" show-cancel-button="never"
+        placeholder="Search" [debounce]="1000"></ion-searchbar>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-list lines="none" class="w-100">
+        <ion-item-sliding *ngFor="let location of locationData; let i = index" #sliding>
+
+          <ion-item id="open-modal" expand="block">
+            <ion-card class="shadow">
+              <ion-row>
+                <ion-col class="card-user-info">
+                  <ion-row class="d-flex justify-content-between">
+                    <ion-label class="user"> {{location.Description}} </ion-label>
+                  </ion-row>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end" (click)="deleteModal(location,i,sliding)">
+            <ion-item-option color="danger">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+      <ion-infinite-scroll>
+        <ion-infinite-scroll-content loadingText="Please wait..."
+          loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+      <ion-list class="nodata-found" lines="none" *ngIf="locationData.length==0">
+        <h5>Not Data Found!</h5>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Please wait..."
+          loadingSpinner="bubbles"></ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-row>
+  </ion-grid>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add" (click)="setOpen(true,'save')"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
