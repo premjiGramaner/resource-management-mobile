@@ -5,7 +5,9 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 import { LocationService } from './services/location.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { BehaviorSubject } from 'rxjs';
-import { locationResponce } from './models/locaton.model';
+import { locationData, locationResponce } from './models/locaton.model';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 
 @Component({
   selector: 'app-location',
@@ -13,6 +15,7 @@ import { locationResponce } from './models/locaton.model';
   styleUrls: ['./location.page.scss'],
 })
 export class LocationPage implements OnInit {
+  locationForm!: FormGroup;
   showSearch: boolean = false;
   locationData: any[] = [];
   skip: number = 0;
@@ -21,7 +24,8 @@ export class LocationPage implements OnInit {
   modelType!: string;
   locationMoreData!: any;
   locationEdit: boolean = false;
-
+  isEnableEdit: boolean = false;
+  selectedIndex!: number;
   constructor(
     private locationService: LocationService,
     private toastService: ToastService,
@@ -31,6 +35,9 @@ export class LocationPage implements OnInit {
 
   ngOnInit() {
     this.getLocation(this.skip, 20, this.searchQuery);
+    this.locationForm = new FormGroup({
+      Description: new FormControl('', Validators.required),
+    });
   }
 
   onSearch() {
@@ -53,11 +60,26 @@ export class LocationPage implements OnInit {
     }, 500);
   }
 
-  setOpen(isOpen: boolean, type: string, locationInfo?: any) {
+  setOpen(isOpen: boolean, type: string, locationInfo?: any, index?: any) {
     this.modelType = type;
     this.isModalOpen = isOpen;
     this.locationEdit = false;
     this.locationMoreData = locationInfo;
+    this.selectedIndex = index;
+    this.setDataLocationForm(locationInfo);
+  }
+
+  setDataLocationForm(locationInfo: any) {
+    if (locationInfo != undefined) {
+      this.isEnableEdit = true;
+      this.locationForm.patchValue({
+        Description: locationInfo.Description,
+      });
+    } else {
+      this.isEnableEdit = false;
+      this.locationEdit = false;
+      this.locationForm.reset();
+    }
   }
 
   handleSearch(event: any) {
@@ -110,5 +132,117 @@ export class LocationPage implements OnInit {
       mySubject.unsubscribe();
     });
     sliding.close();
+  }
+
+  enableEdit() {
+    this.locationEdit = true;
+    this.isEnableEdit = false;
+    this.modelType = 'save';
+  }
+
+  async backForm(modelType: string) {
+    if (modelType == 'save' || this.locationEdit) {
+      let data = {
+        from: 'Location',
+        type: 'Discard',
+        value: '',
+      };
+      const mySubject = new BehaviorSubject(data);
+
+      const modal = await this.modalCtrl.create({
+        component: DeleteNavComponent,
+        breakpoints: [0, 0.5, 1],
+        initialBreakpoint: 0.35,
+        handle: false,
+        componentProps: {
+          mySubject,
+        },
+      });
+      await modal.present();
+
+      mySubject.subscribe((value: any) => {
+        if (value == true) {
+          this.modelType = 'save';
+          this.isModalOpen = false;
+          modal.dismiss();
+        }
+      });
+
+      modal.onDidDismiss().then((_) => {
+        mySubject.unsubscribe();
+      });
+    } else {
+      this.isModalOpen = false;
+    }
+  }
+
+  saveLocationForm() {
+    if (!this.locationEdit) {
+      this.locationService
+        .postLocation(this.locationForm.value)
+        .subscribe((res) => {
+          const skillResponse = res as locationResponce;
+          this.toastService.presentToast(skillResponse.message);
+          // save data to local array
+          this.locationData.unshift(this.locationForm.value);
+        });
+    } else {
+      let updateReq = this.locationForm.value;
+      updateReq['Location_ID'] = this.locationMoreData.Location_ID;
+      this.locationService.editLocation(updateReq).subscribe((res) => {
+        const skillResponse = res as locationResponce;
+        this.toastService.presentToast(skillResponse.message);
+        // save data to local array
+        this.locationData.splice(
+          this.selectedIndex,
+          1,
+          this.locationForm.value
+        );
+      });
+    }
+  }
+
+  async openExportModel() {
+    this.locationService
+      .getAllLocation()
+      .subscribe(async (res: locationResponce) => {
+        const keyToRemove = ['Location_ID'];
+        const newArray = res.data.locationInfo.map((obj: any) => {
+          const newObj = { ...obj };
+          keyToRemove.map((item) => {
+            delete newObj[item];
+          });
+          return newObj;
+        });
+        const pdfTableData = newArray.map((item: locationData) => {
+          return [item.Description || ''];
+        });
+        let keys = Object.keys(newArray[0]);
+        let pdfHeader = keys.reduce((result: any, item: any) => {
+          result.push(item.split('_').join('').toUpperCase());
+          return result;
+        }, []);
+        //pdf header details
+        let req = {
+          filename: 'location',
+          data: res.data.locationInfo,
+          pdfData: pdfTableData,
+          pdfHeader: pdfHeader,
+          title: 'Location PDF Report',
+          size: [400, 600],
+        };
+        const exportData = req;
+        const modal = await this.modalCtrl.create({
+          component: ExportOptionComponent,
+          breakpoints: [0, 0.4, 1],
+          initialBreakpoint: 0.3,
+          handle: false,
+          componentProps: {
+            exportData,
+          },
+        });
+        await modal.present();
+        modal.onDidDismiss().then((_) => { });
+      });
   }
 }

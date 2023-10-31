@@ -1,17 +1,10 @@
 @import "../../../theme/theme.scss";
-.card-user-info {
+
+.location-container {
     display: flex;
     flex-direction: column;
     line-height: 22px;
     padding: 11px;
-}
-
-.user {
-    @include userName;
-}
-
-.user-label {
-    @include userOtherInfo;
 }
 
 ion-card {

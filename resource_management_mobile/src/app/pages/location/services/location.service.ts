@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { locationResponce } from '../models/locaton.model';
+import { locationData, locationResponce } from '../models/locaton.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,22 @@ export class LocationService {
     return this.http.delete(`${this.URL}location/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('Error while deleting a data ' + error.message);
+      })
+    );
+  }
+
+  postLocation(locationSaveReq: locationData) {
+    return this.http.post(`${this.URL}location`, locationSaveReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError('Error while posting a data ' + error.message);
+      })
+    );
+  }
+
+  editLocation(locationUpdateReq: locationData) {
+    return this.http.put(`${this.URL}location`, locationUpdateReq).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError('Error while update a data ' + error.message);
       })
     );
   }
