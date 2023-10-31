@@ -1,4 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { HiringService } from '../service/hiring.service';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-view-hiring',
@@ -7,9 +9,18 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ViewHiringComponent  implements OnInit {
   @Input() viewData: any;
+  items:any = [];
+  constructor(private hiringService:HiringService) { }
 
-  constructor() { }
+  ngOnInit() {
+    this.getHistoryData(this.viewData.hiring_tracker_id);
+  }
 
-  ngOnInit() {}
-
+  getHistoryData(id:number){
+    this.hiringService.getHiringHistoryData(id).subscribe((res)=>{
+      console.log(res);
+      this.items = [...this.items, ...res.data.HistoryInfo];
+    })
+  }
+  
 }

@@ -1,5 +1,39 @@
 @import "../../../../theme/theme.scss";
 
+.shadow {
+    -webkit-box-shadow: 4px 6px 13px 5px gray gray;
+    -moz-box-shadow: 4px 6px 13px 5px gray gray;
+    box-shadow: 4px 6px 13px 5px gray gray;
+}
+
+.card-user-info {
+    display: flex;
+    flex-direction: column;
+    line-height: 22px;
+    padding: 11px;
+}
+
+.user{
+    @include userName;
+}
+.user-label{
+    @include userOtherInfo;
+    span {
+      color: black
+    }
+
+}
+
+.user-status{
+    @include userStatus;
+    font-size: 0.6em !important;
+}
+
+
+ion-card{
+    width: 100%;
+}
+
 ion-row {
   margin: 6px 4px;
 }

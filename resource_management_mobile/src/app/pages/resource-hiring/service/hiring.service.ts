@@ -25,6 +25,10 @@ export class HiringService {
     return this.http.get<hiringResponse>(`${this.URL}resource/hiring`);
   }
 
+  getHiringHistoryData(id:number) {
+    return this.http.get<any>(`${this.URL}resource/hiring/history/${id}`);
+  }
+
   deleteHiring(id: number) {
     return this.http.delete(`${this.URL}resource/hiring/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
