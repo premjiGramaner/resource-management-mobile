@@ -193,11 +193,7 @@ export class LocationPage implements OnInit {
         const skillResponse = res as locationResponce;
         this.toastService.presentToast(skillResponse.message);
         // save data to local array
-        this.locationData.splice(
-          this.selectedIndex,
-          1,
-          this.locationForm.value
-        );
+        this.locationData.splice(this.selectedIndex, 1, this.locationForm.value);
       });
     }
   }
