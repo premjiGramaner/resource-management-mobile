@@ -56,7 +56,7 @@
         <ion-select label-placement="floating" interface="popover" formControlName="ownership_id" fill="outline"
           aria-label="user" placeholder="Select User">
           <ion-text slot="label">Ownership Name</ion-text>
-          <ion-select-option *ngFor="let user of userList  | duplicateRemover"
+          <ion-select-option *ngFor="let user of userList"
             value={{user.user_id}}>{{user.name}}</ion-select-option>
         </ion-select>
       </ion-row>
@@ -104,9 +104,9 @@
           <ion-text slot="label">Finance Person Phone</ion-text></ion-input>
       </ion-row>
       <ion-row>
-        <ion-textarea label-placement="floating" formControlName="strength" fill="outline">
+        <ion-input label-placement="floating" formControlName="strength" fill="outline">
           <ion-text slot="label">Strength<ion-text color="danger"> *</ion-text></ion-text>
-        </ion-textarea>
+        </ion-input>
         <ion-label
           *ngIf="clientForm.controls['strength'].invalid && (clientForm.controls['strength'].dirty || clientForm.controls['strength'].touched) || !onSubmit"
           class="alert alert-danger">
@@ -116,32 +116,27 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-textarea label-placement="floating" formControlName="address" fill="outline">
-          <ion-text slot="label">Address<ion-text color="danger"> *</ion-text></ion-text>
-        </ion-textarea>
-        <ion-label
-          *ngIf="clientForm.controls['address'].invalid && (clientForm.controls['address'].dirty || clientForm.controls['address'].touched) || !onSubmit"
-          class="alert alert-danger">
-          <ion-label *ngIf="clientForm.controls['address'].errors?.['required'] ">
-            This field is required.
-          </ion-label>
-        </ion-label>
+        <ion-textarea type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="200"
+        minHeight="40" placeholder="Enter Reason for Change" formControlName="address"
+        errorText="This field is required.">
+        <div slot="label">Address<ion-text color="danger"> *</ion-text></div>
+      </ion-textarea>
       </ion-row>
       <ion-card class="w-100">
         <ion-row>
           <ion-col class="card-user-info ">
             <ion-row class="d-flex justify-content-between">
               <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
-              <ion-label *ngIf="flag != 'edit'"><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
+              <ion-label ><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
                   name="add-circle-outline"></ion-icon></ion-label>
             </ion-row>
             <ion-row>
               <ion-list class="w-100" lines="none">
                 <ion-item-sliding *ngFor="let skill of selectedSkillIds; let i = index" #sliding>
-                  <ion-item id="open-modal" expand="block">
+                  <ion-item id="open-modal" expand="block" *ngIf="skill !== null">
                     <ion-col class="skill-list d-flex justify-content-between w-100">
                       <div>
-                        <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                        <ion-label class="w-100 skill-heading">{{skill?.description}}</ion-label>
                       </div>
                     </ion-col>
                   </ion-item>
@@ -166,7 +161,6 @@
           <ion-list class="w-100" lines="none">
             <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
           </ion-list>
-
         </div>
       </ng-template>
     </ion-modal>

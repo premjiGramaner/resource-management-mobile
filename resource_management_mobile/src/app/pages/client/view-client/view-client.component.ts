@@ -13,21 +13,8 @@ import { ClientService } from '../service/client.service';
 })
 export class ViewClientComponent implements OnInit {
   @Input() viewClientData!: ClientArrayData;
-  constructor(private clientService: ClientService) { }
+  constructor() { }
 
   ngOnInit() {
-    if (this.viewClientData.skill_ids !== undefined) {
-      this.clientService.getSkill().subscribe((res: any) => {
-        this.viewClientData.skills = this.viewClientData.skills || [];
-        this.viewClientData.skill_ids.map(id => {
-          if (id != null) {
-            const retrievedData = res.data.skillInfo.find((item: any) => item.skill_id == id);
-            if (retrievedData) {
-              this.viewClientData.skills.push(retrievedData);
-            }
-          }
-        })
-      })
-    }
   }
 }

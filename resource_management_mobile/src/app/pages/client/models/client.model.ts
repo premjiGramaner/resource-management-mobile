@@ -1,12 +1,10 @@
-import { skill } from 'src/app/core/base-model/base.model';
+import { BaseResponce, skill } from 'src/app/core/base-model/base.model';
 
-export interface clientResponce {
-    statusCode: number;
+export interface clientResponce extends BaseResponce {
     data: {
         clientCount?: number;
         clientInfo: clientData[];
     };
-    message: string;
 }
 
 export interface clientData {
@@ -57,12 +55,10 @@ export interface ClientArrayData {
     skill_ids: [];
 }
 
-export interface skillData {
-    statusCode: number;
+export interface skillData extends BaseResponce {
     data: {
         skillInfo: Clientskill[];
     };
-    message: string;
 }
 
 export interface Clientskill extends skill {
