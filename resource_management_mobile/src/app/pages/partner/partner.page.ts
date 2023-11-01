@@ -89,7 +89,7 @@ export class PartnerPage implements OnInit {
         );
       },
       error: (response) => {
-        this.toastService.presentToast(this.toastConstants.try_again);
+        this.toastService.errorToast(this.toastConstants.try_again);
       },
     });
   }
