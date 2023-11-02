@@ -91,7 +91,6 @@
   <ion-modal id="change-modal" [isOpen]="isChangeOpen" showBackdrop="false" backdropDismiss="false" #modal
     trigger="open-custom-dialog">
     <ng-template>
-      <!-- <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card> -->
       <app-hiring-change-card [hiringData]="hiringItem" (changeStatus)="changeStatus($event)"  (closeStatus)="closeStatus()"></app-hiring-change-card>
     </ng-template>
   </ion-modal>

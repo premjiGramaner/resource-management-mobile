@@ -18,7 +18,6 @@ export class ViewHiringComponent  implements OnInit {
 
   getHistoryData(id:number){
     this.hiringService.getHiringHistoryData(id).subscribe((res)=>{
-      console.log(res);
       this.items = [...this.items, ...res.data.HistoryInfo];
     })
   }

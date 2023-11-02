@@ -140,7 +140,6 @@ export class PartnerPage implements OnInit {
   enableEdit() {
     this.partnerEdit = true;
     this.modelType = 'save';
-    console.log(this.modelType);
   }
 
   handleSearch(event: any) {

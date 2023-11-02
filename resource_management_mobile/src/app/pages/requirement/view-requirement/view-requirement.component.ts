@@ -22,7 +22,7 @@ export class ViewRequirementComponent implements OnInit {
     }
   }
   skillObj(skill: any) {
-    Object.assign(skill, { description: skill?.skill?.description })
+    Object.assign(skill, { description: skill?.description })
   }
 
   partnerObj(partner: any) {

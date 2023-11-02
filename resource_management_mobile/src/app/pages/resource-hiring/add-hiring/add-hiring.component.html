@@ -2,7 +2,7 @@
   <form [formGroup]="addform">
     <ion-list lines="none">
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Resource" formControlName="Resource_resource_id"
           errorText="Invalid resource">
           <div slot="label">Select Resource<ion-text color="danger"> *</ion-text></div>
@@ -12,7 +12,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Evaluated By" formControlName="evaluated_by"
           errorText="Invalid evaluated by">
           <div slot="label">Select Evaluated By<ion-text color="danger"> *</ion-text></div>
@@ -21,7 +21,7 @@
         </ion-select>
       </ion-item>
       <ion-item *ngIf="!viewData">
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Hiring Stage" formControlName="hiring_stage" errorText="Invalid hiring stage">
           <div slot="label">Select Hiring Stage<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let hiringStage of hiringStageList" value={{hiringStage}}>{{hiringStage}}</ion-select-option>
@@ -29,7 +29,7 @@
       </ion-item>
 
       <ion-item *ngIf="!viewData">
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Hiring Status" formControlName="hiring_status" errorText="Invalid hiring status">
           <div slot="label">Select Hiring Status<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let hiringStatus of hiringStatusList" value={{hiringStatus}}>{{hiringStatus}}</ion-select-option>
@@ -40,7 +40,7 @@
       
 
       <ion-item *ngIf="!viewData">
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Status" formControlName="Status_status_id"
           errorText="Invalid status">
           <div slot="label">Select Status<ion-text color="danger"> *</ion-text></div>
@@ -50,14 +50,14 @@
       </ion-item>
       
       <ion-item>
-        <ion-input type="date" fill="outline" labelPlacement="floating" placeholder="Enter Evaluated Date"
+        <ion-input class="inputTxt" type="date" fill="outline" labelPlacement="floating" placeholder="Enter Evaluated Date"
           formControlName="evaluated_date" errorText="Invalid evaluated date">
           <div slot="label"> Evaluated Date<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-textarea type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="1000"
+        <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="1000"
           minHeight="40" placeholder="Enter Comments" formControlName="comments"
           errorText="Invalid comments">
           <div slot="label">Comments<ion-text color="danger"> *</ion-text></div>

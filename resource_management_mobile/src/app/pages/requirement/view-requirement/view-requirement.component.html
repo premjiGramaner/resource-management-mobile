@@ -1,74 +1,74 @@
 <ion-content [fullscreen]="true">
   <ion-list lines="none">
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.name" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.name" [readonly]="true">
         <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.client_name" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.client_name" [readonly]="true">
         <div slot="label">Client<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.Location_Location_Name"
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.Location_Location_Name"
         [readonly]="true">
         <div slot="label">Location<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData?.experience" [readonly]="true">
+      <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" [value]="viewData?.experience" [readonly]="true">
         <div slot="label">Experience (in years)<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
 
 
     <ion-item *ngIf="viewData?.partner_name">
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.SPOC_name" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.SPOC_name" [readonly]="true">
         <div slot="label">SPOC<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.duration" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.duration" [readonly]="true">
         <div slot="label">Duration (in months)<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="number" fill="outline" labelPlacement="floating" [value]="viewData?.notice_period"
+      <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" [value]="viewData?.notice_period"
         [readonly]="true">
         <div slot="label">Notice Period (in months)<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.source_mode" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.source_mode" [readonly]="true">
         <div slot="label">Source<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item *ngIf="(viewData?.source_mode=='Hire' || viewData?.source_mode=='Both')">
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.hire_budget" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.hire_budget" [readonly]="true">
         <div slot="label">Hire Budget<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item
       *ngIf="(viewData?.source_mode=='Contract' || viewData?.source_mode=='Freelancing' || viewData?.source_mode=='Both')">
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.contract_budget"
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.contract_budget"
         [readonly]="true">
         <div slot="label">Contract Budget<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.status_name" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.status_name" [readonly]="true">
         <div slot="label">Status<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewData?.priority" [readonly]="true">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.priority" [readonly]="true">
         <div slot="label">Priority<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
     <ion-item>
-      <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewData?.jd" [readonly]="true">
+      <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.jd" [readonly]="true">
         <div slot="label">Job Description<ion-text color="danger"> *</ion-text></div>
       </ion-textarea>
     </ion-item>

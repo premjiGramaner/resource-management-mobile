@@ -44,18 +44,14 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     request = request.clone({
       headers: request.headers.set('Accept', 'application/json')
     });
-    //   this.showLoader();
     return next.handle(request).pipe(
       map((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
 
         }
-        //   this.hideLoader();
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
-        console.error(error);
-        //   this.hideLoader();
         return throwError(error);
       }));
   }

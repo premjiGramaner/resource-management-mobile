@@ -69,7 +69,6 @@ export class AddRequirementComponent implements OnInit {
         skills: new FormControl(this.viewData.skills),
         partner: new FormControl(this.viewData.partner),
       });
-      this.arrangeSkillData(this.viewData.skills);
       this.arrangePartnerData(this.viewData.partner);
 
     } else {
@@ -153,7 +152,12 @@ export class AddRequirementComponent implements OnInit {
   getSkillList() {
     this.skillService.getAllSkill().subscribe((res) => {
       this.orgSkillList = res.data.skillInfo;
+      if(this.viewData){
+        this.arrangeSkillData(this.viewData.skills);
+      }
     });
+
+    
   }
 
   isFormValid() {
@@ -220,9 +224,9 @@ export class AddRequirementComponent implements OnInit {
     }
   }
   skillObj(skill: any) {
-    const index = this.skillList.findIndex((el: any) => el.skill_id === parseInt(skill.skill_id))
+    const index = this.orgSkillList.findIndex((el: any) => el.skill_id === parseInt(skill.skill_id))
     if (index >= 0) {
-      Object.assign(skill, { description: this.skillList[index].description })
+      Object.assign(skill, { description: this.orgSkillList[index].description })
     }
 
     this.selectedSkillIds.push(skill);
@@ -254,7 +258,6 @@ export class AddRequirementComponent implements OnInit {
     if (index >= 0) {
       Object.assign(partner, { name: this.partnerList[index].name })
     }
-
     this.selectedPartners.push(partner);
   }
 
