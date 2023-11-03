@@ -18,7 +18,7 @@ export class PartnerService {
   }
 
   getSkillPartner(data: any) {
-    return this.http.post(`${this.URL}partner/getPartners`, data)
+    return this.http.post<partnerResponce>(`${this.URL}partner/getPartners`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return throwError("Error while fetching partners" + error.message);

@@ -8,8 +8,15 @@ import { ProfileService } from '../../profile/service/profile.service';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Status } from 'src/app/core/enum/status.enum';
+import { Requirement } from 'src/app/core/enum/static.enum';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/core/toast/toast.service';
+import { addRequirementData, partner, requiementData, skill } from '../models/requirement.model';
+import { UserData, UserInfo, clientData, clientResponce } from '../../client/models/client.model';
+import { Partnerskill, partnerData, partnerResponce, skillResponce } from '../../partner/models/partner.model';
+import { locationData, locationResponse } from '../../location/models/location.model';
+import { statusData, statusResponse } from 'src/app/shared/models/common.model';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @Component({
   selector: 'app-add-requirement',
@@ -17,19 +24,19 @@ import { ToastService } from 'src/app/core/toast/toast.service';
   styleUrls: ['./add-requirement.component.scss'],
 })
 export class AddRequirementComponent implements OnInit {
-  @Input() viewData: any;
-  sourceList: any = this.staticData.source_mode;
-  priorityList: any = this.staticData.priority;
-  statusList: any = [];
-  clientList: any = [];
-  userList: any = [];
-  locationList: any = [];
-  partnerList: any = [];
-  skillList: any = [];
-  orgSkillList: any = [];
-  selectedSkillIds: any = [];
-  selectedPartners: any = [];
-  module: string = 'requirement';
+  @Input() viewData: requiementData | undefined;
+  sourceList: string[] = this.staticData.source_mode;
+  priorityList: string[] = this.staticData.priority;
+  statusList: statusData[] = [];
+  clientList: clientData[] = [];
+  userList: UserInfo[] = [];
+  locationList: locationData[] = [];
+  partnerList: partnerData[] = [];
+  skillList: Partnerskill[] = [];
+  orgSkillList: Partnerskill[] = [];
+  selectedSkillIds: skill[] = [];
+  selectedPartners: partner[] = [];
+  module: string = Requirement.requirement;
   isModalOpen = false;
   addform!: FormGroup;
 
@@ -41,7 +48,8 @@ export class AddRequirementComponent implements OnInit {
     private partnerService: PartnerService,
     private toastService: ToastService,
     private modalController: ModalController,
-    private clientService: ClientService) { }
+    private clientService: ClientService,
+    private toastConstants: ToastConstants) { }
 
   ngOnInit() {
     this.getClientList();
@@ -50,7 +58,7 @@ export class AddRequirementComponent implements OnInit {
     this.getUserList();
     this.getStatusList();
     if (this.viewData) {
-      this.addform = new FormGroup({
+      this.addform = new FormGroup<addRequirementData>({
         requirement_id: new FormControl(this.viewData.requirement_id, Validators.required),
         name: new FormControl(this.viewData.name, Validators.required),
         Client_client_id: new FormControl('' + this.viewData.Client_client_id, Validators.required),
@@ -66,13 +74,13 @@ export class AddRequirementComponent implements OnInit {
         jd: new FormControl(this.viewData.jd, Validators.required),
         status: new FormControl('' + this.viewData.status, Validators.required),
         priority: new FormControl(this.viewData.priority, Validators.required),
-        skills: new FormControl(this.viewData.skills),
-        partner: new FormControl(this.viewData.partner),
+        skills: new FormControl<skill[]>(this.viewData.skills),
+        partner: new FormControl<partner[]>(this.viewData.partner),
       });
       this.arrangePartnerData(this.viewData.partner);
 
     } else {
-      this.addform = new FormGroup({
+      this.addform = new FormGroup<addRequirementData>({
         name: new FormControl('', Validators.required),
         Client_client_id: new FormControl('', Validators.required),
         Location_Location_ID: new FormControl('', Validators.required),
@@ -87,8 +95,8 @@ export class AddRequirementComponent implements OnInit {
         jd: new FormControl('', Validators.required),
         status: new FormControl('', Validators.required),
         priority: new FormControl('', Validators.required),
-        skills: new FormControl([]),
-        partner: new FormControl([]),
+        skills: new FormControl<skill[]>([]),
+        partner: new FormControl<partner[]>([]),
       });
     }
 
@@ -116,25 +124,25 @@ export class AddRequirementComponent implements OnInit {
   }
 
   getStatusList() {
-    this.commonService.getStatus().subscribe((res) => {
+    this.commonService.getStatus().subscribe((res:statusResponse) => {
       this.statusList = res.data.statusInfo;
     });
   }
 
   getClientList() {
-    this.clientService.getClientAllData().subscribe((res) => {
+    this.clientService.getClientAllData().subscribe((res:clientResponce) => {
       this.clientList = res.data.clientInfo;
     });
   }
 
   getUserList() {
-    this.userService.getUser().subscribe((res) => {
+    this.userService.getUser().subscribe((res:UserData) => {
       this.userList = res.data.userInfo;
     });
   }
 
   getLocationList() {
-    this.locationService.getAllLocation().subscribe((res) => {
+    this.locationService.getAllLocation().subscribe((res:locationResponse) => {
       this.locationList = res.data.locationInfo;
     });
   }
@@ -144,13 +152,13 @@ export class AddRequirementComponent implements OnInit {
       source: source,
       skill: skill
     };
-    this.partnerService.getSkillPartner(data).subscribe((res: any) => {
+    this.partnerService.getSkillPartner(data).subscribe((res: partnerResponce) => {
       this.partnerList = res.data.partnerInfo;
     });
   }
 
   getSkillList() {
-    this.skillService.getAllSkill().subscribe((res) => {
+    this.skillService.getAllSkill().subscribe((res:skillResponce) => {
       this.orgSkillList = res.data.skillInfo;
       if(this.viewData){
         this.arrangeSkillData(this.viewData.skills);
@@ -166,11 +174,11 @@ export class AddRequirementComponent implements OnInit {
       return false;
     }
     if (this.addform.value.skills.length == 0) {
-      this.toastService.errorToast('Enter atleast one skill');
+      this.toastService.errorToast(this.toastConstants.Invalid_Skill);
       return false;
     }
     if (this.addform.value.partner.length == 0) {
-      this.toastService.errorToast('Enter atleast one partner');
+      this.toastService.errorToast(this.toastConstants.Invalid_Partner);
       return false;
     }
     return this.addform.valid;
@@ -196,14 +204,14 @@ export class AddRequirementComponent implements OnInit {
   }
 
   removeItinerary(removeId: number) {
-    const index = this.skillList.findIndex((el: any) => el.skill_id === removeId)
+    const index = this.skillList.findIndex((el: Partnerskill) => el.skill_id === removeId)
     if (index > -1) {
       this.skillList.splice(index, 1);
     }
   }
 
 
-  addSkill(skill: any) {
+  addSkill(skill: skill) {
     this.addform.value.skills.push(skill);
     this.skillObj(skill);
     this.addform.value.partner = [];
@@ -217,14 +225,14 @@ export class AddRequirementComponent implements OnInit {
     this.arrangePartnerData(this.addform.value.partner);
     sliding.close();
   }
-  arrangeSkillData(skills: any) {
+  arrangeSkillData(skills: skill[]) {
     this.selectedSkillIds = [];
     for (var val of skills) {
       this.skillObj(val);
     }
   }
-  skillObj(skill: any) {
-    const index = this.orgSkillList.findIndex((el: any) => el.skill_id === parseInt(skill.skill_id))
+  skillObj(skill: skill) {
+    const index = this.orgSkillList.findIndex((el: Partnerskill) => el.skill_id === skill?.skill_id)
     if (index >= 0) {
       Object.assign(skill, { description: this.orgSkillList[index].description })
     }
@@ -236,7 +244,7 @@ export class AddRequirementComponent implements OnInit {
     this.getPartnerList(this.addform.value.source_mode, this.addform.value.skills);
   }
 
-  addPartner(partner: any) {
+  addPartner(partner: partner) {
     this.addform.value.partner.push(partner);
     this.partnerObj(partner);
   }
@@ -247,14 +255,14 @@ export class AddRequirementComponent implements OnInit {
     sliding.close();
 
   }
-  arrangePartnerData(partners: any) {
+  arrangePartnerData(partners: partner[]) {
     this.selectedPartners = [];
     for (var val of partners) {
       this.partnerObj(val);
     }
   }
-  partnerObj(partner: any) {
-    const index = this.partnerList.findIndex((el: any) => el.partner_id === parseInt(partner.partner_id))
+  partnerObj(partner: partner) {
+    const index = this.partnerList.findIndex((el: partnerData) => el.partner_id === partner.partner_id)
     if (index >= 0) {
       Object.assign(partner, { name: this.partnerList[index].name })
     }

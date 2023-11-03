@@ -20,4 +20,9 @@ export class StaticDataConstants {
     hiring_stage = ["Screening", "R1 Interview", "L1 Interview", "HR Interview", "Management Interview"];
     hiring_status = ["Shortilisted", "On Hold", "Awaiting Feedback", "Rejected"];
 
+
+
+    requirement_report_header = ["Name", "Client", "SPOC", "Experience","Location", "Source", "Priority", "Hire Budget", "Contract Budget", "Notice Period", "Duration", "JD", "Status", "Created By", "Updated By"];
+
 }
+

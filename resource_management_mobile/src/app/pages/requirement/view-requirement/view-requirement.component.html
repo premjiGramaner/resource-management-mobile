@@ -23,7 +23,7 @@
     </ion-item>
 
 
-    <ion-item *ngIf="viewData?.partner_name">
+    <ion-item>
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.SPOC_name" [readonly]="true">
         <div slot="label">SPOC<ion-text color="danger"> *</ion-text></div>
       </ion-input>
@@ -84,7 +84,7 @@
             <ion-row>
               <ion-list class="w-100">
                 <ion-item *ngFor="let skill of viewData?.skills; let i = index" class="mb-2">
-                  <ion-col class="d-flex justify-content-between w-100" [ngClass]="skill.mandatory_skill==1 ? 'primary_skill_list' : 'secondary_skill_list' ">
+                  <ion-col class="d-flex justify-content-between w-100" [ngClass]="skill?.mandatory_skill==1 ? 'primary_skill_list' : 'secondary_skill_list' ">
                     <div>
                       <ion-label class="w-100 skill-heading">{{skill?.description}}</ion-label>
                     </div>

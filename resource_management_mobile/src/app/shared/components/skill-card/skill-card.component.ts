@@ -8,6 +8,8 @@ import {
 } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { Partnerskill } from 'src/app/pages/partner/models/partner.model';
+import { addSkill, skill } from 'src/app/pages/requirement/models/requirement.model';
 
 @Component({
   selector: 'app-skill-card',
@@ -17,11 +19,11 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
   imports: [IonicModule, CommonModule, ReactiveFormsModule],
 })
 export class SkillCardComponent implements OnInit {
-  @Input() skillList: any;
+  @Input() skillList: Partnerskill[] | undefined;
   @Input() flag: string = '';
 
   addform!: FormGroup;
-  @Output() addSkill = new EventEmitter();
+  @Output() addSkill = new EventEmitter<skill>();
   ratingList = this.staticData.rating;
   constructor(
     private staticData: StaticDataConstants,
@@ -46,7 +48,7 @@ export class SkillCardComponent implements OnInit {
         relevant_experience: new FormControl('', Validators.required),
       });
     } else if (this.flag == 'requirement') {
-      this.addform = new FormGroup({
+      this.addform = new FormGroup<addSkill>({
         skill_id: new FormControl('',Validators.required),
         relevant_experience: new FormControl('',Validators.required),
         mandatory_skill: new FormControl(false,Validators.required)
