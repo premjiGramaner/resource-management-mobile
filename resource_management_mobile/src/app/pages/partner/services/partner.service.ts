@@ -13,8 +13,8 @@ export class PartnerService {
 
   constructor(private http: HttpClient) { }
 
-  getAllPartner(): Observable<any> {
-    return this.http.get<any>(`${this.URL}partner`);
+  getAllPartner(): Observable<partnerResponce> {
+    return this.http.get<partnerResponce>(`${this.URL}partner`);
   }
 
   getSkillPartner(data: any) {

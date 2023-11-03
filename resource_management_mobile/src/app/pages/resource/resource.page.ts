@@ -1,11 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { BehaviorSubject } from 'rxjs';
 import { ResourceService } from './service/resource.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
-import { resourceResponse } from './models/resource.model';
+import { addResourceData, deleteResourceResponce, resourceData, resourceResponse } from './models/resource.model';
 import { ToastService } from 'src/app/core/toast/toast.service';
 @Component({
   selector: 'app-resource',
@@ -15,11 +15,11 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 export class ResourcePage implements OnInit {
 
   showSearch: boolean = false;
-  items: any = [];
+  items: resourceData[] = [];
   skip: number = 0;
   searchQuery: string = '';
 
-  resourceData: any;
+  resourceData: resourceData | undefined;
   isModalOpen: boolean = false;
   modelType!: string;
 
@@ -35,7 +35,7 @@ export class ResourcePage implements OnInit {
   saveForm() {
     if (this.add.isFormValid()) {
       this.addEditCall(this.resourceData)
-        .subscribe((data: any) => {
+        .subscribe(() => {
           this.resourceData = undefined;
           this.modelType = false ? 'save' : 'edit';
           this.isModalOpen = false;
@@ -48,7 +48,7 @@ export class ResourcePage implements OnInit {
     }
   }
 
-  addEditCall(editData: any) {
+  addEditCall(editData: resourceData | undefined) {
     if (editData) {
       return this.resourceService.updateResource(this.add.addform.value)
     } else {
@@ -56,8 +56,8 @@ export class ResourcePage implements OnInit {
     }
   }
   async openExportModel() {
-    this.resourceService.getResourceAllData().subscribe(async (res: any) => {
-      const pdfTableData = res.data.resourceInfo.map((item: any) => {
+    this.resourceService.getResourceAllData().subscribe(async (res: resourceResponse) => {
+      const pdfTableData = res.data.resourceInfo.map((item: resourceData) => {
         return [
           item.name || '',
           item.email_id || '',
@@ -130,9 +130,9 @@ export class ResourcePage implements OnInit {
 
   }
 
-  private deleteResource(id: string, index: number) {
+  private deleteResource(id: number, index: number) {
     this.resourceService.deleteResource(id).subscribe({
-      next: (response: any) => {
+      next: (response: deleteResourceResponce) => {
         this.toastService.presentToast(response?.message)
         this.modalCtrl.dismiss();
         this.items.splice(index, 1);
@@ -151,7 +151,7 @@ export class ResourcePage implements OnInit {
     }, 500);
   }
 
-  async deleteModal(item: any, index: number, sliding: any) {
+  async deleteModal(item: resourceData, index: number, sliding: IonItemSliding) {
     let data = {
       "from": "Resource",
       "type": "Delete",
@@ -183,7 +183,7 @@ export class ResourcePage implements OnInit {
   }
 
 
-  detailData(info: any, type: string) {
+  detailData(info: resourceData, type: string) {
     this.resourceData = info;
     this.modelType = type;
     this.isModalOpen = true;

@@ -3,7 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { resourceResponse } from '../models/resource.model';
+import { addResourceData, deleteResourceResponce, resourceResponse } from '../models/resource.model';
 
 
 @Injectable({
@@ -26,8 +26,8 @@ export class ResourceService {
     return this.http.get<resourceResponse>(`${this.URL}resource`);
   }
 
-  addresource(data: any) {
-    return this.http.post(`${this.URL}resource`, data)
+  addresource(data: addResourceData) {
+    return this.http.post<resourceResponse>(`${this.URL}resource`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return throwError("Error while creating a resource" + error.message);
@@ -35,8 +35,8 @@ export class ResourceService {
   }
 
 
-  updateResource(data: any): Observable<any> {
-    return this.http.put<any>(`${this.URL}resource`, data)
+  updateResource(data: addResourceData): Observable<resourceResponse> {
+    return this.http.put<resourceResponse>(`${this.URL}resource`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // this.errorHandler.log("Error while updating a todo", error);
@@ -44,8 +44,8 @@ export class ResourceService {
         }));
   }
 
-  deleteResource(id: string) {
-    return this.http.delete(`${this.URL}resource/${id}`).pipe(
+  deleteResource(id: number) {
+    return this.http.delete<deleteResourceResponce>(`${this.URL}resource/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError("Error while deleting a resource " + error.message);
       }));

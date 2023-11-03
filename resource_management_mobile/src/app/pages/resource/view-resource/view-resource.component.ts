@@ -13,6 +13,7 @@ export class ViewResourceComponent  implements OnInit {
   constructor(private staticData :StaticDataConstants) { }
 
   ngOnInit() {
+    if(this.viewData)
     this.arrangeSkillData(this.viewData?.skills);
   }
 
@@ -25,7 +26,7 @@ export class ViewResourceComponent  implements OnInit {
     
       Object.assign(skill, { description: skill?.skill?.description })
     
-    const ind = this.rating?.findIndex((el: any) => el.id === parseInt(skill?.rating))
+    const ind = this.rating?.findIndex((el: any) => el.id === skill?.rating)
     if (ind >= 0) {
       Object.assign(skill, { ratingName: this.rating[ind]?.name })
     }

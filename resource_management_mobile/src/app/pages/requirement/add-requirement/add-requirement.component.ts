@@ -245,6 +245,14 @@ export class AddRequirementComponent implements OnInit {
   }
 
   addPartner(partner: partner) {
+    console.log("Partner  1", partner)
+    const index = this.partnerList.findIndex((el: partnerData) => el.partner_id === parseInt(partner.partner_id))
+    console.log("Partner  index", index,"  ",this.partnerList)
+    if (index >= 0) {
+      Object.assign(partner, { name: this.partnerList[index].name })
+    }
+    console.log("Partner  2", partner)
+
     this.addform.value.partner.push(partner);
     this.partnerObj(partner);
   }
@@ -262,7 +270,7 @@ export class AddRequirementComponent implements OnInit {
     }
   }
   partnerObj(partner: partner) {
-    const index = this.partnerList.findIndex((el: partnerData) => el.partner_id === partner.partner_id)
+    const index = this.partnerList.findIndex((el: partnerData) => el.partner_id === parseInt(partner.partner_id))
     if (index >= 0) {
       Object.assign(partner, { name: this.partnerList[index].name })
     }

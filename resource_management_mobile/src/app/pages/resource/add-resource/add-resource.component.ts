@@ -9,31 +9,35 @@ import {
 import { Status } from 'src/app/core/enum/status.enum';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { IonItemSliding, ItemSlidingCustomEvent, ModalController } from '@ionic/angular';
-import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { StaticDataConstants, ratingData } from 'src/app/core/constant/staticData.constants';
 import { SkillService } from '../../skill/services/skill.service';
 import { LocationService } from '../../location/services/location.service';
 import { PartnerService } from '../../partner/services/partner.service';
+import { skill as Skill, resourceData } from '../models/resource.model';
+import { locationData, locationResponse } from '../../location/models/location.model';
+import { partnerData, partnerResponce } from '../../partner/models/partner.model';
+import { skillResponce } from '../../skill/models/skill.model';
+import { skill } from 'src/app/core/base-model/base.model';
 @Component({
   selector: 'app-add-resource',
   templateUrl: './add-resource.component.html',
   styleUrls: ['./add-resource.component.scss'],
 })
 export class AddResourceComponent implements OnInit {
-  @Input() viewData: any;
+  @Input() viewData: resourceData | undefined;
 
   addform!: FormGroup;
   @Output() childFormSubmitted = new EventEmitter<FormGroup>();
   onSubmit: boolean = true;
-  locationList: any = [];
-  partnerList: any = [];
-  skillList: any = [];
-  orgSkillList: any = [];
+  locationList: locationData[] = [];
+  partnerList: partnerData[] = [];
+  skillList: skill[] = [];
+  orgSkillList: skill[] = [];
   selectedSkillIds: any = [];
-  skills: any;
   isModalOpen = false;
-  sourceList = this.staticData.source;
-  typeList = this.staticData.type;
-  rating = this.staticData.rating;
+  sourceList: string[] = this.staticData.source;
+  typeList: string[] = this.staticData.type;
+  rating: ratingData[] = this.staticData.rating;
   module:string = 'resource';
   constructor(
     private skillService: SkillService,
@@ -122,19 +126,19 @@ export class AddResourceComponent implements OnInit {
   }
 
   getLocationList() {
-    this.locationService.getAllLocation().subscribe((res) => {
+    this.locationService.getAllLocation().subscribe((res:locationResponse) => {
       this.locationList = res.data.locationInfo;
     });
   }
 
   getPartnerList() {
-    this.partnerService.getAllPartner().subscribe((res) => {
+    this.partnerService.getAllPartner().subscribe((res:partnerResponce) => {
       this.partnerList = res.data.partnerInfo;
     });
   }
 
   getSkillList() {
-    this.skillService.getAllSkill().subscribe((res) => {
+    this.skillService.getAllSkill().subscribe((res:skillResponce) => {
       this.orgSkillList = res.data.skillInfo;
     });
   }
@@ -147,7 +151,7 @@ export class AddResourceComponent implements OnInit {
   }
 
   removeItinerary(removeId: number) {
-    const index = this.skillList.findIndex((el: any) => el.skill_id === removeId)
+    const index = this.skillList.findIndex((el: skill) => el.skill_id === removeId)
     if (index > -1) {
       this.skillList.splice(index, 1);
     }
@@ -165,18 +169,18 @@ export class AddResourceComponent implements OnInit {
     sliding.close();
 
   }
-  arrangeSkillData(skills:any){
+  arrangeSkillData(skills:Skill[]){
     this.selectedSkillIds = [];
     for (var val of skills) {
       this.skillObj(val);
     }
   }
-  skillObj(skill:any){
-    const index = this.skillList.findIndex((el: any) => el.skill_id === parseInt(skill.skill_id))
+  skillObj(skill:Skill){
+    const index = this.skillList.findIndex((el: skill) => el.skill_id === skill.skill_id)
     if (index >= 0) {
       Object.assign(skill, { description: this.skillList[index].description })
     }
-    const ind = this.rating.findIndex((el: any) => el.id === parseInt(skill.rating))
+    const ind = this.rating.findIndex((el: ratingData) => el.id === skill.rating)
     if (ind >= 0) {
       Object.assign(skill, { ratingName: this.rating[ind].name })
     }

@@ -5,7 +5,7 @@ export class StaticDataConstants {
     source = ["Naukri", "Partner", "Vendor"];
     type = ["Hire", "Contract"];
     yesNo = ["Yes", "No"];
-    rating = [
+    rating: ratingData[] = [
         { name: 'Experienced', id: 5 },
         { name: 'Effective', id: 4 },
         { name: 'Intermediate', id: 3 },
@@ -24,5 +24,10 @@ export class StaticDataConstants {
 
     requirement_report_header = ["Name", "Client", "SPOC", "Experience","Location", "Source", "Priority", "Hire Budget", "Contract Budget", "Notice Period", "Duration", "JD", "Status", "Created By", "Updated By"];
 
+}
+
+export interface ratingData {
+    name: string,
+    id: number
 }
 
