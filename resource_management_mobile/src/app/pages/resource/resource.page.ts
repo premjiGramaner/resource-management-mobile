@@ -5,7 +5,7 @@ import { ResourceService } from './service/resource.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
-import { addResourceData, deleteResourceResponce, resourceData, resourceResponse } from './models/resource.model';
+import {  deleteResourceResponce, resourceData, resourceResponse } from './models/resource.model';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Common, Modules } from 'src/app/core/enum/static.enum';

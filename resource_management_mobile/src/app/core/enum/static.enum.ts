@@ -1,7 +1,9 @@
 export enum Modules {
     Requirement = 'Requirement',
     Resource = 'Resource',
-    Hiring = 'Hiring'
+    Hiring = 'Hiring',
+    Status = 'Status',
+    History = 'History'
 }
 
 export enum Common {

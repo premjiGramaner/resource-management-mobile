@@ -6,7 +6,7 @@ import { ResourceService } from '../../resource/service/resource.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Status } from 'src/app/core/enum/status.enum';
 import { ModalController } from '@ionic/angular';
-import { hiringData, historyData } from '../model/hiring.model';
+import { hiringData } from '../model/hiring.model';
 import { UserData, UserInfo } from '../../client/models/client.model';
 import { resourceData, resourceResponse } from '../../resource/models/resource.model';
 import { statusData, statusResponse } from 'src/app/shared/models/common.model';

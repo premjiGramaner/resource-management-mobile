@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { addRequirementData, deleteRequirementResponse, requiementData, requirementResponse } from '../models/requirement.model';
+import { addRequirementData, deleteRequirementResponse, requirementResponse } from '../models/requirement.model';
 import { Modules, Common } from 'src/app/core/enum/static.enum';
 
 @Injectable({
