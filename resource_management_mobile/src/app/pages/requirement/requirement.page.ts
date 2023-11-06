@@ -7,7 +7,7 @@ import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
 import { ToastService } from 'src/app/core/toast/toast.service';
-import { Common, Requirement } from 'src/app/core/enum/static.enum';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
 import { Status } from 'src/app/core/enum/status.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 
@@ -59,11 +59,11 @@ export class RequirementPage implements OnInit {
       const pdfHeader = this.staticData.requirement_report_header;
       //pdf header details
       let req = {
-        filename: Requirement.requirement,
+        filename: Modules.Requirement.toLowerCase(),
         data: res.data.requirementInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: Requirement.report_title,
+        title: Modules.Requirement + ' ' +Common.report,
         size: [400, 500],
       };
       const exportData = req;
@@ -126,7 +126,7 @@ export class RequirementPage implements OnInit {
 
   async deleteModal(item: requiementData, index: number, sliding: IonItemSliding) {
     let data = {
-      from: Requirement.Requirement,
+      from: Modules.Requirement,
       type: Common.Delete,
       value: item.name
     }
@@ -170,7 +170,7 @@ export class RequirementPage implements OnInit {
   async backForm(modelType: string) {
     if (modelType == Status.SAVE) {
       let data = {
-        from: Requirement.Requirement,
+        from: Modules.Requirement,
         type: Common.Discard,
         value: ''
       }

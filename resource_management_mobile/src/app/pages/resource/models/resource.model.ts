@@ -87,5 +87,7 @@ export interface skill {
     primary_skill_ind: number,
     rating: number,
     skill: Skill,
-    skill_id: number
+    skill_id: number,
+    description?:string,
+    ratingName?:string
 }

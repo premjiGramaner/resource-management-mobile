@@ -1,12 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { HiringService } from './service/hiring.service';
-import { hiringData, hiringResponse } from './model/hiring.model';
+import { deleteHiringResponce, hiringData, hiringResponse, updateHiringStatus } from './model/hiring.model';
 import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { AddHiringComponent } from './add-hiring/add-hiring.component';
 import { ToastService } from 'src/app/core/toast/toast.service';
+import { Status } from 'src/app/core/enum/status.enum';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
+import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 
 @Component({
   selector: 'app-resource-hiring',
@@ -16,20 +19,20 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 export class ResourceHiringPage implements OnInit {
 
   showSearch: boolean = false;
-  items: any = [];
+  items: hiringData[] = [];
   skip: number = 0;
   searchQuery: string = '';
 
-  hiringData: any;
+  hiringData: hiringData | undefined;
   isModalOpen: boolean = false;
   isChangeOpen: boolean = false;
   modelType!: string;
 
-  hiringItem: any;
+  hiringItem: hiringData | undefined;
 
   @ViewChild('add') add !: AddHiringComponent;
 
-  constructor(private hiringService: HiringService, private modalCtrl: ModalController, private toastService: ToastService) { }
+  constructor(private hiringService: HiringService, private modalCtrl: ModalController, private toastService: ToastService, private statisConstants: StaticDataConstants) { }
 
   ngOnInit() {
     this.getHiring(this.skip, 20, this.searchQuery);
@@ -38,9 +41,9 @@ export class ResourceHiringPage implements OnInit {
   saveForm() {
     if (this.add.isFormValid()) {
       this.addEditCall(this.hiringData)
-        .subscribe((data: any) => {
+        .subscribe(() => {
           this.hiringData = undefined;
-          this.modelType = false ? 'save' : 'edit';
+          this.modelType = false ? Status.SAVE : Status.EDIT;
           this.isModalOpen = false;
           this.items = [];
           this.skip = 0;
@@ -51,7 +54,7 @@ export class ResourceHiringPage implements OnInit {
     }
   }
 
-  addEditCall(editData: any) {
+  addEditCall(editData: hiringData | undefined) {
     if (editData) {
       return this.hiringService.updateHiring(this.add.addform.value)
     } else {
@@ -71,14 +74,14 @@ export class ResourceHiringPage implements OnInit {
           item.evaluated_date || ''
         ];
       });
-      const pdfHeader = ["Resource Name", "Evaluated By", "Hiring Status", "Hiring Stage", "Status", "Evaluated Date"];
+      const pdfHeader = this.statisConstants.hiring_report_header;
       //pdf header details
       let req = {
-        filename: 'hiring',
+        filename: Modules.Hiring.toLowerCase(),
         data: res.data.HiringInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: 'Hiring Report',
+        title: Modules.Hiring+' '+Common.report,
         size: [400, 500],
       };
       const exportData = req;
@@ -122,7 +125,7 @@ export class ResourceHiringPage implements OnInit {
 
   private deleteHiring(id: number, index: number) {
     this.hiringService.deleteHiring(id).subscribe({
-      next: (response: any) => {
+      next: (response: deleteHiringResponce) => {
         this.toastService.presentToast(response?.message)
         this.modalCtrl.dismiss();
         this.items.splice(index, 1);
@@ -141,16 +144,16 @@ export class ResourceHiringPage implements OnInit {
     }, 500);
   }
 
-  changeModal(item: any, index: number, sliding: any) {
+  changeModal(item: hiringData, index: number, sliding: IonItemSliding) {
     this.isChangeOpen = true;
     this.hiringItem = item;
     sliding.close();
   }
 
-  changeStatus(form: any) {
+  changeStatus(form: updateHiringStatus) {
     this.hiringService.updateHiringStatus(form)
       .subscribe({
-        next: (response: any) => {
+        next: (response: hiringResponse) => {
           this.toastService.presentToast(response?.message)
           this.hiringItem = undefined;
           this.isChangeOpen = false;
@@ -167,14 +170,14 @@ export class ResourceHiringPage implements OnInit {
 
   closeStatus() {
     this.isChangeOpen = false;
-    this.hiringItem = null;
+    this.hiringItem = undefined;
   }
 
-  async deleteModal(item: hiringData, index: number, sliding: any) {
+  async deleteModal(item: hiringData, index: number, sliding: IonItemSliding) {
     let data = {
-      "from": "Hiring",
-      "type": "Delete",
-      "value": item.resource_name
+      from: Modules.Hiring,
+      type: Common.Delete,
+      value: item.resource_name
     }
     const mySubject = new BehaviorSubject(data);
 
@@ -201,7 +204,7 @@ export class ResourceHiringPage implements OnInit {
     sliding.close();
   }
 
-  detailData(info: any, type: string) {
+  detailData(info: hiringData, type: string) {
     this.hiringData = info;
     this.modelType = type;
     this.isModalOpen = true;
@@ -209,16 +212,16 @@ export class ResourceHiringPage implements OnInit {
 
   setOpen(isOpen: boolean) {
     this.hiringData = undefined;
-    this.modelType = isOpen ? 'save' : 'edit';
+    this.modelType = isOpen ? Status.SAVE : Status.EDIT;
     this.isModalOpen = isOpen;
   }
 
   async backForm(modelType: string) {
-    if (modelType == 'save') {
+    if (modelType == Status.SAVE) {
       let data = {
-        "from": "Hiring",
-        "type": "Discard",
-        "value": ''
+        from: Modules.Hiring,
+        type: Common.Discard,
+        value: ''
       }
       const mySubject = new BehaviorSubject(data);
 
@@ -236,7 +239,7 @@ export class ResourceHiringPage implements OnInit {
       mySubject.subscribe((value: any) => {
         if (value == true) {
           this.hiringData = undefined;
-          this.modelType = false ? 'save' : 'edit';
+          this.modelType = false ? Status.SAVE : Status.EDIT;
           this.isModalOpen = false;
           modal.dismiss();
         }
@@ -247,7 +250,7 @@ export class ResourceHiringPage implements OnInit {
       }));
     } else {
       this.hiringData = undefined;
-      this.modelType = false ? 'save' : 'edit';
+      this.modelType = false ? Status.SAVE : Status.EDIT;
       this.isModalOpen = false;
     }
   }

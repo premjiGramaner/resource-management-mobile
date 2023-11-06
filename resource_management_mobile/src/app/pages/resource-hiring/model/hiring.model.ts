@@ -1,3 +1,5 @@
+import { FormControl } from "@angular/forms";
+
 export interface hiringResponse {
     statusCode: number;
     data: {
@@ -5,6 +7,22 @@ export interface hiringResponse {
         HiringInfo: hiringData[];
     };
     message: string;
+}
+
+export interface hiringHistoryResponse {
+    statusCode: number;
+    data: {
+        HistoryInfo: historyData[];
+    };
+    message: string;
+}
+
+export interface deleteHiringResponce {
+    statusCode: number,
+    data: {
+        HiringInfo: hiringData | boolean
+    },
+    message: string
 }
 
 export interface hiringData {
@@ -20,3 +38,36 @@ export interface hiringData {
     resource_name: string,
     evaluated_by_name: string
 }
+
+export interface historyData {
+    time: string,
+    hiring_history_id: number,
+    hiring_tracking_id: number,
+    hiring_stage: string,
+    hiring_status: string,
+    Status_status_id: number,
+    comments: string,
+    by: number,
+    status: string,
+    by_name: string
+}
+
+export interface addHiringData {
+    hiring_tracker_id?: FormControl
+    Resource_resource_id: FormControl,
+    hiring_stage?: FormControl,
+    evaluated_by: FormControl,
+    hiring_status?: FormControl,
+    comments: FormControl,
+    evaluated_date: FormControl,
+    Status_status_id?: FormControl
+}
+
+export interface updateHiringStatus {
+    hiring_tracker_id: FormControl,
+    hiring_stage: FormControl,
+    hiring_status: FormControl,
+    comments: FormControl,
+    Status_status_id: FormControl
+}
+

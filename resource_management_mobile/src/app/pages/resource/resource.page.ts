@@ -7,6 +7,9 @@ import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { addResourceData, deleteResourceResponce, resourceData, resourceResponse } from './models/resource.model';
 import { ToastService } from 'src/app/core/toast/toast.service';
+import { Status } from 'src/app/core/enum/status.enum';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
+import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.page.html',
@@ -26,7 +29,7 @@ export class ResourcePage implements OnInit {
 
   @ViewChild('add') add !: AddResourceComponent;
 
-  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastService: ToastService) { }
+  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastService: ToastService,private staticData: StaticDataConstants) { }
 
   ngOnInit() {
     this.getResources(this.skip, 20, this.searchQuery);
@@ -37,7 +40,7 @@ export class ResourcePage implements OnInit {
       this.addEditCall(this.resourceData)
         .subscribe(() => {
           this.resourceData = undefined;
-          this.modelType = false ? 'save' : 'edit';
+          this.modelType = false ? Status.SAVE : Status.EDIT;
           this.isModalOpen = false;
           this.items = [];
           this.skip = 0;
@@ -81,15 +84,14 @@ export class ResourcePage implements OnInit {
           item.updated_by || '',
         ];
       });
-      const pdfHeader = ["Name", "Email", "Mobile", "Experience", "Source", "Partner Name", "Type", "Profile Location", "Current Organisation", "Current Org Duration", "CTC", "ECTC",
-        "Preferred Location", "Work Location", "Current Location", "Notice Period", "Earliest Joining Date", "Reason for Change", "Created By", "Updated By"];
+      const pdfHeader = this.staticData.resource_report_header;
       //pdf header details
       let req = {
-        filename: 'resource',
+        filename: Modules.Resource.toLowerCase(),
         data: res.data.resourceInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: 'Resource Report',
+        title: Modules.Resource+' '+Common.report,
         size: [400, 500],
       };
       const exportData = req;
@@ -153,9 +155,9 @@ export class ResourcePage implements OnInit {
 
   async deleteModal(item: resourceData, index: number, sliding: IonItemSliding) {
     let data = {
-      "from": "Resource",
-      "type": "Delete",
-      "value": item.name
+      from: Modules.Resource,
+      type: Common.Delete,
+      value: item.name
     }
     const mySubject = new BehaviorSubject(data);
 
@@ -190,16 +192,16 @@ export class ResourcePage implements OnInit {
   }
   setOpen(isOpen: boolean) {
     this.resourceData = undefined;
-    this.modelType = isOpen ? 'save' : 'edit';
+    this.modelType = isOpen ? Status.SAVE : Status.EDIT;
     this.isModalOpen = isOpen;
   }
 
   async backForm(modelType: string) {
-    if (modelType == 'save') {
+    if (modelType == Status.SAVE) {
       let data = {
-        "from": "Resource",
-        "type": "Discard",
-        "value": ''
+        from: Modules.Resource,
+        type: Common.Discard,
+        value: ''
       }
       const mySubject = new BehaviorSubject(data);
 
@@ -217,7 +219,7 @@ export class ResourcePage implements OnInit {
       mySubject.subscribe((value: any) => {
         if (value == true) {
           this.resourceData = undefined;
-          this.modelType = false ? 'save' : 'edit';
+          this.modelType = false ? Status.SAVE : Status.EDIT;
           this.isModalOpen = false;
           modal.dismiss();
         }
@@ -228,7 +230,7 @@ export class ResourcePage implements OnInit {
       }));
     } else {
       this.resourceData = undefined;
-      this.modelType = false ? 'save' : 'edit';
+      this.modelType = false ? Status.SAVE : Status.EDIT;
       this.isModalOpen = false;
     }
   }

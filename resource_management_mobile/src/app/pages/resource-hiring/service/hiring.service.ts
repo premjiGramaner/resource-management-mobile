@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { hiringResponse } from '../model/hiring.model';
+import { addHiringData, deleteHiringResponce, hiringHistoryResponse, hiringResponse, updateHiringStatus } from '../model/hiring.model';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { resourceResponse } from '../../resource/models/resource.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class HiringService {
   private URL = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
-  getHirings(skip: number, limit: number, search: string): Observable<any> {
+  getHirings(skip: number, limit: number, search: string): Observable<hiringResponse> {
     let urlParams = new URLSearchParams();
     urlParams.append('skip', skip.toString());
     urlParams.append('limit', limit.toString());
@@ -26,18 +27,18 @@ export class HiringService {
   }
 
   getHiringHistoryData(id:number) {
-    return this.http.get<any>(`${this.URL}resource/hiring/history/${id}`);
+    return this.http.get<hiringHistoryResponse>(`${this.URL}resource/hiring/history/${id}`);
   }
 
   deleteHiring(id: number) {
-    return this.http.delete(`${this.URL}resource/hiring/${id}`).pipe(
+    return this.http.delete<deleteHiringResponce>(`${this.URL}resource/hiring/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError("Error while deleting a hiring " + error.message);
       }));
   }
 
-  addHiring(data: any) {
-    return this.http.post(`${this.URL}resource/hiring`, data)
+  addHiring(data: addHiringData) {
+    return this.http.post<hiringResponse>(`${this.URL}resource/hiring`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return throwError("Error while creating a hiring" + error.message);
@@ -45,8 +46,8 @@ export class HiringService {
   }
 
 
-  updateHiring(data: any): Observable<any> {
-    return this.http.put<any>(`${this.URL}resource/hiring`, data)
+  updateHiring(data: addHiringData): Observable<hiringResponse> {
+    return this.http.put<hiringResponse>(`${this.URL}resource/hiring`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // this.errorHandler.log("Error while updating a todo", error);
@@ -54,8 +55,8 @@ export class HiringService {
         }));
   }
 
-  updateHiringStatus(data: any): Observable<any> {
-    return this.http.put<any>(`${this.URL}resource/hiring/status`, data)
+  updateHiringStatus(data: updateHiringStatus): Observable<hiringResponse> {
+    return this.http.put<hiringResponse>(`${this.URL}resource/hiring/status`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           // this.errorHandler.log("Error while updating a todo", error);

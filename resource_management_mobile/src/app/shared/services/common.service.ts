@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { stageResponse, statusResponse } from '../models/common.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,11 @@ export class CommonService {
 
   constructor(private http: HttpClient) { }
 
-  getStatus(): Observable<any> {
-    return this.http.get<any>(`${this.URL}status`);
+  getStatus(): Observable<statusResponse> {
+    return this.http.get<statusResponse>(`${this.URL}status`);
   }
 
-  getStage(): Observable<any> {
-    return this.http.get<any>(`${this.URL}stage`);
+  getStage(): Observable<stageResponse> {
+    return this.http.get<stageResponse>(`${this.URL}stage`);
   }
 }

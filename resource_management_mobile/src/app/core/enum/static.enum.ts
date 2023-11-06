@@ -1,10 +1,7 @@
-export enum Requirement {
-    requirement = 'requirement',
+export enum Modules {
     Requirement = 'Requirement',
-    error_create = 'Error while creating a resource',
-    error_update = 'Error while updating a resource',
-    error_delete = 'Error while deleting a requirement',
-    report_title = 'Requirement Report'
+    Resource = 'Resource',
+    Hiring = 'Hiring'
 }
 
 export enum Common {
@@ -12,5 +9,9 @@ export enum Common {
     limit= 'limit',
     search = 'search',
     Delete = 'Delete',
-    Discard = 'Discard'
+    Discard = 'Discard',
+    error_create = 'Error while creating a ',
+    error_update = 'Error while updating a ',
+    error_delete = 'Error while deleting a ',
+    report = 'report'
 }

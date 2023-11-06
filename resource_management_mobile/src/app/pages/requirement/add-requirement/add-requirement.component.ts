@@ -8,7 +8,7 @@ import { ProfileService } from '../../profile/service/profile.service';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Status } from 'src/app/core/enum/status.enum';
-import { Requirement } from 'src/app/core/enum/static.enum';
+import { Modules } from 'src/app/core/enum/static.enum';
 import { IonItemSliding, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { addRequirementData, partner, requiementData, skill } from '../models/requirement.model';
@@ -36,7 +36,7 @@ export class AddRequirementComponent implements OnInit {
   orgSkillList: Partnerskill[] = [];
   selectedSkillIds: skill[] = [];
   selectedPartners: partner[] = [];
-  module: string = Requirement.requirement;
+  module: string = Modules.Requirement.toLowerCase();
   isModalOpen = false;
   addform!: FormGroup;
 

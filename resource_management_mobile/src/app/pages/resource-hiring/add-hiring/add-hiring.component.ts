@@ -6,6 +6,10 @@ import { ResourceService } from '../../resource/service/resource.service';
 import { CommonService } from 'src/app/shared/services/common.service';
 import { Status } from 'src/app/core/enum/status.enum';
 import { ModalController } from '@ionic/angular';
+import { hiringData, historyData } from '../model/hiring.model';
+import { UserData, UserInfo } from '../../client/models/client.model';
+import { resourceData, resourceResponse } from '../../resource/models/resource.model';
+import { statusData, statusResponse } from 'src/app/shared/models/common.model';
 
 @Component({
   selector: 'app-add-hiring',
@@ -13,16 +17,16 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./add-hiring.component.scss'],
 })
 export class AddHiringComponent  implements OnInit {
-  @Input() viewData: any;
+  @Input() viewData: hiringData | undefined;
 
   addform!: FormGroup;
   onSubmit: boolean = true;
 
-  resourceList:any=[];
-  userList:any =[];
-  hiringStageList= this.staticData.hiring_stage;
-  hiringStatusList=this.staticData.hiring_status;
-  statusList:any=[];
+  resourceList:resourceData[]=[];
+  userList:UserInfo[] =[];
+  hiringStageList:string[]= this.staticData.hiring_stage;
+  hiringStatusList:string[]=this.staticData.hiring_status;
+  statusList:statusData[]=[];
 
   constructor(private commonService: CommonService,
     private resourceService: ResourceService,
@@ -38,10 +42,7 @@ export class AddHiringComponent  implements OnInit {
         hiring_tracker_id: new FormControl(this.viewData.hiring_tracker_id, Validators.required),
         Resource_resource_id: new FormControl(''+this.viewData.Resource_resource_id, Validators.required),
         evaluated_by: new FormControl(''+this.viewData.evaluated_by, Validators.required),
-        // Status_status_id: new FormControl(''+this.viewData.Status_status_id, Validators.required),
         evaluated_date: new FormControl(this.viewData.evaluated_date.replace(/\//g, '-'), Validators.required),
-        // hiring_stage: new FormControl(this.viewData.hiring_stage, Validators.required),
-        // hiring_status: new FormControl(this.viewData.hiring_status, Validators.required),
         comments: new FormControl(this.viewData.comments, Validators.required)
       });
     } else {
@@ -59,19 +60,19 @@ export class AddHiringComponent  implements OnInit {
   }
 
   getUserList() {
-    this.userService.getUser().subscribe((res) => {
+    this.userService.getUser().subscribe((res:UserData) => {
       this.userList = res.data.userInfo;
     });
   }
 
   getResourceList(){
-    this.resourceService.getResourceAllData().subscribe((res)=>{
+    this.resourceService.getResourceAllData().subscribe((res:resourceResponse)=>{
       this.resourceList = res.data.resourceInfo;
     })
   }
 
   getStatusList(){
-    this.commonService.getStatus().subscribe((res)=>{
+    this.commonService.getStatus().subscribe((res:statusResponse)=>{
       this.statusList = res.data.statusInfo;
     })
   }

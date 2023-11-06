@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { Modules } from 'src/app/core/enum/static.enum';
 import { Partnerskill } from 'src/app/pages/partner/models/partner.model';
 import { addSkill, skill } from 'src/app/pages/requirement/models/requirement.model';
 
@@ -31,7 +32,7 @@ export class SkillCardComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.flag=="resource") {
+    if (this.flag==Modules.Resource) {
       this.addform = new FormGroup({
         skill_id: new FormControl('', Validators.required),
         relevant_experience: new FormControl('', Validators.required),
@@ -47,7 +48,7 @@ export class SkillCardComponent implements OnInit {
         skill_id: new FormControl('', Validators.required),
         relevant_experience: new FormControl('', Validators.required),
       });
-    } else if (this.flag == 'requirement') {
+    } else if (this.flag == Modules.Requirement) {
       this.addform = new FormGroup<addSkill>({
         skill_id: new FormControl('',Validators.required),
         relevant_experience: new FormControl('',Validators.required),
@@ -62,13 +63,13 @@ export class SkillCardComponent implements OnInit {
 
   onSubmit(form:FormGroup){
     if(form.valid){
-      if(this.flag=='resource'){
+      if(this.flag==Modules.Resource){
         if(form.value.primary_skill_ind){
           form.value.primary_skill_ind = 1;
         } else {
           form.value.primary_skill_ind = 0;
         }
-      } else if(this.flag=='requirement'){
+      } else if(this.flag==Modules.Requirement){
         if(form.value.mandatory_skill){
           form.value.mandatory_skill = 1;
         } else {

@@ -18,6 +18,8 @@ import { locationData, locationResponse } from '../../location/models/location.m
 import { partnerData, partnerResponce } from '../../partner/models/partner.model';
 import { skillResponce } from '../../skill/models/skill.model';
 import { skill } from 'src/app/core/base-model/base.model';
+import { Modules } from 'src/app/core/enum/static.enum';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 @Component({
   selector: 'app-add-resource',
   templateUrl: './add-resource.component.html',
@@ -38,12 +40,13 @@ export class AddResourceComponent implements OnInit {
   sourceList: string[] = this.staticData.source;
   typeList: string[] = this.staticData.type;
   rating: ratingData[] = this.staticData.rating;
-  module:string = 'resource';
+  module:string = Modules.Resource;
   constructor(
     private skillService: SkillService,
     private locationService: LocationService,
     private partnerService: PartnerService,
     private toastService: ToastService,
+    private toastConstants: ToastConstants,
     private modalController: ModalController,
     private staticData: StaticDataConstants
   ) { }
@@ -119,7 +122,7 @@ export class AddResourceComponent implements OnInit {
       return false;
     }
     if (this.addform.value.skills.length == 0) {
-      this.toastService.errorToast('Enter atleast one skill');
+      this.toastService.errorToast(this.toastConstants.Invalid_Skill);
       return false;
     }
     return this.addform.valid;
@@ -159,8 +162,10 @@ export class AddResourceComponent implements OnInit {
 
 
   addSkill(skill: any) {
+    skill.rating = parseInt(skill.rating);
     this.addform.value.skills.push(skill);
     this.skillObj(skill);
+
   }
 
   deleteSkill(i:number,sliding:IonItemSliding){
