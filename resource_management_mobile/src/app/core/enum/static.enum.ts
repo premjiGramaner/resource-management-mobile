@@ -3,7 +3,8 @@ export enum Modules {
     Resource = 'Resource',
     Hiring = 'Hiring',
     Status = 'Status',
-    History = 'History'
+    History = 'History',
+    Admin = 'admin'
 }
 
 export enum Common {

@@ -1,13 +1,13 @@
 <ion-content [fullscreen]="true">
   <ion-list lines="none">
-    <ion-item>
+    <ion-item *ngIf="viewData?.resource_name">
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.resource_name"
         [readonly]="true">
         <div slot="label">Resource Name<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="viewData?.evaluated_by_name">
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.evaluated_by_name"
         [readonly]="true">
         <div slot="label">Evaluated By<ion-text color="danger"> *</ion-text></div>
@@ -15,33 +15,45 @@
     </ion-item>
 
 
-    <ion-item>
+    <ion-item *ngIf="viewData?.hiring_stage">
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.hiring_stage"
         [readonly]="true">
         <div slot="label">Hiring Stage<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="viewData?.hiring_status">
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.hiring_status"
         [readonly]="true">
         <div slot="label">Hiring Status<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="viewData?.status">
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.status" [readonly]="true">
         <div slot="label">Status<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="viewData?.resource_source">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.resource_source"
+        [readonly]="true">
+        <div slot="label">Source<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item *ngIf="viewData?.resource_type">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.resource_type" [readonly]="true">
+        <div slot="label">Type<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="viewData?.evaluated_date">
       <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.evaluated_date"
         [readonly]="true">
         <div slot="label">Evaluated Date<ion-text color="danger"> *</ion-text></div>
       </ion-input>
     </ion-item>
 
-    <ion-item>
+    <ion-item *ngIf="viewData?.comments">
       <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.comments" [readonly]="true">
         <div slot="label">Comments<ion-text color="danger"> *</ion-text></div>
       </ion-textarea>

@@ -20,6 +20,9 @@ import { HiringChangeCardComponent } from 'src/app/shared/components/hiring-chan
     ReactiveFormsModule,
     HiringChangeCardComponent
   ],
-  declarations: [ResourceHiringPage, AddHiringComponent, ViewHiringComponent]
+  declarations: [ResourceHiringPage, AddHiringComponent, ViewHiringComponent],
+  exports:[
+    ViewHiringComponent
+  ]
 })
 export class ResourceHiringPageModule {}

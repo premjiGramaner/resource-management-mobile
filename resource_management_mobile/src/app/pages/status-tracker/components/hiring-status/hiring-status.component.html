@@ -1,0 +1,78 @@
+<ion-content [fullscreen]="true">
+  <ion-grid id="container" class="p-2 ps-3 pe-3 shadow">
+    <ion-row>
+      <ion-col>
+        <h5>Hiring Status List</h5>
+      </ion-col>
+      <ion-col class="mt-3">
+        <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-searchbar *ngIf="showSearch" show-cancel-button="never" placeholder="Search" [debounce]="1000"
+        (ionInput)="handleSearch($event)"></ion-searchbar>
+    </ion-row>
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-list lines="none" class="w-100">
+        <ion-item-sliding *ngFor="let item of items; index as i" #sliding>
+          <ion-item id="open-modal" expand="block" (click)="detailData(item,'edit')">
+            <ion-card class="shadow">
+              <ion-row>
+                <ion-col class="card-user-info">
+                  <ion-row class="d-flex justify-content-between">
+                    <ion-label class="user"> {{item.resource_name}} </ion-label>
+                    <ion-label class="user-status"> {{item.hiring_status}}</ion-label>
+                  </ion-row>
+                  <ion-label class="user-label"><span>Hiring Stage:- </span> {{item.hiring_stage}}</ion-label>
+                </ion-col>
+              </ion-row>
+
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="success" (click)="changeModal(item,i,sliding)">
+              <ion-icon slot="icon-only" name="cog-outline" id="open-custom-dialog" expand="block"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+
+        </ion-item-sliding>
+      </ion-list>
+      <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
+        <ion-infinite-scroll-content loadingText="Please wait..." loadingSpinner="bubbles">
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+    </ion-row>
+  </ion-grid>
+
+  <ion-modal [isOpen]="isModalOpen">
+    <ng-template>
+      <ion-header>
+        <ion-toolbar class="pe-2">
+          <ion-buttons slot="start">
+            <ion-button (click)="backForm(modelType)">
+              <ion-icon size="default" name="arrow-undo-outline"></ion-icon>
+            </ion-button>
+            <ion-title *ngIf="modelType === 'edit'" size="small">
+              View Hiring
+            </ion-title>
+            
+          </ion-buttons>
+          
+        </ion-toolbar>
+      </ion-header>
+      <ion-content class="ion-padding">
+        <app-view-hiring *ngIf="modelType === 'edit'" [viewData]=hiringData></app-view-hiring>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <ion-modal id="change-modal" [isOpen]="isChangeOpen" showBackdrop="false" backdropDismiss="false" #modal
+    trigger="open-custom-dialog">
+    <ng-template>
+      <app-hiring-change-card [hiringData]="hiringItem" (changeStatus)="changeStatus($event)"  (closeStatus)="closeStatus()"></app-hiring-change-card>
+    </ng-template>
+  </ion-modal>
+</ion-content>

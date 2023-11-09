@@ -13,12 +13,14 @@
   </ion-header>
 
   <div [ngSwitch]="segment">
-    <ion-list *ngSwitchCase="'hiring'">
+    <app-hiring-status *ngSwitchCase="'hiring'"></app-hiring-status>
+    <app-requirement-status *ngSwitchCase="'requirement'"></app-requirement-status>
+    <!-- <ion-list *ngSwitchCase="'hiring'">
       Hiring List
     </ion-list>
     <ion-list *ngSwitchCase="'requirement'">
       Requirement List
-    </ion-list>
+    </ion-list> -->
   </div>
 
 
