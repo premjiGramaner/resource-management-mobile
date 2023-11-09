@@ -1,11 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController, ToastController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { RequirementService } from './services/requirement.service';
-import { requiementData, requirementResponse } from './models/requirement.model';
+import { deleteRequirementResponse, requiementData, requirementResponse } from './models/requirement.model';
 import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
+import { ToastService } from 'src/app/core/toast/toast.service';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
+import { Status } from 'src/app/core/enum/status.enum';
+import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 
 @Component({
   selector: 'app-requirement',
@@ -15,21 +19,20 @@ import { AddRequirementComponent } from './add-requirement/add-requirement.compo
 export class RequirementPage implements OnInit {
 
   showSearch: boolean = false;
-  items: any = [];
+  items: requiementData[] = [];
   skip: number = 0;
   searchQuery: string = '';
 
-  requirementData: any;
+  requirementData: requiementData | undefined;
   isModalOpen: boolean = false;
   modelType!: string;
 
   @ViewChild('add') add !: AddRequirementComponent;
 
-  constructor(private requirementService: RequirementService, private modalCtrl: ModalController, private toastController: ToastController) { }
+  constructor(private requirementService: RequirementService, private modalCtrl: ModalController, private toastService: ToastService, private staticData: StaticDataConstants) { }
 
   ngOnInit() {
     this.getRequirements(this.skip, 20, this.searchQuery);
-
   }
 
   async openExportModel() {
@@ -53,14 +56,14 @@ export class RequirementPage implements OnInit {
           item.updated_by || ''
         ];
       });
-      const pdfHeader = ["Name", "Client", "SPOC", "Experience","Location", "Source", "Priority", "Hire Budget", "Contract Budget", "Notice Period", "Duration", "JD", "Status", "Created By", "Updated By"];
+      const pdfHeader = this.staticData.requirement_report_header;
       //pdf header details
       let req = {
-        filename: 'requirement',
+        filename: Modules.Requirement.toLowerCase(),
         data: res.data.requirementInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: 'Requirement Report',
+        title: Modules.Requirement + ' ' +Common.report,
         size: [400, 500],
       };
       const exportData = req;
@@ -93,31 +96,24 @@ export class RequirementPage implements OnInit {
   private getRequirements(skip: number, limit: number, search: string) {
     this.requirementService.getRequirement(skip, limit, search)
       .subscribe((data: requirementResponse) => {
+        if(data.data.requirementInfo.length==0 && skip>0){
+          this.skip= skip-20;
+        }
         this.items = [...this.items, ...data.data.requirementInfo];
       });
   }
 
-  private deleteRequirement(id: string, index: number) {
+  private deleteRequirement(id: number, index: number) {
     this.requirementService.deleteRequirement(id).subscribe({
-      next: (response: any) => {
-        this.presentToast(response?.message)
+      next: (response: deleteRequirementResponse) => {
+        this.toastService.presentToast(response?.message)
         this.modalCtrl.dismiss();
         this.items.splice(index, 1);
       },
       error: (response) => {
-        this.presentToast(response.message)
+        this.toastService.errorToast(response.message)
       },
     });
-  }
-
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 1500,
-      position: 'top'
-    });
-
-    await toast.present();
   }
 
   onIonInfinite(ev: any) {
@@ -128,11 +124,11 @@ export class RequirementPage implements OnInit {
     }, 500);
   }
 
-  async deleteModal(item: any, index: number, sliding: any) {
+  async deleteModal(item: requiementData, index: number, sliding: IonItemSliding) {
     let data = {
-      "from": "Requirement",
-      "type": "Delete",
-      "value": item.name
+      from: Modules.Requirement,
+      type: Common.Delete,
+      value: item.name
     }
     const mySubject = new BehaviorSubject(data);
 
@@ -160,23 +156,23 @@ export class RequirementPage implements OnInit {
   }
 
 
-  detailData(info: any, type: string) {
+  detailData(info: requiementData, type: string) {
     this.requirementData = info;
     this.modelType = type;
     this.isModalOpen = true;
   }
   setOpen(isOpen: boolean) {
     this.requirementData = undefined;
-    this.modelType = isOpen ? 'save' : 'edit';
+    this.modelType = isOpen ? Status.SAVE : Status.EDIT;
     this.isModalOpen = isOpen;
   }
 
   async backForm(modelType: string) {
-    if (modelType == 'save') {
+    if (modelType == Status.SAVE) {
       let data = {
-        "from": "Requirement",
-        "type": "Discard",
-        "value": ''
+        from: Modules.Requirement,
+        type: Common.Discard,
+        value: ''
       }
       const mySubject = new BehaviorSubject(data);
 
@@ -194,7 +190,7 @@ export class RequirementPage implements OnInit {
       mySubject.subscribe((value: any) => {
         if (value == true) {
           this.requirementData = undefined;
-          this.modelType = false ? 'save' : 'edit';
+          this.modelType = false ? Status.SAVE : Status.EDIT;
           this.isModalOpen = false;
           modal.dismiss();
         }
@@ -205,7 +201,7 @@ export class RequirementPage implements OnInit {
       }));
     } else {
       this.requirementData = undefined;
-      this.modelType = false ? 'save' : 'edit';
+      this.modelType = false ? Status.SAVE : Status.EDIT;
       this.isModalOpen = false;
     }
   }
@@ -214,9 +210,12 @@ export class RequirementPage implements OnInit {
   saveForm() {
     if (this.add.isFormValid()) {
       this.addEditCall(this.requirementData)
-        .subscribe((data: any) => {
-          this.add.setClose();
+        .subscribe(() => {
+          this.requirementData = undefined;
+          this.modelType = false ? Status.SAVE : Status.EDIT;
+          this.isModalOpen = false;
           this.items = [];
+          this.skip = 0;
           this.getRequirements(this.skip, 20, this.searchQuery);
         });
     } else {
@@ -224,7 +223,7 @@ export class RequirementPage implements OnInit {
     }
   }
 
-  addEditCall(editData: any) {
+  addEditCall(editData: requiementData | undefined) {
     if (editData) {
       return this.requirementService.updateRequirement(this.add.addform.value)
     } else {

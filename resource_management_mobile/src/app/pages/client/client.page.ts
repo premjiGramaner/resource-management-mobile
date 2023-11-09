@@ -47,6 +47,7 @@ export class ClientPage implements OnInit {
   }
 
   saveClientForm() {
+
     if (this.addClient.isClientFormValid()) {
       if (this.modelType.toLowerCase() == Status.SAVE.toLowerCase()) {
         this.clientService
@@ -133,11 +134,25 @@ export class ClientPage implements OnInit {
 
   async openExportModel() {
     this.clientService.getClientAllData().subscribe(async (res: any) => {
-      const pdfTableData = res.data.clientInfo.map((item: any) => {
+      const keyToRemove = [
+        'created_date',
+        'skills',
+        'updated_by',
+        'updated_date',
+        'partner_id',
+        'created_by_id',
+        'updated_by_id',
+        'created_by',
+      ];
+      const newArray = res.data.clientInfo.map((obj: any) => {
+        const newObj = { ...obj };
+        keyToRemove.map((item) => {
+          delete newObj[item];
+        });
+        return newObj;
+      });
+      const pdfTableData = newArray.map((item: any) => {
         return [
-          item.created_date || '',
-          item.updated_date || '',
-          item.client_id.toString() || '',
           item.name || '',
           item.contact_person_name || '',
           item.contact_person_email_id || '',
@@ -151,17 +166,12 @@ export class ClientPage implements OnInit {
           item.finance_person_phone || '',
           item.strength || '',
           item.address || '',
-          item.created_by || '',
-          item.updated_by || '',
           item.ownership_name || '',
         ];
       });
-      let keys = Object.keys(res.data.clientInfo[0]);
-      let elementToRemove = 'skills';
+      let keys = Object.keys(newArray[0]);
       let pdfHeader = keys.reduce((result: any, item: any) => {
-        if (item !== elementToRemove) {
-          result.push(item.split('_').join('').toUpperCase());
-        }
+        result.push(item.split('_').join('').toUpperCase());
         return result;
       }, []);
       //pdf header details
@@ -171,7 +181,7 @@ export class ClientPage implements OnInit {
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
         title: 'Client PDF Report',
-        size: [400, 500],
+        size: [430, 300],
       };
       const exportData = req;
       const modal = await this.modalCtrl.create({

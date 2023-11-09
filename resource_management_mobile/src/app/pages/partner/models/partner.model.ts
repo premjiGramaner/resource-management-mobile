@@ -18,7 +18,7 @@ export interface partnerData {
     gstn: string;
     name: string;
     pan: string;
-    partner_id?: string;
+    partner_id?: number;
     registration_number: string;
     strength: string;
     supported_mode: string;

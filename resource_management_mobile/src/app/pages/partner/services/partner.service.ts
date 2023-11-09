@@ -13,12 +13,12 @@ export class PartnerService {
 
   constructor(private http: HttpClient) { }
 
-  getAllPartner(): Observable<any> {
-    return this.http.get<any>(`${this.URL}partner`);
+  getAllPartner(): Observable<partnerResponce> {
+    return this.http.get<partnerResponce>(`${this.URL}partner`);
   }
 
   getSkillPartner(data: any) {
-    return this.http.post(`${this.URL}partner/getPartners`, data)
+    return this.http.post<partnerResponce>(`${this.URL}partner/getPartners`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           return throwError("Error while fetching partners" + error.message);

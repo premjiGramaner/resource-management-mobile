@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { partnerData } from 'src/app/pages/partner/models/partner.model';
+import { partner } from 'src/app/pages/requirement/models/requirement.model';
 
 @Component({
   selector: 'app-partner-crad',
@@ -12,10 +14,10 @@ import { IonicModule, ModalController } from '@ionic/angular';
 })
 export class PartnerCradComponent  implements OnInit {
 
-  @Input() partnerList: any;
+  @Input() partnerList: partnerData[] | undefined;
 
   addform!: FormGroup;
-  @Output() addPartner = new EventEmitter();
+  @Output() addPartner = new EventEmitter<partner>();
   constructor( private modalController: ModalController) { }
 
   ngOnInit() {

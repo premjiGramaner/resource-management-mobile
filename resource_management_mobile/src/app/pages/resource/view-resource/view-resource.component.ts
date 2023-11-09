@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { StaticDataConstants, ratingData } from 'src/app/core/constant/staticData.constants';
+import { resourceData, skill } from '../models/resource.model';
 
 @Component({
   selector: 'app-view-resource',
@@ -7,27 +8,28 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
   styleUrls: ['./view-resource.component.scss'],
 })
 export class ViewResourceComponent  implements OnInit {
-  @Input() viewData: any;
-  rating = this.staticData.rating;
+  @Input() viewData: resourceData | undefined;
+  rating: ratingData[] = this.staticData?.rating;
 
   constructor(private staticData :StaticDataConstants) { }
 
   ngOnInit() {
-    this.arrangeSkillData(this.viewData.skills);
+    if(this.viewData)
+    this.arrangeSkillData(this.viewData?.skills);
   }
 
-  arrangeSkillData(skills:any){
+  arrangeSkillData(skills:skill[]){
     for (var val of skills) {
       this.skillObj(val);
     }
   }
-  skillObj(skill:any){
+  skillObj(skill:skill){
     
-      Object.assign(skill, { description: skill.skill.description })
+      Object.assign(skill, { description: skill?.skill?.description })
     
-    const ind = this.rating.findIndex((el: any) => el.id === parseInt(skill.rating))
+    const ind = this.rating?.findIndex((el: ratingData) => el.id === skill?.rating)
     if (ind >= 0) {
-      Object.assign(skill, { ratingName: this.rating[ind].name })
+      Object.assign(skill, { ratingName: this.rating[ind]?.name })
     }
 
   }
