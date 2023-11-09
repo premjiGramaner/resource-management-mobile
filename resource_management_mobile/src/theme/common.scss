@@ -1,0 +1,40 @@
+.inputTxt, .inputTxtArea {
+    margin: 10px 0px;
+    --padding-start: 12px !important;
+  }
+  
+  .inputTxtArea {
+    min-height: 8em !important;
+    max-height: 12em !important;
+  }
+  
+  .skill-heading {
+    font-size: 1em !important;
+    font-weight: 400 !important;
+  }
+  
+  .skill-describe{
+    font-size: 0.8em !important;
+    font-weight: 300 !important;
+    color: grey !important;
+  }
+
+  #skill-modal {
+    --width: fit-content;
+    --min-width: 300px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+  }
+  
+  .skill-side {
+    font-size: 0.8em !important;
+    font-weight: 200 !important;
+    color: gray !important;
+  }
+
+  .skill_pophead {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin: 0px 10px !important;
+}

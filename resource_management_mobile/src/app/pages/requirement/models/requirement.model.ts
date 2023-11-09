@@ -1,9 +1,19 @@
+import { FormControl } from "@angular/forms";
+
 export interface requirementResponse {
     statusCode: number;
     data: {
         requirementCount?: number;
         requirementInfo: requiementData[];
     };
+    message: string;
+}
+
+export interface deleteRequirementResponse {
+    statusCode: number;
+    data: {
+        requirementInfo: requiementData | boolean;
+    },
     message: string;
 }
 
@@ -37,7 +47,38 @@ export interface requiementData {
     partner: partner[]
 }
 
-export interface skill {
+export interface addRequirementData {
+    requirement_id?:FormControl,
+    name: FormControl,
+    Client_client_id: FormControl,
+    Location_Location_ID: FormControl,
+    location_description: FormControl,
+    experience: FormControl,
+    SPOC_id: FormControl,
+    duration: FormControl,
+    notice_period: FormControl,
+    source_mode: FormControl,
+    hire_budget:FormControl,
+    contract_budget: FormControl,
+    jd: FormControl,
+    status: FormControl,
+    priority: FormControl,
+    skills: FormControl,
+    partner: FormControl
+}
+
+export interface addSkill {
+    skill_id: FormControl,
+    relevant_experience: FormControl,
+    mandatory_skill: FormControl
+}
+
+export interface addPartner {
+    partner_id: FormControl,
+    shared_on: FormControl
+}
+
+export interface skill  {
     skill_id: number,
     category: string,
     description: string,
@@ -47,6 +88,6 @@ export interface skill {
 
 export interface partner {
     name: string,
-    partner_id: number,
+    partner_id: string,
     shared_on: string
 }

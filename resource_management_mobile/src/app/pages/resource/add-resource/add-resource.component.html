@@ -2,31 +2,31 @@
   <form [formGroup]="addform">
     <ion-list lines="none">
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Name" formControlName="name"
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" placeholder="Enter Name" formControlName="name"
           errorText="Invalid name" maxlength="100">
           <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="email" fill="outline" labelPlacement="floating" placeholder="Enter Email"
+        <ion-input class="inputTxt" type="email" fill="outline" labelPlacement="floating" placeholder="Enter Email"
           formControlName="email_id" errorText="Invalid email" maxlength="100">
           <div slot="label">Email<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="tel" pattern="[0-9]*" maxlength="10" fill="outline" labelPlacement="floating"
+        <ion-input class="inputTxt" type="tel" pattern="[0-9]*" maxlength="10" fill="outline" labelPlacement="floating"
           placeholder="Enter Mobile no." formControlName="mobile_no" errorText="Invalid mobile">
           <div slot="label">Mobile<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Experience (in years)"
+        <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter Experience (in years)"
           formControlName="experience" errorText="Invalid experience">
           <div slot="label">Experience (in years)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select source" formControlName="source" errorText="Invalid source">
           <div slot="label">Select Source<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let source of sourceList" value={{source}}>{{source}}</ion-select-option>
@@ -34,7 +34,7 @@
       </ion-item>
 
       <ion-item *ngIf="addform.value.source=='Partner'">
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select partner" formControlName="Partner_partner_id"
           errorText="Invalid partner">
           <div slot="label">Select Partner<ion-text color="danger"> *</ion-text></div>
@@ -44,7 +44,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select type" formControlName="type" errorText="Invalid type">
           <div slot="label">Select Type<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let type of typeList" value={{type}}>{{type}}</ion-select-option>
@@ -52,25 +52,25 @@
       </ion-item>
 
       <ion-item>
-        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter CTC (in LPA)"
+        <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter CTC (in LPA)"
           formControlName="ctc" errorText="Invalid CTC">
           <div slot="label">CTC (in LPA)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter ECTC (in LPA)"
+        <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter ECTC (in LPA)"
           formControlName="ectc" errorText="Invalid ECTC">
           <div slot="label">ECTC (in LPA)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Profile Location"
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" placeholder="Enter Profile Location"
           formControlName="profile_location" errorText="Invalid profile location">
           <div slot="label">Profile Location<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select preferred location" formControlName="preferred_location"
           errorText="Invalid preferred location">
           <div slot="label">Select Preferred Location<ion-text color="danger"> *</ion-text></div>
@@ -80,7 +80,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select work location" formControlName="work_location"
           errorText="Invalid work location">
           <div slot="label">Select Work Location<ion-text color="danger"> *</ion-text></div>
@@ -90,7 +90,7 @@
       </ion-item>
 
       <ion-item>
-        <ion-select class="always-flip" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select current location" formControlName="current_location"
           errorText="Invalid current location">
           <div slot="label">Select Current Location<ion-text color="danger"> *</ion-text></div>
@@ -99,33 +99,33 @@
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating" placeholder="Enter Current Organisation"
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" placeholder="Enter Current Organisation"
           formControlName="current_organisation" errorText="Invalid current organisation" maxLength="100">
           <div slot="label">Current Organisation<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" fill="outline" labelPlacement="floating"
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating"
           placeholder="Enter Current Organisation Duration" formControlName="current_org_duration"
           errorText="Invalid current organisation duration" maxLength="100">
           <div slot="label">Current Organisation Duration<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="number" fill="outline" labelPlacement="floating" placeholder="Enter Notice Period"
+        <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter Notice Period"
           formControlName="notice_period" errorText="Invalid notice period">
           <div slot="label">Notice Period (in months)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="date" fill="outline" labelPlacement="floating" placeholder="Enter Earliest Joining Date"
+        <ion-input class="inputTxt" type="date" fill="outline" labelPlacement="floating" placeholder="Enter Earliest Joining Date"
           formControlName="earliest_joining_date" errorText="Invalid earliest joining date">
           <div slot="label">Earliest Joining Date<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-textarea type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="200"
+        <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="200"
           minHeight="40" placeholder="Enter Reason for Change" formControlName="reason_for_change"
           errorText="Invalid reason for Change">
           <div slot="label">Reason For Change<ion-text color="danger"> *</ion-text></div>

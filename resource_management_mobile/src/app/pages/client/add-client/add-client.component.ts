@@ -68,8 +68,8 @@ export class AddClientComponent implements OnInit {
       finance_person_phone: new FormControl(''),
       strength: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
-      skill_ids: this.fb.array([]),
-      skill_id: new FormControl([]),
+      skills: this.fb.array([]),
+      skill_ids: this.fb.array([])
     });
 
     this.getUserList();
@@ -101,15 +101,17 @@ export class AddClientComponent implements OnInit {
         finance_person_phone: this.viewClientData.finance_person_phone,
         strength: this.viewClientData.strength,
         address: this.viewClientData.address,
+
       });
 
       /**Add data to the skill_ids */
-      this.selectedSkillIds = this.removeDuplicate.transform(
-        this.viewClientData.skills
-      );
+      this.selectedSkillIds = this.viewClientData.skills;
       const idsFormArray = this.clientForm.get('skill_ids') as FormArray;
       this.selectedSkillIds.map((item: any) => {
-        idsFormArray.push(new FormControl(item.skill_id));
+        if (item != null) {
+          idsFormArray.push(new FormControl(item.skill_id));
+        }
+
       });
     }
   }
@@ -150,6 +152,7 @@ export class AddClientComponent implements OnInit {
   }
 
   addSkill(skill?: any) {
+    this.clientForm.value.skill_ids = this.clientForm.value.skill_ids || []
     if (this.skilId) {
       if (this.skilId?.primary_skill) {
         this.selectedSkillIds.unshift(this.skilId);
@@ -157,11 +160,14 @@ export class AddClientComponent implements OnInit {
         this.selectedSkillIds.push(this.skilId);
       }
     }
-    const idsFormArray = this.clientForm.get('skill_ids') as FormArray;
-    idsFormArray.push(new FormControl(this.clientForm.value.skill_id));
-    this.modalController.dismiss();
-    this.skilId = '';
-    this.skillObj(skill);
+    if (skill.skill_id != null) {
+      this.clientForm.value.skills.push(skill);
+      this.clientForm.value.skill_ids.push(skill.skill_id)
+      this.modalController.dismiss();
+      this.skilId = '';
+      this.skillObj(skill);
+    }
+
   }
   skillObj(skill: any) {
     const index = this.skillList.findIndex(
@@ -175,6 +181,7 @@ export class AddClientComponent implements OnInit {
 
   deleteSkill(i: number) {
     this.selectedSkillIds.splice(i, 1);
+    this.clientForm.value.skill_ids.splice(i, 1);
   }
 
   async deleteModal(index: number) {

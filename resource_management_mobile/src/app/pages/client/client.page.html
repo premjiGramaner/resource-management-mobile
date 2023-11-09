@@ -18,7 +18,7 @@
   <ion-grid>
     <ion-row>
       <ion-list *ngIf="clientData.length>0" lines="none" class="w-100">
-        <ion-item-sliding *ngFor="let client of clientData; let index" #sliding>
+        <ion-item-sliding *ngFor="let client of clientData;  let i = index" #sliding>
           <ion-item id="open-modal" expand="block" (click)="setOpen(true,'edit')">
             <ion-card class="shadow" (click)="detailClientData(client,'edit')">
               <ion-row>
@@ -31,14 +31,14 @@
             </ion-card>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option color="danger" (click)="deleteModal(client,index,sliding)">
+            <ion-item-option color="danger" (click)="deleteModal(client,i,sliding)">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>
         </ion-item-sliding>
       </ion-list>
-      <ion-list class="nodata-found" lines="none" *ngIf="clientData.length==0">
-        <h5>Not Data Found!</h5>
+      <ion-list class="nodata-found" lines="none" *ngIf="clientData.length==0" style="width:100%">
+        <h5>No Data Found !</h5>
       </ion-list>
       <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
         <ion-infinite-scroll-content loadingText="Please wait..."
