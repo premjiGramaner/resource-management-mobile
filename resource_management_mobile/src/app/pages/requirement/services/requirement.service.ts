@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { requirementResponse } from '../models/requirement.model';
+import { addRequirementData, deleteRequirementResponse, requirementResponse } from '../models/requirement.model';
+import { Modules, Common } from 'src/app/core/enum/static.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -14,38 +15,38 @@ export class RequirementService {
 
   getRequirement(skip: number, limit: number, search: string): Observable<any> {
     let urlParams = new URLSearchParams();
-    urlParams.append('skip', skip.toString());
-    urlParams.append('limit', limit.toString());
-    urlParams.append('search', search);
+    urlParams.append(Common.skip, skip.toString());
+    urlParams.append(Common.limit, limit.toString());
+    urlParams.append(Common.search, search);
 
-    return this.http.get<requirementResponse>(`${this.URL}requirement?` + urlParams,);
+    return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}?` + urlParams,);
   }
 
   getRequirementAllData() {
-    return this.http.get<requirementResponse>(`${this.URL}requirement`);
+    return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`);
   }
 
-  addRequirement(data: any) {
-    return this.http.post(`${this.URL}requirement`, data)
+  addRequirement(data: addRequirementData) {
+    return this.http.post<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          return throwError("Error while creating a resource" + error.message);
+          return throwError(Common.error_create + Modules.Requirement.toLowerCase() + error.message);
         }));
   }
 
 
-  updateRequirement(data: any): Observable<any> {
-    return this.http.put<any>(`${this.URL}requirement`, data)
+  updateRequirement(data: addRequirementData) {
+    return this.http.put<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`, data)
       .pipe(
         catchError((error: HttpErrorResponse) => {
-          return throwError("Error while updating a resource " + error.message);
+          return throwError(Common.error_update + Modules.Requirement.toLowerCase() + error.message);
         }));
   }
 
-  deleteRequirement(id: string) {
-    return this.http.delete(`${this.URL}requirement/${id}`).pipe(
+  deleteRequirement(id: number) {
+    return this.http.delete<deleteRequirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError("Error while deleting a requirement " + error.message);
+        return throwError(Common.error_delete + Modules.Requirement.toLowerCase() + error.message);
       }));
   }
 }

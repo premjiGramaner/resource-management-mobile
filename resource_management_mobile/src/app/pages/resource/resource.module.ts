@@ -7,8 +7,6 @@ import { IonicModule } from '@ionic/angular';
 import { ResourcePageRoutingModule } from './resource-routing.module';
 
 import { ResourcePage } from './resource.page';
-import { DeleteNavComponent } from '../../shared/components/delete-nav/delete-nav.component';
-import { HttpClientModule } from '@angular/common/http';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ViewResourceComponent } from './view-resource/view-resource.component';
 import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
@@ -19,8 +17,6 @@ import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-c
     FormsModule,
     IonicModule,
     ResourcePageRoutingModule,
-    HttpClientModule,
-    DeleteNavComponent,
     ReactiveFormsModule,
     SkillCardComponent
   ],

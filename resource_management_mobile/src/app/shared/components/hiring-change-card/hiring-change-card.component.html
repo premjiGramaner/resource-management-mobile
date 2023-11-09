@@ -1,0 +1,61 @@
+<div class="p-2">
+  <div class="skill_pophead">
+    <h4>Change Status</h4>
+    <ion-icon name="close" size="default" (click)="setClose()" class="align-self-center"></ion-icon>
+  </div>
+  <form [formGroup]="addform" (ngSubmit)="onSubmit(addform)">
+    <ion-list lines="none">
+      <ion-item >
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="hiringData?.resource_name" [readonly]="true" [disabled]="true">
+          <div slot="label">Resource Name<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select Hiring Stage" formControlName="hiring_stage" errorText="Invalid hiring stage" required>
+          <div slot="label">Select Hiring Stage<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let stage of hiringStageList"
+            value={{stage}}>{{stage}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select Hiring Status" formControlName="hiring_status" errorText="Invalid hiring status" required>
+          <div slot="label">Select Hiring Status<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let status of hiringStatusList"
+            value={{status}}>{{status}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+          interface="popover" placeholder="Select Status" formControlName="Status_status_id" errorText="Invalid status" required>
+          <div slot="label">Select Status<ion-text color="danger"> *</ion-text></div>
+          <ion-select-option *ngFor="let status of statusList"
+            value={{status.status_id}}>{{status.description}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="1000"
+          minHeight="40" placeholder="Enter Comments" formControlName="comments"
+          errorText="Invalid comments">
+          <div slot="label">Comments<ion-text color="danger"> *</ion-text></div>
+        </ion-textarea>
+      </ion-item>
+
+      
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" size="default" type="submit">Add</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </form>
+
+</div>

@@ -1,0 +1,84 @@
+<ion-content [fullscreen]="true">
+  <ion-list lines="none">
+    <ion-item>
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.resource_name"
+        [readonly]="true">
+        <div slot="label">Resource Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.evaluated_by_name"
+        [readonly]="true">
+        <div slot="label">Evaluated By<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+
+    <ion-item>
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.hiring_stage"
+        [readonly]="true">
+        <div slot="label">Hiring Stage<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.hiring_status"
+        [readonly]="true">
+        <div slot="label">Hiring Status<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.status" [readonly]="true">
+        <div slot="label">Status<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.evaluated_date"
+        [readonly]="true">
+        <div slot="label">Evaluated Date<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.comments" [readonly]="true">
+        <div slot="label">Comments<ion-text color="danger"> *</ion-text></div>
+      </ion-textarea>
+    </ion-item>
+
+
+  </ion-list>
+
+  <ion-list lines="none" class="w-100" *ngIf="items && items.length>0">
+    <ion-label class="ms-3">History</ion-label>
+    <ion-item *ngFor="let item of items; index as i">
+      <ion-card>
+        <ion-row class="m-0">
+          <ion-col class="card-user-info">
+            <ion-row class="d-flex justify-content-between m-0">
+              <ion-label class="user"> {{item.by_name}} </ion-label>
+              <ion-label class="user-status"> {{item.time}}</ion-label>
+            </ion-row>
+            <ion-row class="d-flex justify-content-between m-0">
+              <ion-col>
+                <ion-label class="user-label"><span>Hiring Stage:- </span> {{item.hiring_stage}}</ion-label>
+                <ion-label class="user-label"><span>Hiring Status:- </span> {{item.hiring_status}}</ion-label>
+                <ion-label class="user-label"><span>Status:- </span> {{item.status}}</ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="item.comments">
+              <ion-text >
+                <ion-label class="user-label"><span>Comments:- </span></ion-label>
+                {{item.comments}}
+              </ion-text>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+
+      </ion-card>
+    </ion-item>
+
+  </ion-list>
+
+</ion-content>
