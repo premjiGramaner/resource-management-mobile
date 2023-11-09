@@ -104,9 +104,9 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-textarea label-placement="floating" formControlName="strength" fill="outline" [readonly]="isEnableEdit">
+        <ion-input label-placement="floating" formControlName="strength" fill="outline" [readonly]="isEnableEdit">
           <ion-text slot="label">Strength<ion-text color="danger"> *</ion-text></ion-text>
-        </ion-textarea>
+        </ion-input>
         <ion-label
           *ngIf="partnerForm.controls['strength'].invalid && (partnerForm.controls['strength'].dirty || partnerForm.controls['strength'].touched) || !onSubmit"
           class="alert alert-danger">
@@ -116,8 +116,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-textarea label-placement="floating" formControlName="address" fill="outline" [readonly]="isEnableEdit">
-          <ion-text slot="label">Address<ion-text color="danger"> *</ion-text></ion-text>
+        <ion-textarea label-placement="floating" formControlName="address" [counter]="true" maxlength="300" fill="outline" [readonly]="isEnableEdit">
+          <div slot="label">Address<ion-text color="danger"> *</ion-text></div>
         </ion-textarea>
         <ion-label
           *ngIf="partnerForm.controls['address'].invalid && (partnerForm.controls['address'].dirty || partnerForm.controls['address'].touched) || !onSubmit"

@@ -57,14 +57,12 @@ export class PartnerPage implements OnInit {
       } else {
         let updateReq = this.addPartner.partnerForm.value;
         updateReq['partner_id'] = this.partnerMoreData.partner_id;
-        this.partnerService
-          .editPartner(this.addPartner.partnerForm.value)
-          .subscribe((res: any) => {
-            this.toastService.presentToast(res.message);
-            // save data to local array
-            this.partnerData.splice(this.selectedIndex, 1);
-            this.partnerData.unshift(this.addPartner.partnerForm.value);
-          });
+        this.partnerService.editPartner(updateReq).subscribe((res: any) => {
+          this.toastService.presentToast(res.message);
+          // save data to local array
+          this.partnerData.splice(this.selectedIndex, 1);
+          this.partnerData.unshift(this.addPartner.partnerForm.value);
+        });
       }
     }
   }
@@ -91,7 +89,7 @@ export class PartnerPage implements OnInit {
         );
       },
       error: (response) => {
-        this.toastService.presentToast(this.toastConstants.try_again);
+        this.toastService.errorToast(this.toastConstants.try_again);
       },
     });
   }
@@ -137,6 +135,7 @@ export class PartnerPage implements OnInit {
     this.partnerMoreData = partnerInfo;
     this.selectedIndex = index;
   }
+
   enableEdit() {
     this.partnerEdit = true;
     this.modelType = 'save';
@@ -153,33 +152,40 @@ export class PartnerPage implements OnInit {
     this.partnerService
       .getAllPartner()
       .subscribe(async (res: partnerResponce) => {
-        const pdfTableData = res.data.partnerInfo.map((item: partnerData) => {
+        const keyToRemove = [
+          'created_date',
+          'skills',
+          'updated_by',
+          'updated_date',
+          'partner_id',
+          'created_by_id',
+          'updated_by_id',
+          'created_by',
+        ];
+        const newArray = res.data.partnerInfo.map((obj: any) => {
+          const newObj = { ...obj };
+          keyToRemove.map((item) => {
+            delete newObj[item];
+          });
+          return newObj;
+        });
+        const pdfTableData = newArray.map((item: partnerData) => {
           return [
             item.name || '',
             item.pan || '',
-            item.partner_id || '',
             item.registration_number || '',
             item.strength || '',
             item.supported_mode || '',
-            item.updated_by || '',
-            item.updated_by_id || '',
-            item.updated_date || '',
             item.gstn || '',
-            item.created_date || '',
-            item.created_by_id || '',
-            item.created_by || '',
             item.contact_person_phone || '',
             item.contact_person_name || '',
             item.contact_person_email_id || '',
             item.address || '',
           ];
         });
-        let keys = Object.keys(res.data.partnerInfo[0]);
-        let elementToRemove = 'skills';
+        let keys = Object.keys(newArray[0]);
         let pdfHeader = keys.reduce((result: any, item: any) => {
-          if (item !== elementToRemove) {
-            result.push(item.split('_').join('').toUpperCase());
-          }
+          result.push(item.split('_').join('').toUpperCase());
           return result;
         }, []);
         //pdf header details
@@ -189,7 +195,7 @@ export class PartnerPage implements OnInit {
           pdfData: pdfTableData,
           pdfHeader: pdfHeader,
           title: 'Partner PDF Report',
-          size: [400, 600],
+          size: [430, 300],
         };
         const exportData = req;
         const modal = await this.modalCtrl.create({
