@@ -61,28 +61,22 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
     if (this.ViewRespurceData != undefined) {
       this.resourceForm.patchValue({
         comments: this.ViewRespurceData.comments,
-        Requirement_requirement_id:
-          '' + this.ViewRespurceData.Requirement_requirement_id,
+        Requirement_requirement_id: '' + this.ViewRespurceData.Requirement_requirement_id,
         evaluated_by: '' + this.ViewRespurceData.evaluated_by,
-        evaluated_date: this.ViewRespurceData.evaluated_date.replace(
-          /\//g,
-          '-'
-        ),
+        evaluated_date: this.ViewRespurceData.evaluated_date.replace(/\//g, '-'),
         evaluated_by_name: this.ViewRespurceData.evaluated_by_name,
         requirement: this.ViewRespurceData.requirement,
       });
       this.resourceId = this.ViewRespurceData.Requirement_requirement_id;
-      this.addedResource =
-        this.ViewRespurceData.ResourceRequirementMappings.map((item: any) => {
-          const { resourceName, stageDescription, statusDescription, ...rest } =
-            item;
-          return {
-            resource_name: resourceName,
-            stage_description: stageDescription,
-            status_description: statusDescription,
-            ...rest,
-          };
-        });
+      this.addedResource = this.ViewRespurceData.ResourceRequirementMappings.map((item: any) => {
+        const { resourceName, stageDescription, statusDescription, ...rest } = item;
+        return {
+          resource_name: resourceName,
+          stage_description: stageDescription,
+          status_description: statusDescription,
+          ...rest,
+        };
+      });
       this.addedResource.map((item: resourceData) => {
         this.resourceForm.value.resources.push({
           resource_id: item.Resource_resource_id,

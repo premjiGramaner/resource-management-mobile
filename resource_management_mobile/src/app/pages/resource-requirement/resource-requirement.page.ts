@@ -46,34 +46,29 @@ export class ResourceRequirementPage implements OnInit {
   saveResourceForm() {
     if (this.addResource.isPartnerFormValid()) {
       let addResourceRequest: postResourceRequest = {
-        Requirement_requirement_id:
-          this.addResource.resourceForm.value.Requirement_requirement_id,
+        Requirement_requirement_id: this.addResource.resourceForm.value.Requirement_requirement_id,
         evaluated_by: this.addResource.resourceForm.value.evaluated_by,
         resources: this.addResource.resourceForm.value.resources,
         evaluated_date: this.addResource.resourceForm.value.evaluated_date,
         comments: this.addResource.resourceForm.value.comments,
       };
       if (!this.resourceEdit) {
-        this.resourceRequirementService
-          .postResource(addResourceRequest)
-          .subscribe((res: Object) => {
-            let response = res as ResourceResponse;
-            this.toastService.presentToast(response.message);
-            // save data to local array
-            this.resourceData.unshift(addResourceRequest);
-          });
+        this.resourceRequirementService.postResource(addResourceRequest).subscribe((res: Object) => {
+          let response = res as ResourceResponse;
+          this.toastService.presentToast(response.message);
+          // save data to local array
+          this.resourceData.unshift(addResourceRequest);
+        });
       } else {
         addResourceRequest = this.addResource.resourceForm.value;
         addResourceRequest['Resource_requirement_id'] =
           this.resourceMoreData.Resource_requirement_id;
-        this.resourceRequirementService
-          .editResource(this.addResource.resourceForm.value)
-          .subscribe((res: Object) => {
-            let response = res as ResourceResponse;
-            this.toastService.presentToast(response.message);
-            // save data to local array
-            this.resourceData.splice(this.selectedIndex, 1, addResourceRequest);
-          });
+        this.resourceRequirementService.editResource(this.addResource.resourceForm.value).subscribe((res: Object) => {
+          let response = res as ResourceResponse;
+          this.toastService.presentToast(response.message);
+          // save data to local array
+          this.resourceData.splice(this.selectedIndex, 1, addResourceRequest);
+        });
       }
     }
   }
@@ -191,7 +186,7 @@ export class ResourceRequirementPage implements OnInit {
 
   deleteData(id: string, index: number) {
     this.resourceRequirementService.deleteResource(id).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.resourceData.splice(index, 1);
         this.toastService.presentToast(
           this.toastConstants.Delete_success_message
