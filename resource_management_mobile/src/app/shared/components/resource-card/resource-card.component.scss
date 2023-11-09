@@ -1,0 +1,11 @@
+@import "../../../../theme/theme.scss";
+
+.input_space {
+  margin: 10px 0px;
+  --padding-start: 12px !important;
+}
+
+.header_container {
+  display: flex;
+  justify-content: $justify-content-space-between;
+}

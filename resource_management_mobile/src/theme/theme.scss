@@ -53,3 +53,8 @@ $header-font-weight: 600;
     font-weight: 400 !important;
     color: grey !important;
 }
+@mixin status-text{
+    font-size: 0.8em;
+    font-weight: 200;
+    color: $color-gray;
+}
