@@ -21,4 +21,8 @@ export class NotificationService {
     return this.http.get<notificationResponce>(`${this.URL}resource/remainders?` + urlParams);
   }
 
+  getAllNotification(): Observable<notificationResponce> {
+    return this.http.get<notificationResponce>(`${this.URL}resource/remainders`);
+  }
+
 }
