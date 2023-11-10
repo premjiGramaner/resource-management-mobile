@@ -19,7 +19,7 @@ export class NotificationsPage implements OnInit {
   viewNotificationData!: HiringInfo;
   constructor(
     private notificationService: NotificationService,
-    private modalCtrl: ModalController,
+    private modalCtrl: ModalController
   ) { }
 
   ngOnInit() {
@@ -66,10 +66,10 @@ export class NotificationsPage implements OnInit {
           'evaluated_by',
           'Status_status_id',
         ];
-        const newArray = res.data.HiringInfo.map((obj: any) => {
+        const newArray = res.data.HiringInfo.map((obj: HiringInfo) => {
           const newObj = { ...obj };
-          keyToRemove.map((item) => {
-            delete newObj[item];
+          keyToRemove.map((item: string) => {
+            delete newObj[item as keyof HiringInfo];
           });
           return newObj;
         });
@@ -85,7 +85,7 @@ export class NotificationsPage implements OnInit {
           ];
         });
         let keys = Object.keys(newArray[0]);
-        let pdfHeader = keys.reduce((result: any, item: any) => {
+        let pdfHeader = keys.reduce((result: Array<string>, item: string) => {
           result.push(item.split('_').join('').toUpperCase());
           return result;
         }, []);
