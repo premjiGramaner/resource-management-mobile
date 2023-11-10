@@ -17,7 +17,7 @@
   <ion-grid>
     <ion-row>
       <ion-list lines="none" class="w-100">
-        <ion-item-sliding *ngFor="let item of items; let index" #sliding>
+        <ion-item-sliding *ngFor="let item of items; index as i" #sliding>
          
           <ion-item id="open-modal" expand="block" (click)="detailData(item,'edit')">
             <ion-card class="shadow">
@@ -35,7 +35,7 @@
             </ion-card>
           </ion-item>
           <ion-item-options side="end">
-            <ion-item-option color="danger" (click)="deleteModal(item,index,sliding)">
+            <ion-item-option color="danger" (click)="deleteModal(item,i,sliding)">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-item-option>
           </ion-item-options>

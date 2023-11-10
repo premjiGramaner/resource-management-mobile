@@ -1,3 +1,6 @@
+import { Form, FormControl } from "@angular/forms";
+import { skill as Skill } from 'src/app/core/base-model/base.model';
+
 export interface resourceResponse {
     statusCode: number;
     data: {
@@ -14,7 +17,7 @@ export interface resourceData {
     resource_id: number,
     name: string,
     source: string,
-    Partner_partner_id: number,
+    Partner_partner_id?: number,
     type: string,
     experience: number,
     mobile_no: string,
@@ -34,9 +37,48 @@ export interface resourceData {
     preferred_location_name: string,
     current_location_name: string,
     work_location_name: string,
+    partner_name?: string,
     created_by: string,
     updated_by: string,
     skills: skill[]
+}
+
+export interface addResourceData {
+    resource_id?: FormControl,
+    name: FormControl,
+    source: FormControl,
+    Partner_partner_id?: FormControl,
+    type: FormControl,
+    experience: FormControl,
+    mobile_no: FormControl,
+    email_id: FormControl,
+    profile_location: FormControl,
+    ctc: FormControl,
+    ectc: FormControl,
+    notice_period: FormControl,
+    current_location: FormControl,
+    preferred_location: FormControl,
+    work_location: FormControl,
+    earliest_joining_date: FormControl,
+    current_organisation: FormControl,
+    current_org_duration: FormControl,
+    reason_for_change: FormControl,
+    skills: addSkill[]
+}
+
+export interface addSkill {
+    skill_id: FormControl,
+    relevant_experience: FormControl,
+    primary_skill_ind: FormControl,
+    rating: FormControl
+}
+
+export interface deleteResourceResponce {
+    statusCode: number,
+    data: {
+        resourceInfo: resourceData | boolean
+    },
+    message: string
 }
 
 export interface skill {
@@ -44,6 +86,8 @@ export interface skill {
     relevant_experience: number,
     primary_skill_ind: number,
     rating: number,
-    skill: object,
-    skill_id: number
+    skill: Skill,
+    skill_id: number,
+    description?:string,
+    ratingName?:string
 }

@@ -20,43 +20,43 @@
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.contact_person_email_id"
         [readonly]="true">
-        <div slot="label">Contact Person Email-id<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Contact Person Email-id</div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_name"
         [readonly]="true">
-        <div slot="label">Finance Person Name<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Finance Person Name</div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_email_id"
         [readonly]="true">
-        <div slot="label">Finance Person Email-id<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Finance Person Email-id</div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.finance_person_phone"
         [readonly]="true">
-        <div slot="label">Finance Person Phone<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Finance Person Phone</div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_name"
         [readonly]="true">
-        <div slot="label">Sales Person Name<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Sales Person Name</div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_email_id"
         [readonly]="true">
-        <div slot="label">Sales Person Email-id<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Sales Person Email-id</div>
       </ion-input>
     </ion-item>
     <ion-item>
       <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.sales_person_phone"
         [readonly]="true">
-        <div slot="label">Sales Person Phone<ion-text color="danger"> *</ion-text></div>
+        <div slot="label">Sales Person Phone</div>
       </ion-input>
     </ion-item>
     <ion-item>
@@ -66,10 +66,10 @@
       </ion-textarea>
     </ion-item>
     <ion-item>
-      <ion-textarea type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.strength"
+      <ion-input type="text" fill="outline" labelPlacement="floating" [value]="viewClientData.strength"
         [readonly]="true">
         <div slot="label">Strength<ion-text color="danger"> *</ion-text></div>
-      </ion-textarea>
+      </ion-input>
     </ion-item>
     <ion-item>
       <ion-card class="w-100">
@@ -80,10 +80,10 @@
             </ion-row>
             <ion-row>
               <ion-list class="w-100" lines="none">
-                <ion-item *ngFor="let skill of viewClientData.skills |duplicateRemover; let i = index" class="mb-2">
-                  <ion-col class="skill-list d-flex justify-content-between w-100">
+                <ion-item *ngFor="let skill of viewClientData.skills; let i = index" class="mb-2">
+                  <ion-col class="skill-list d-flex justify-content-between w-100" *ngIf="skill !== null">
                     <div>
-                      <ion-label class="w-100 skill-heading">{{skill.description}}</ion-label>
+                      <ion-label class="w-100 skill-heading">{{skill?.description}}</ion-label>
                     </div>
                   </ion-col>
                 </ion-item>
