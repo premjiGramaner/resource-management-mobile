@@ -20,7 +20,7 @@ import { resourceData, resourceResponse, stageData, stageResponse, statusData, s
 export class ResourceCardComponent implements OnInit {
   @Input() resourceId: any;
   resourceform!: FormGroup;
-  resourceData: any[] = [];
+  resourceData: resourceData[] = [];
   StatusData: statusData[] = [];
   StageData: stageData[] = [];
 
@@ -97,7 +97,7 @@ export class ResourceCardComponent implements OnInit {
   selectedResourceValue(id: number) {
     const resourceValue = this.resourceData.find((resource: resourceData) => id == resource.resource_id);
     this.resourceform.patchValue({
-      resource_name: resourceValue.name
+      resource_name: resourceValue!.name
     })
   }
 

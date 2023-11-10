@@ -1,33 +1,6 @@
-@import "../../../../theme/theme.scss";
 
 ion-label>span {
   color: red;
-}
-
-.skill_container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 10px;
-}
-
-.skil-del {
-  display: flex;
-  justify-content: end;
-}
-
-.skill-add {
-  display: flex;
-  justify-content: center;
-}
-
-.add-icon {
-  width: $width;
-  height: $height;
-}
-
-.skill-heading {
-  font-size: 1em;
-  font-weight: 400;
 }
 
 ion-modal#resource-modal {

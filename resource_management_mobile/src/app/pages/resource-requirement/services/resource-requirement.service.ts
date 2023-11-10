@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ResourceResponse, editResourceRequest, postResourceRequest, resourceId, resourceMatchedData } from '../models/resource-requirement-model';
+import { ResourceResponse, deleteResponce, editResourceRequest, postResourceRequest, resourceId, resourceMatchedData } from '../models/resource-requirement-model';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
 
 
 @Injectable({
@@ -42,10 +43,10 @@ export class ResourceRequirementService {
     return this.http.put<editResourceRequest>(`${this.URL}resource/requirement`, requestResource);
   }
 
-  deleteResource(id: string) {
-    return this.http.delete(`${this.URL}resource/requirement/${id}`).pipe(
+  deleteResource(id: number) {
+    return this.http.delete<deleteResponce>(`${this.URL}resource/requirement/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('Error while deleting a data ' + error.message);
+        return throwError(Common.error_delete + Modules.Resource_requirement.toLowerCase() + error.message);
       })
     );
   }

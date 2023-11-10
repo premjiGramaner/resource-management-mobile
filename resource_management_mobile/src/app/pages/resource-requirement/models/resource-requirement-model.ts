@@ -15,6 +15,11 @@ export interface postResourceRequest extends requirementBasicData {
 
 }
 
+export interface deleteResponce {
+    data: {
+        resourceRequirementInfo: requirementData | boolean
+    }
+}
 
 export interface editResourceRequest extends postResourceRequest {
     Resource_requirement_id: number;
@@ -173,3 +178,5 @@ export interface resourcePartner {
     partner_id: number;
     shared_on: string;
 }
+
+

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ResourceRequirementService } from './services/resource-requirement.service';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
@@ -10,6 +10,7 @@ import { Status } from 'src/app/core/enum/status.enum';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
 import {
   ResourceResponse,
+  deleteResponce,
   postResourceRequest,
   viewResourceData,
 } from './models/resource-requirement-model';
@@ -26,7 +27,7 @@ export class ResourceRequirementPage implements OnInit {
   searchQuery: string = '';
   isModalOpen: boolean = false;
   modelType!: string;
-  selectedIndex!: number;
+  selectedIndex: number = 0;
   resourceData: postResourceRequest[] = [];
   resourceEdit: boolean = false;
   isEnableEdit: boolean = false;
@@ -145,7 +146,6 @@ export class ResourceRequirementPage implements OnInit {
           this.getResource(this.skip, 20, this.searchQuery);
         }
       });
-
       modal.onDidDismiss().then((_) => {
         mySubject.unsubscribe();
       });
@@ -154,7 +154,7 @@ export class ResourceRequirementPage implements OnInit {
     }
   }
 
-  async deleteModal(item: any, index: number, sliding: any) {
+  async deleteModal(item: postResourceRequest, index: number, sliding: IonItemSliding) {
     let data = {
       from: Modules.Resource_requirement,
       type: Common.Delete,
@@ -174,7 +174,7 @@ export class ResourceRequirementPage implements OnInit {
 
     mySubject.subscribe((value: any) => {
       if (value == true) {
-        this.deleteData(item.Resource_requirement_id, index);
+        this.deleteData(item.Resource_requirement_id as number, index);
       }
     });
 
@@ -184,26 +184,26 @@ export class ResourceRequirementPage implements OnInit {
     sliding.close();
   }
 
-  deleteData(id: string, index: number) {
+  deleteData(id: number, index: number) {
     this.resourceRequirementService.deleteResource(id).subscribe({
-      next: (response) => {
+      next: (response: deleteResponce) => {
         this.resourceData.splice(index, 1);
         this.toastService.presentToast(
           this.toastConstants.Delete_success_message
         );
       },
       error: (response) => {
-        this.toastService.presentToast(this.toastConstants.try_again);
+        this.toastService.errorToast(response.message);
       },
     });
   }
 
-  setOpen(isOpen: boolean, type: string, skillInfo?: any, index?: any) {
+  setOpen(isOpen: boolean, type: string, skillInfo?: object, index?: number) {
     this.modelType = type;
     this.isModalOpen = isOpen;
     this.resourceEdit = false;
-    this.selectedIndex = index;
-    this.resourceMoreData = skillInfo;
+    this.selectedIndex = index as number;
+    this.resourceMoreData = skillInfo as viewResourceData;
   }
 
   async openExportModel() {
@@ -214,10 +214,10 @@ export class ResourceRequirementPage implements OnInit {
           'Requirement_requirement_id',
           'Resource_requirement_id',
         ];
-        const newArray = res.data.resourceRequirementInfo.map((obj: any) => {
+        const newArray = res.data.resourceRequirementInfo.map((obj: viewResourceData) => {
           const newObj = { ...obj };
           keyToRemove.map((item) => {
-            delete newObj[item];
+            delete newObj[item as keyof viewResourceData];
           });
           return newObj;
         });
@@ -232,7 +232,7 @@ export class ResourceRequirementPage implements OnInit {
         });
         let keys = Object.keys(newArray[0]);
         let elementToRemove = 'ResourceRequirementMappings';
-        let pdfHeader = keys.reduce((result: any, item: any) => {
+        let pdfHeader = keys.reduce((result: Array<string>, item: string) => {
           if (item !== elementToRemove) {
             result.push(item.split('_').join('').toUpperCase());
           }
