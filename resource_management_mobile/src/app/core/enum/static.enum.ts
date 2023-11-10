@@ -3,12 +3,13 @@ export enum Modules {
     Resource = 'Resource',
     Hiring = 'Hiring',
     Status = 'Status',
-    History = 'History'
+    History = 'History',
+    Location = 'Location'
 }
 
 export enum Common {
     skip = 'skip',
-    limit= 'limit',
+    limit = 'limit',
     search = 'search',
     Delete = 'Delete',
     Discard = 'Discard',

@@ -2,7 +2,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { locationData, locationResponce } from '../models/locaton.model';
+import { locationData, locationResponse } from '../models/location.model';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -13,22 +14,22 @@ export class LocationService {
 
   constructor(private http: HttpClient) { }
 
-  getLocation(skip: number, limit: number, search: string): Observable<locationResponce> {
+  getLocation(skip: number, limit: number, search: string): Observable<locationResponse> {
     let urlParams = new URLSearchParams();
     urlParams.append('skip', skip.toString());
     urlParams.append('limit', limit.toString());
     urlParams.append('search', search);
-    return this.http.get<locationResponce>(`${this.URL}location?` + urlParams);
+    return this.http.get<locationResponse>(`${this.URL}location?` + urlParams);
   }
 
-  getAllLocation(): Observable<locationResponce> {
-    return this.http.get<locationResponce>(`${this.URL}location`);
+  getAllLocation(): Observable<locationResponse> {
+    return this.http.get<locationResponse>(`${this.URL}location`);
   }
 
-  deleteLocation(id: string) {
+  deleteLocation(id: number) {
     return this.http.delete(`${this.URL}location/${id}`).pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('Error while deleting a data ' + error.message);
+        return throwError(Common.error_delete + Modules.Location.toLowerCase() + error.message);
       })
     );
   }
@@ -36,7 +37,7 @@ export class LocationService {
   postLocation(locationSaveReq: locationData) {
     return this.http.post(`${this.URL}location`, locationSaveReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('Error while posting a data ' + error.message);
+        return throwError(Common.error_create + Modules.Location.toLowerCase() + error.message);
       })
     );
   }
@@ -44,7 +45,7 @@ export class LocationService {
   editLocation(locationUpdateReq: locationData) {
     return this.http.put(`${this.URL}location`, locationUpdateReq).pipe(
       catchError((error: HttpErrorResponse) => {
-        return throwError('Error while update a data ' + error.message);
+        return throwError(Common.error_update + Modules.Location.toLowerCase() + error.message);
       })
     );
   }

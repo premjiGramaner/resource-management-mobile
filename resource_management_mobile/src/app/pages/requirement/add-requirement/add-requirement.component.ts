@@ -124,25 +124,25 @@ export class AddRequirementComponent implements OnInit {
   }
 
   getStatusList() {
-    this.commonService.getStatus().subscribe((res:statusResponse) => {
+    this.commonService.getStatus().subscribe((res: statusResponse) => {
       this.statusList = res.data.statusInfo;
     });
   }
 
   getClientList() {
-    this.clientService.getClientAllData().subscribe((res:clientResponce) => {
+    this.clientService.getClientAllData().subscribe((res: clientResponce) => {
       this.clientList = res.data.clientInfo;
     });
   }
 
   getUserList() {
-    this.userService.getUser().subscribe((res:UserData) => {
+    this.userService.getUser().subscribe((res: UserData) => {
       this.userList = res.data.userInfo;
     });
   }
 
   getLocationList() {
-    this.locationService.getAllLocation().subscribe((res:locationResponse) => {
+    this.locationService.getAllLocation().subscribe((res: locationResponse) => {
       this.locationList = res.data.locationInfo;
     });
   }
@@ -158,14 +158,14 @@ export class AddRequirementComponent implements OnInit {
   }
 
   getSkillList() {
-    this.skillService.getAllSkill().subscribe((res:skillResponce) => {
+    this.skillService.getAllSkill().subscribe((res: skillResponce) => {
       this.orgSkillList = res.data.skillInfo;
-      if(this.viewData){
+      if (this.viewData) {
         this.arrangeSkillData(this.viewData.skills);
       }
     });
 
-    
+
   }
 
   isFormValid() {

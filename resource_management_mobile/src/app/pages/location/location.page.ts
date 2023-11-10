@@ -1,13 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { LocationService } from './services/location.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { BehaviorSubject } from 'rxjs';
-import { locationData, locationResponce } from './models/locaton.model';
+import { locationData, locationResponse } from './models/location.model';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
+import { Common, Modules } from 'src/app/core/enum/static.enum';
+import { Status } from 'src/app/core/enum/status.enum';
 
 @Component({
   selector: 'app-location',
@@ -17,12 +19,12 @@ import { ExportOptionComponent } from 'src/app/shared/components/export-option/e
 export class LocationPage implements OnInit {
   locationForm!: FormGroup;
   showSearch: boolean = false;
-  locationData: any[] = [];
+  locationData: locationData[] = [];
   skip: number = 0;
   searchQuery: string = '';
   isModalOpen: boolean = false;
   modelType!: string;
-  locationMoreData!: any;
+  locationMoreData!: locationData;
   locationEdit: boolean = false;
   isEnableEdit: boolean = false;
   selectedIndex!: number;
@@ -47,7 +49,7 @@ export class LocationPage implements OnInit {
   getLocation(skip: number, limit: number, search: string) {
     this.locationService
       .getLocation(skip, limit, search)
-      .subscribe((data: locationResponce) => {
+      .subscribe((data: locationResponse) => {
         this.locationData = [...this.locationData, ...data.data.locationInfo];
       });
   }
@@ -60,16 +62,16 @@ export class LocationPage implements OnInit {
     }, 500);
   }
 
-  setOpen(isOpen: boolean, type: string, locationInfo?: any, index?: any) {
+  setOpen(isOpen: boolean, type: string, locationInfo?: locationData, index?: number) {
     this.modelType = type;
     this.isModalOpen = isOpen;
     this.locationEdit = false;
-    this.locationMoreData = locationInfo;
-    this.selectedIndex = index;
-    this.setDataLocationForm(locationInfo);
+    this.locationMoreData = locationInfo as locationData;
+    this.selectedIndex = index as number;
+    this.setDataLocationForm(locationInfo as locationData);
   }
 
-  setDataLocationForm(locationInfo: any) {
+  setDataLocationForm(locationInfo: locationData) {
     if (locationInfo != undefined) {
       this.isEnableEdit = true;
       this.locationForm.patchValue({
@@ -89,10 +91,10 @@ export class LocationPage implements OnInit {
     this.getLocation(this.skip, 20, this.searchQuery);
   }
 
-  deleteLocation(id: string, index: number) {
+  deleteLocation(id: number, index: number) {
     this.locationService.deleteLocation(id).subscribe({
       next: (response) => {
-        response = response as locationResponce;
+        response = response as locationResponse;
         this.locationData.splice(index, 1);
         this.toastService.presentToast(
           this.toastConstants.Delete_success_message
@@ -104,10 +106,10 @@ export class LocationPage implements OnInit {
     });
   }
 
-  async deleteModal(item: any, index: number, sliding: any) {
+  async deleteModal(item: locationData, index: number, sliding: IonItemSliding) {
     let data = {
-      from: 'Location',
-      type: 'Delete',
+      from: Modules.Location,
+      type: Common.Delete,
       value: item.Description,
     };
     const mySubject = new BehaviorSubject(data);
@@ -137,14 +139,14 @@ export class LocationPage implements OnInit {
   enableEdit() {
     this.locationEdit = true;
     this.isEnableEdit = false;
-    this.modelType = 'save';
+    this.modelType = Status.SAVE.toLowerCase();
   }
 
   async backForm(modelType: string) {
-    if (modelType == 'save' || this.locationEdit) {
+    if (modelType == Status.SAVE.toLowerCase() || this.locationEdit) {
       let data = {
-        from: 'Location',
-        type: 'Discard',
+        from: Modules.Location,
+        type: Common.Discard,
         value: '',
       };
       const mySubject = new BehaviorSubject(data);
@@ -162,7 +164,7 @@ export class LocationPage implements OnInit {
 
       mySubject.subscribe((value: any) => {
         if (value == true) {
-          this.modelType = 'save';
+          this.modelType = Status.SAVE.toLowerCase();
           this.isModalOpen = false;
           modal.dismiss();
         }
@@ -181,7 +183,7 @@ export class LocationPage implements OnInit {
       this.locationService
         .postLocation(this.locationForm.value)
         .subscribe((res) => {
-          const skillResponse = res as locationResponce;
+          const skillResponse = res as locationResponse;
           this.toastService.presentToast(skillResponse.message);
           // save data to local array
           this.locationData.unshift(this.locationForm.value);
@@ -190,7 +192,7 @@ export class LocationPage implements OnInit {
       let updateReq = this.locationForm.value;
       updateReq['Location_ID'] = this.locationMoreData.Location_ID;
       this.locationService.editLocation(updateReq).subscribe((res) => {
-        const skillResponse = res as locationResponce;
+        const skillResponse = res as locationResponse;
         this.toastService.presentToast(skillResponse.message);
         // save data to local array
         this.locationData.splice(this.selectedIndex, 1, this.locationForm.value);
@@ -201,12 +203,12 @@ export class LocationPage implements OnInit {
   async openExportModel() {
     this.locationService
       .getAllLocation()
-      .subscribe(async (res: locationResponce) => {
+      .subscribe(async (res: locationResponse) => {
         const keyToRemove = ['Location_ID'];
-        const newArray = res.data.locationInfo.map((obj: any) => {
+        const newArray = res.data.locationInfo.map((obj: locationData) => {
           const newObj = { ...obj };
           keyToRemove.map((item) => {
-            delete newObj[item];
+            delete newObj[item as keyof locationData];
           });
           return newObj;
         });
@@ -214,17 +216,17 @@ export class LocationPage implements OnInit {
           return [item.Description || ''];
         });
         let keys = Object.keys(newArray[0]);
-        let pdfHeader = keys.reduce((result: any, item: any) => {
+        let pdfHeader = keys.reduce((result: Array<string>, item: string) => {
           result.push(item.split('_').join('').toUpperCase());
           return result;
         }, []);
         //pdf header details
         let req = {
-          filename: 'location',
+          filename: Modules.Location,
           data: res.data.locationInfo,
           pdfData: pdfTableData,
           pdfHeader: pdfHeader,
-          title: 'Location PDF Report',
+          title: `${Modules.Location} PDF Report`,
           size: [400, 600],
         };
         const exportData = req;
