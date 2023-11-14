@@ -120,9 +120,12 @@ ion-card {
     width: $width;
     height: $height;
 }
-
 .skill_container {
   display: $display;
   justify-content:$justify-content-space-between;
   margin-top: 10px;
 }
+.space-between{
+    justify-content:$justify-content-space-between;
+}
+
