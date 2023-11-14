@@ -6,4 +6,7 @@ export class ToastConstants {
     Invalid_Partner = 'Enter atleast one partner';
     Delete_success_message = 'Deleted successfully';
     try_again = 'Please try again';
+    invalid_requirement_ID = 'Please select the requirement';
+    all_required_field = 'Please ender all required fields';
+    resource_record_not_found = 'Resource Record Not Found';
 }

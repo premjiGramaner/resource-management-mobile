@@ -4,12 +4,15 @@ export enum Modules {
     Hiring = 'Hiring',
     Status = 'Status',
     History = 'History',
-    Admin = 'admin'
+    Admin = 'admin',
+    Location = 'Location',
+    Resource_requirement = 'Resource_requirement',
+    Notification = 'Notification'
 }
 
 export enum Common {
     skip = 'skip',
-    limit= 'limit',
+    limit = 'limit',
     search = 'search',
     Delete = 'Delete',
     Discard = 'Discard',
