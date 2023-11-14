@@ -81,7 +81,7 @@ export class ResourceHiringPage implements OnInit {
         data: res.data.HiringInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: Modules.Hiring+' '+Common.report,
+        title: Modules.Hiring + ' ' + Common.report,
         size: [400, 500],
       };
       const exportData = req;

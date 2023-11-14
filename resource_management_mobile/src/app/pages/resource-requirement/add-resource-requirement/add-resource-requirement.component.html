@@ -1,0 +1,110 @@
+<ion-content [fullscreen]="true">
+  <form [formGroup]="resourceForm">
+    <ion-grid>
+      <ion-row>
+        <ion-select class="inputTxt" *ngIf="!isEnableEdit" label-placement="floating" interface="popover"
+          formControlName="Requirement_requirement_id" fill="outline" aria-label="user" placeholder="Select User"
+          (ngModelChange)="requirementSelected($event)">
+          <ion-text slot="label">Requirement</ion-text>
+          <ion-select-option *ngFor="let requirement of requirementData"
+            value={{requirement.requirement_id}}>{{requirement.name}}</ion-select-option>
+        </ion-select>
+        <!-- view state -->
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.requirement"
+          [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
+          <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text></ion-text>
+        </ion-input>
+        <ion-label
+          *ngIf="resourceForm.controls['Requirement_requirement_id'].invalid && (resourceForm.controls['Requirement_requirement_id'].dirty || resourceForm.controls['Requirement_requirement_id'].touched)"
+          class="alert alert-danger">
+          <ion-label *ngIf="resourceForm.controls['Requirement_requirement_id'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-select class="inputTxt" label-placement="floating" *ngIf="!isEnableEdit" interface="popover"
+          formControlName="evaluated_by" fill="outline" aria-label="user" placeholder="Select User">
+          <ion-text slot="label">Evaluated By</ion-text>
+          <ion-select-option *ngFor="let user of userData" value={{user.user_id}}>{{user.name}}</ion-select-option>
+        </ion-select>
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.evaluated_by_name"
+          [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
+          <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text></ion-text>
+        </ion-input>
+        <ion-label
+          *ngIf="resourceForm.controls['evaluated_by'].invalid && (resourceForm.controls['evaluated_by'].dirty || resourceForm.controls['evaluated_by'].touched)"
+          class="alert alert-danger">
+          <ion-label *ngIf="resourceForm.controls['evaluated_by'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-input class="inputTxt" *ngIf="!isEnableEdit" type="date" fill="outline" labelPlacement="floating"
+          placeholder="Enter Evaluated Date" formControlName="evaluated_date">
+          <div slot="label"> Evaluated Date<ion-text color="danger">*</ion-text></div>
+        </ion-input>
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.evaluated_date"
+          [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
+          <ion-text slot="label">Evaluated Date<ion-text color="danger"> *</ion-text></ion-text>
+        </ion-input>
+        <ion-label
+          *ngIf="resourceForm.controls['evaluated_date'].invalid && (resourceForm.controls['evaluated_date'].dirty || resourceForm.controls['evaluated_date'].touched)"
+          class="alert alert-danger">
+          <ion-label *ngIf="resourceForm.controls['evaluated_date'].errors?.['required'] ">
+            This field is required.
+          </ion-label>
+        </ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-textarea class="inputTxt inputTxtArea" type="text" fill="outline" [readonly]="isEnableEdit"
+          labelPlacement="floating" [counter]="true" maxlength="200" minHeight="40"
+          placeholder="Enter Reason for Change" formControlName="comments">
+          <div slot="label">Comments<ion-text color="danger"> *</ion-text></div>
+        </ion-textarea>
+      </ion-row>
+      <ion-card>
+        <ion-row>
+          <ion-col class="card-user-info">
+            <ion-row class="d-flex justify-content-between skill_container">
+              <ion-label class="resource-heading">Resource <ion-text color="danger"> *</ion-text></ion-label>
+              <ion-label *ngIf="flag != 'edit'"><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
+                  name="add-circle-outline"></ion-icon></ion-label>
+            </ion-row>
+            <ion-row>
+              <ion-list class="w-100" lines="none">
+                <ion-item-sliding *ngFor="let resource of addedResource; let i = index" #sliding>
+                  <ion-item id="open-modal" expand="block">
+                    <ion-col class="skill-list  skill_container">
+                      <div class="">
+                        <ion-label class="w-100 skill-heading">{{resource?.resource_name}}</ion-label>
+                        <ion-label class="w-100 stage-text">{{resource.stage_description}}</ion-label>
+                      </div>
+                      <div>
+                        <ion-label class="w-100 status-text">{{resource.status_description}}</ion-label>
+                      </div>
+                    </ion-col>
+                  </ion-item>
+                  <ion-item-options side="end" *ngIf="flag != 'edit'">
+                    <ion-item-option color="light" (click)="deleteSelectedResource(i,sliding)">
+                      <ion-icon slot="icon-only" name="trash" name="trash-outline" size="small"
+                        color="danger"></ion-icon>
+                    </ion-item-option>
+                  </ion-item-options>
+                </ion-item-sliding>
+              </ion-list>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-card>
+    </ion-grid>
+  </form>
+
+  <ion-modal  id="resource-modal" [isOpen]="isModalOpen" showBackdrop="false"   backdropDismiss="false" *ngIf="flag != 'edit'"  
+    #modal trigger="open-custom-dialog">
+    <ng-template>
+      <app-resource-card [resourceId]="resourceId" (addResource)="getSelectedResource($event)"></app-resource-card>
+    </ng-template>
+  </ion-modal>
+</ion-content>
