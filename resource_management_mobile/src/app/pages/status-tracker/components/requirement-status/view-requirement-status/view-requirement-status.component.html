@@ -1,0 +1,34 @@
+<ion-content [fullscreen]="true">
+  <ion-list lines="none">
+    <ion-item *ngIf="viewData?.requirement">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.requirement"
+        [readonly]="true">
+        <div slot="label">Requirement Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="viewData?.resource">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.resource"
+        [readonly]="true">
+        <div slot="label">Resource Name<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+
+    <ion-item *ngIf="viewData?.stage">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.stage"
+        [readonly]="true">
+        <div slot="label">Stage<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="viewData?.status">
+      <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" [value]="viewData?.status"
+        [readonly]="true">
+        <div slot="label">Status<ion-text color="danger"> *</ion-text></div>
+      </ion-input>
+    </ion-item>
+    
+
+  </ion-list>
+</ion-content>

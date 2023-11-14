@@ -11,6 +11,8 @@ import { HiringStatusComponent } from './components/hiring-status/hiring-status.
 import { RequirementStatusComponent } from './components/requirement-status/requirement-status.component';
 import { HiringChangeCardComponent } from 'src/app/shared/components/hiring-change-card/hiring-change-card.component';
 import { ResourceHiringPageModule } from '../resource-hiring/resource-hiring.module';
+import { ViewRequirementStatusComponent } from './components/requirement-status/view-requirement-status/view-requirement-status.component';
+import { RequirementChangeStatusComponent } from 'src/app/shared/components/requirement-change-status/requirement-change-status.component';
 
 @NgModule({
   imports: [
@@ -19,8 +21,9 @@ import { ResourceHiringPageModule } from '../resource-hiring/resource-hiring.mod
     IonicModule,
     StatusTrackerPageRoutingModule,
     HiringChangeCardComponent,
+    RequirementChangeStatusComponent,
     ResourceHiringPageModule
   ],
-  declarations: [StatusTrackerPage, HiringStatusComponent, RequirementStatusComponent]
+  declarations: [StatusTrackerPage, HiringStatusComponent, RequirementStatusComponent, ViewRequirementStatusComponent]
 })
 export class StatusTrackerPageModule {}

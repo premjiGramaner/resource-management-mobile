@@ -7,6 +7,20 @@ export interface ResourceResponse extends BaseResponce {
     };
 }
 
+export interface adminResourceRequirementResponse extends BaseResponce {
+    data: {
+        count?: number;
+        resourceRequirementMappings: adminRequirementData[];
+    };
+}
+
+export interface updateStatusResponse extends BaseResponce {
+    data: {
+        resourceRequirementInfo: updateStatus;
+    };
+}
+
+
 export interface postResourceRequest extends requirementBasicData {
     resources?: resourceIDs[];
     Resource_requirement_id?: number;
@@ -31,6 +45,21 @@ export interface requirementData extends requirementBasicData {
     requirement: string;
     evaluated_by_name: string;
 
+}
+
+export interface updateStatus {
+    Resource_requirement_id: number;
+    Requirement_requirement_id: number;
+    Resource_resource_id: number;
+    Status_status_id:number;
+    Stage_stage_id: number;
+}
+
+export interface adminRequirementData extends updateStatus{
+    requirement: string;
+    resource: string;
+    stage: string;
+    status: string;
 }
 
 export interface resourceData extends resourceIDs, ResourceRequirementMappingsNewKeys {

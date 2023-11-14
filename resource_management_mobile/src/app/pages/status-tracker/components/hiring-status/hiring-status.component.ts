@@ -5,7 +5,6 @@ import { Status } from 'src/app/core/enum/status.enum';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { hiringData, hiringResponse, updateHiringStatus } from 'src/app/pages/resource-hiring/model/hiring.model';
 import { HiringService } from 'src/app/pages/resource-hiring/service/hiring.service';
-import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 
 @Component({
   selector: 'app-hiring-status',

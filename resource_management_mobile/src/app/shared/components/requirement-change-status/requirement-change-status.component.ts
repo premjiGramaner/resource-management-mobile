@@ -2,41 +2,39 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
-import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { CommonService } from '../../services/common.service';
-import { statusData, statusResponse } from '../../models/common.model';
-import { hiringData } from 'src/app/pages/resource-hiring/model/hiring.model';
+import { stageData, stageResponse, statusData, statusResponse } from '../../models/common.model';
 
 @Component({
-  selector: 'app-hiring-change-card',
-  templateUrl: './hiring-change-card.component.html',
-  styleUrls: ['./hiring-change-card.component.scss'],
+  selector: 'app-requirement-change-status',
+  templateUrl: './requirement-change-status.component.html',
+  styleUrls: ['./requirement-change-status.component.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, ReactiveFormsModule]
 })
-export class HiringChangeCardComponent  implements OnInit {
-  @Input() hiringData: hiringData | undefined;
+export class RequirementChangeStatusComponent  implements OnInit {
 
+  @Input() requirementData: any;
+
+  stageList:stageData[]=[];
   statusList:statusData[]=[];
-  hiringStageList= this.staticData.hiring_stage;
-  hiringStatusList=this.staticData.hiring_status;
+  
 
   addform!: FormGroup;
   @Output() changeStatus = new EventEmitter();
   @Output() closeStatus = new EventEmitter();
 
   constructor(private modalController: ModalController,
-    private commonService:CommonService,
-    private staticData: StaticDataConstants) { }
+    private commonService:CommonService) { }
 
   ngOnInit() {
     this.getStatusList();
+    this.getStageList();
     this.addform = new FormGroup({
-      hiring_tracker_id: new FormControl(''+this.hiringData?.hiring_tracker_id,Validators.required),
-      hiring_stage: new FormControl(this.hiringData?.hiring_stage,Validators.required),
-      hiring_status: new FormControl(this.hiringData?.hiring_status,Validators.required),
-      comments: new FormControl('',Validators.required),
-      Status_status_id: new FormControl(''+this.hiringData?.Status_status_id,Validators.required)
+      Resource_requirement_id: new FormControl(''+this.requirementData.Resource_requirement_id,Validators.required),
+      Resource_resource_id: new FormControl(''+this.requirementData.Resource_resource_id,Validators.required),
+      Status_status_id: new FormControl(''+this.requirementData.Status_status_id,Validators.required),
+      Stage_stage_id: new FormControl(''+this.requirementData.Stage_stage_id,Validators.required),
     });
   }
 
@@ -59,4 +57,11 @@ export class HiringChangeCardComponent  implements OnInit {
       this.statusList = res.data.statusInfo;
     })
   }
+
+  getStageList(){
+    this.commonService.getStage().subscribe((res:stageResponse)=>{
+      this.stageList = res.data.stageInfo;
+    })
+  }
+
 }
