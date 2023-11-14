@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { IonicModule, ModalController } from '@ionic/angular';
 import { CommonService } from '../../services/common.service';
 import { stageData, stageResponse, statusData, statusResponse } from '../../models/common.model';
+import { adminRequirementData } from 'src/app/pages/resource-requirement/models/resource-requirement-model';
 
 @Component({
   selector: 'app-requirement-change-status',
@@ -14,7 +15,7 @@ import { stageData, stageResponse, statusData, statusResponse } from '../../mode
 })
 export class RequirementChangeStatusComponent  implements OnInit {
 
-  @Input() requirementData: any;
+  @Input() requirementData: adminRequirementData | undefined;
 
   stageList:stageData[]=[];
   statusList:statusData[]=[];
@@ -31,10 +32,10 @@ export class RequirementChangeStatusComponent  implements OnInit {
     this.getStatusList();
     this.getStageList();
     this.addform = new FormGroup({
-      Resource_requirement_id: new FormControl(''+this.requirementData.Resource_requirement_id,Validators.required),
-      Resource_resource_id: new FormControl(''+this.requirementData.Resource_resource_id,Validators.required),
-      Status_status_id: new FormControl(''+this.requirementData.Status_status_id,Validators.required),
-      Stage_stage_id: new FormControl(''+this.requirementData.Stage_stage_id,Validators.required),
+      Resource_requirement_id: new FormControl(''+this.requirementData?.Resource_requirement_id,Validators.required),
+      Resource_resource_id: new FormControl(''+this.requirementData?.Resource_resource_id,Validators.required),
+      Status_status_id: new FormControl(''+this.requirementData?.Status_status_id,Validators.required),
+      Stage_stage_id: new FormControl(''+this.requirementData?.Stage_stage_id,Validators.required),
     });
   }
 
