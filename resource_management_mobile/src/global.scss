@@ -59,7 +59,7 @@ ion-accordion-group {
 }
 
 .nodata-found {
-    text-align: center;
+    text-align: $justify-content-center;
     font-weight: 700;
 
     h5 {
@@ -69,8 +69,8 @@ ion-accordion-group {
 }
 
 .skill-list {
-    background: rgb(150 150 165 / 23%);;
-    display: flex;
+    background: rgb(150 150 165 / 23%);
+    display: $display;
     align-items: center;
     border-radius: 8px;
     padding: 4px 10px;
@@ -83,33 +83,49 @@ ion-accordion-group {
 }
 
 .card-user-info {
-    display: flex;
-    flex-direction: column;
+    display: $display;
+    flex-direction: $flex-direction-column;
     line-height: 22px;
     padding: 11px;
 }
 
-.user{
+.user {
     @include userName;
 }
-.user-label{
+
+.user-label {
     @include userOtherInfo;
 }
 
-.user-status{
+.user-status {
     @include userStatus;
 }
 
 
-ion-card{
+ion-card {
     width: 100%;
 }
 
-.back-icon{
+.back-icon {
     width: $width;
     height: $height;
 }
 
+.header_container {
+    display: $display;
+    justify-content: $justify-content-space-between;
+}
+
+.add-icon {
+    width: $width;
+    height: $height;
+}
+.skill_container {
+  display: $display;
+  justify-content:$justify-content-space-between;
+  margin-top: 10px;
+}
 .space-between{
     justify-content:$justify-content-space-between;
 }
+
