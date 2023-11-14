@@ -4,7 +4,9 @@ export enum Modules {
     Hiring = 'Hiring',
     Status = 'Status',
     History = 'History',
-    Location = 'Location'
+    Location = 'Location',
+    Resource_requirement = 'Resource_requirement',
+    Notification = 'Notification'
 }
 
 export enum Common {
