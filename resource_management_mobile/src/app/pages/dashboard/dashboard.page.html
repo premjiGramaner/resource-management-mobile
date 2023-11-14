@@ -1,3 +1,53 @@
 <ion-content [fullscreen]="true">
-  <p>dashboard works!</p>
+  <ion-grid id="container" class="p-2 ps-3 pe-3 shadow">
+    <ion-row>
+      <ion-col class="center-alignment">
+        <h5>Dashboard</h5>
+      </ion-col>
+      <ion-col class="mt-3">
+        <ion-select  (ngModelChange)="selectDateType($event)" [(ngModel)]="selectedFilterValue" label-placement="floating"
+          interface="popover" fill="outline" aria-label="user" placeholder="Select User">
+          <ion-select-option *ngFor="let col of filterCategory"
+            value={{col.id}}>{{col.date}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-grid class="p-2 ps-3 pe-3 shadow top">
+    <ion-row>
+      <ion-card>
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">Resource</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">Resource</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">Resource</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <br/>
+          <br/>
+          <br/>
+          <br/>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
 </ion-content>
