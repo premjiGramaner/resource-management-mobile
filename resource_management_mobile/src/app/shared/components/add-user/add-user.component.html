@@ -1,0 +1,42 @@
+<div class="p-2">
+  <div class="skill_pophead">
+    <h4>Add User</h4>
+    <ion-icon name="close" size="default" (click)="setClose()" class="align-self-center"></ion-icon>
+  </div>
+  <form [formGroup]="addform" (ngSubmit)="onSubmit(addform)">
+    <ion-list lines="none">
+      <ion-item >
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" formControlName="name" errorText="Invalid name" required>
+          <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item >
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" formControlName="userName" errorText="Invalid username" required>
+          <div slot="label">Username<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+      </ion-item>
+
+      <ion-item >
+        <ion-input class="inputTxt" type={{passwordInputType}} fill="outline" labelPlacement="floating" formControlName="password" errorText="Invalid password" required>
+          <div slot="label">Password<ion-text color="danger"> *</ion-text></div>
+        </ion-input>
+        <span (click)="passwordShow()" id="password_child" class="showHide">
+          <ion-icon name="eye-off-outline" *ngIf="!showPasswordText" slot="end"></ion-icon>
+          <ion-icon name="eye-outline" *ngIf="showPasswordText" slot="end"></ion-icon>
+        </span>
+      </ion-item>
+    
+      <ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="block" size="default" type="submit">Add</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-item>
+    </ion-list>
+  </form>
+
+</div>
