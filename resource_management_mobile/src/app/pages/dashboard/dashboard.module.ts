@@ -5,10 +5,12 @@ import { IonicModule } from '@ionic/angular';
 import { DashboardPageRoutingModule } from './dashboard-routing.module';
 import { DashboardPage } from './dashboard.page';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { HttpClientModule } from '@angular/common/http';
+import { ClientChartComponent } from './charts/client-chart/client-chart.component';
 
 @NgModule({
-  imports: [CommonModule, FormsModule, IonicModule, DashboardPageRoutingModule],
-  declarations: [DashboardPage],
+  imports: [CommonModule, FormsModule, IonicModule, HttpClientModule, DashboardPageRoutingModule],
+  declarations: [DashboardPage, ClientChartComponent],
   providers: [StaticDataConstants]
 })
 export class DashboardPageModule { }
