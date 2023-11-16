@@ -1,12 +1,12 @@
-export interface addUserResponse {
-    statusCode: number;
+import { BaseResponce } from "src/app/core/base-model/base.model";
+
+export interface addUserResponse extends BaseResponce{
     data: {
         createStatus: boolean | {
             isFulfilled: boolean;
             isRejected: boolean
         }
     };
-    message:string
 }
 
 export interface addUser {
