@@ -11,18 +11,28 @@ import { Observable, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
+import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
+import { SecurityService } from 'src/app/shared/helpers/security.service';
+import { Router } from '@angular/router';
+import { ToastService } from 'src/app/core/toast/toast.service';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
   loaderToShow: any;
   constructor(
-    public loadingController: LoadingController
+    public loadingController: LoadingController,
+    private cookiesConstants: CookiesConstants,
+    private toastConstants: ToastConstants,
+    private security: SecurityService,
+    private router: Router,
+    private toastService: ToastService
   ) { }
 
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHBpcmUiOjE2ODUwMTMzMDA5ODYsImNhblVwZGF0ZVRva2VuIjoxNjg1MDA5NzAwOTg3LCJ1c2VyIjoxLCJpYXQiOjE2ODUwMDI1MDB9.ArkqMp4CPr86ziobewXirCdTeg69jpVfN7RTHX33zYw";
+    const token = this.security.getItem(this.cookiesConstants.token);
 
     //Authentication by setting header with token value
     if (token) {
@@ -52,6 +62,11 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
+        if (error.error.error.name == this.toastConstants.tokenError) {
+          this.toastService.errorToast(this.toastConstants.timeout);
+          this.router.navigate(['']);
+          this.security.clearItem();
+        }
         return throwError(error);
       }));
   }
