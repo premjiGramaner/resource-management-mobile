@@ -17,6 +17,14 @@
     <ion-row>
       <ion-card>
         <ion-card-header class="card-header">
+          <ion-card-title class="card-title">Resource</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-resource-chart [resourceChartData]="resourceChartData"></app-resource-chart>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header class="card-header">
           <ion-card-title class="card-title">Requirement</ion-card-title>
         </ion-card-header>
         <ion-card-content>
@@ -33,13 +41,10 @@
       </ion-card>
       <ion-card>
         <ion-card-header class="card-header">
-          <ion-card-title class="card-title">Resource</ion-card-title>
+          <ion-card-title class="card-title">Remainder </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <br/>
-          <br/>
-          <br/>
-          <br/>
+          <!-- <app-remainder-chart></app-remainder-chart> -->
         </ion-card-content>
       </ion-card>
     </ion-row>

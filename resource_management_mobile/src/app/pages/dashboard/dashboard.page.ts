@@ -9,8 +9,8 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 import { Common } from 'src/app/core/enum/static.enum';
 import { Chart, ChartType, registerables } from 'chart.js';
 import { DashboardService } from './services/dashboard.service';
-import { PostClientChart, clientChartData, requirementChartData } from './models/dashboard.model';
-import { dashboardClientResponse } from './models/dashboard.API.model';
+import { PostClientChart, PostRemainderChart, clientChartData, remainderChartData, remainderDataSet, requirementChartData, resourceChartData } from './models/dashboard.model';
+import { dashboardClientResponse, dashboardRequirementResponse } from './models/dashboard.API.model';
 Chart.register(...registerables);
 @Component({
   selector: 'app-dashboard',
@@ -19,20 +19,32 @@ Chart.register(...registerables);
 })
 export class DashboardPage implements OnInit {
   filterCategory = this.StaticDataConstants.dashboard_select_options;
-  selectedFilterValue: Object = '' + this.filterCategory[0].id;
-  filterType = Common.date.toUpperCase();
+  selectedFilterValue: Object = '' + this.filterCategory[1].id;
+  filterType = Common.month.toUpperCase();
   barChart!: Object;
 
   clientChartData: clientChartData = {
     dataset: [],
     label: [],
-    filterType: Common.date.toUpperCase(),
+    filterType: Common.month.toUpperCase(),
   };
 
   requirementChartData: requirementChartData = {
     dataset: [],
     label: [],
-    filterType: Common.date.toUpperCase(),
+    filterType: Common.month.toUpperCase(),
+  };
+
+  resourceChartData: resourceChartData = {
+    dataset: [],
+    label: [],
+    filterType: Common.month.toUpperCase(),
+  };
+
+  remainderChartData: remainderChartData = {
+    dataset: [],
+    label: [],
+    filterType: Common.month.toUpperCase(),
   };
 
   test = [
@@ -188,7 +200,7 @@ export class DashboardPage implements OnInit {
         this.filterType = Common.year.toUpperCase();
         break;
       default:
-        this.filterType = Common.date.toUpperCase();
+        this.filterType = Common.month.toUpperCase();
     }
     /**
      * Month based filter
@@ -200,8 +212,16 @@ export class DashboardPage implements OnInit {
         endDate: dateRange.endDate,
         type: this.filterType,
       };
+      let monthRemainderReq: PostRemainderChart = {
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
+        type: this.filterType,
+        userId: 1
+      };
       this.getDashboardClient(monthReq);
       this.getDashboardRequirementData(monthReq);
+      this.getDashboardResourceData(monthReq);
+      this.getDashboardRemainderData(monthRemainderReq)
     }
     /**
      * Year based filter
@@ -215,6 +235,7 @@ export class DashboardPage implements OnInit {
       };
       this.getDashboardClient(yearReq);
       this.getDashboardRequirementData(yearReq);
+      this.getDashboardResourceData(yearReq);
     }
     /**
     * Date based filter
@@ -228,6 +249,7 @@ export class DashboardPage implements OnInit {
       };
       this.getDashboardClient(dateReq);
       this.getDashboardRequirementData(dateReq);
+      this.getDashboardResourceData(dateReq);
     }
   }
 
@@ -255,10 +277,9 @@ export class DashboardPage implements OnInit {
       }
     });
   }
-  getDashboardRequirementData(req: any) {
-    this.getDashboardAPI.getDashboardRequirement(req).subscribe(async (res: any) => {
-      console.log(res);
 
+  getDashboardRequirementData(req: PostClientChart) {
+    this.getDashboardAPI.getDashboardRequirement(req).subscribe(async (res: dashboardRequirementResponse) => {
       if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
         this.requirementChartData = {
           filterType: this.filterType,
@@ -283,6 +304,57 @@ export class DashboardPage implements OnInit {
     });
   }
 
+  getDashboardResourceData(req: PostClientChart) {
+    this.getDashboardAPI.getDashboardResource(req).subscribe(async (res: any) => {
+      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+        this.resourceChartData = {
+          filterType: this.filterType,
+          label: await this.getLastSixMonths(),
+          dataset: await res.data.dashboardResourceInfo,
+        };
+      }
+      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+        this.resourceChartData = {
+          filterType: this.filterType,
+          label: await this.getLastFiveYear(),
+          dataset: await res.data.dashboardResourceInfo,
+        };
+      }
+      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+        this.resourceChartData = {
+          filterType: this.filterType,
+          label: await this.getLast30DaysFormattedDates(),
+          dataset: await res.data.dashboardResourceInfo,
+        };
+      }
+    });
+  }
+
+  getDashboardRemainderData(req: PostRemainderChart) {
+    this.getDashboardAPI.getDashboardRemainder(req).subscribe(async (res: any) => {
+      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+        this.remainderChartData = {
+          filterType: this.filterType,
+          label: await this.getLastSixMonths(),
+          dataset: await res.data.dashboardReminderInfo,
+        };
+      }
+      // else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+      //   this.resourceChartData = {
+      //     filterType: this.filterType,
+      //     label: await this.getLastFiveYear(),
+      //     dataset: await res.data.dashboardResourceInfo,
+      //   };
+      // }
+      // else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+      //   this.resourceChartData = {
+      //     filterType: this.filterType,
+      //     label: await this.getLast30DaysFormattedDates(),
+      //     dataset: await res.data.dashboardResourceInfo,
+      //   };
+      // }
+    });
+  }
   /**
    * 
    * Helper  functions
@@ -301,7 +373,7 @@ export class DashboardPage implements OnInit {
     return dates;
   }
   defaultAllDashboardCall() {
-    let dateRange = this.getLast30DaysDateRange();
+    let dateRange = this.getLastSixMonthsRange();
     let dateReq = {
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
@@ -309,6 +381,7 @@ export class DashboardPage implements OnInit {
     };
     this.getDashboardClient(dateReq);
     this.getDashboardRequirementData(dateReq);
+    this.getDashboardResourceData(dateReq)
   }
   getLastSixMonths() {
     let today = new Date();

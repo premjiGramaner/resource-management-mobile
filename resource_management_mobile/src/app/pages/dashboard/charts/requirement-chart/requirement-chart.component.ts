@@ -4,7 +4,8 @@ import { Common } from 'src/app/core/enum/static.enum';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
-Chart.register(zoomPlugin,);
+import { DashboardHelperService } from '../../services/dashboard-helper.service';
+Chart.register(zoomPlugin);
 @Component({
   selector: 'app-requirement-chart',
   templateUrl: './requirement-chart.component.html',
@@ -17,7 +18,9 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
   chartStyles = this.staticDataConstants.chartStyles;
   noDataAvailable = Common.empty_chart;
 
-  constructor(private staticDataConstants: StaticDataConstants) { }
+  constructor(
+    private staticDataConstants: StaticDataConstants,
+    private dashboardHelperService: DashboardHelperService) { }
 
   ngOnInit() { }
 
@@ -27,7 +30,6 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
   }
 
   ngOnChanges() {
-    console.log('************', this.requirementChartData)
     if (this.requirementChartData.dataset.length != 0) {
       this.requirementChart.destroy();
       const filterType: string = this.requirementChartData.filterType.toUpperCase();
@@ -42,6 +44,7 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
       }
     }
   }
+
   requirementMonthData() {
     const uniqueOwners = this.requirementChartData.dataset.reduce(
       (acc: string[], info: requirementFilterData) => {
@@ -54,6 +57,7 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
       },
       []
     );
+
     /**
      * hiringStage key is  created dynamically
      */
@@ -72,12 +76,13 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
     const output: ClientDataSet[] = Object.entries(hiringStage).map(([owner, data]) => ({
       label: owner,
       data: data as string[],
-      backgroundColor: this.getRandomColor(),
-      borderColor: this.getRandomColor(),
+      backgroundColor: this.dashboardHelperService.getRandomColor(),
+      borderColor: this.dashboardHelperService.getRandomColor(),
       borderWidth: 1,
     }));
     this.initializeChart(output);
   }
+
   requirementYearData(requirementInfo: requirementChartData) {
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of requirementInfo.dataset) {
@@ -96,8 +101,8 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
       ([label, data]) => ({
         label: label,
         data: data,
-        backgroundColor: this.getRandomColor(),
-        borderColor: this.getRandomColor(),
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
         borderWidth: 1,
       })
     );
@@ -129,8 +134,8 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
     const outputData: ClientDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
       label: label,
       data: data,
-      backgroundColor: this.getRandomColor(),
-      borderColor: this.getRandomColor(),
+      backgroundColor: this.dashboardHelperService.getRandomColor(),
+      borderColor: this.dashboardHelperService.getRandomColor(),
       borderWidth: 1,
     }));
     this.initializeChart(outputData);
@@ -141,8 +146,6 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
     return diffDays;
   }
   initializeChart(data?: requirementDataSet[]) {
-    console.log('data', data, this.requirementChartData.label);
-
     data = data as requirementDataSet[]
     this.requirementChart = new Chart(this.requirementCanvas.nativeElement, {
       type: 'bar',
@@ -184,11 +187,7 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
       },
     });
   }
-  getRandomColor() {
-    return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
-      Math.random() * 256
-    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
-  }
+
   applyCanvasStyles() {
     const canvasElement = this.requirementCanvas.nativeElement;
     Object.assign(canvasElement.style, this.chartStyles);

@@ -19,6 +19,7 @@ import {
 } from '../../models/dashboard.model';
 import { Common } from 'src/app/core/enum/static.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { DashboardHelperService } from '../../services/dashboard-helper.service';
 @Component({
   selector: 'app-client-chart',
   templateUrl: './client-chart.component.html',
@@ -31,13 +32,15 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('barCanvas') private barCanvas!: ElementRef;
   chartStyles = this.staticDataConstants.chartStyles;
   noDataAvailable = Common.empty_chart;
-  constructor(private staticDataConstants: StaticDataConstants) { }
+  constructor(
+    private staticDataConstants: StaticDataConstants,
+    private dashboardHelperService: DashboardHelperService) { }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
     this.applyCanvasStyles();
-    this.initializeChart()
+    this.initializeChart();
   }
 
   ngOnChanges() {
@@ -90,42 +93,55 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
     const output: ClientDataSet[] = Object.entries(ownersData).map(([owner, data]) => ({
       label: owner,
       data: data as string[],
-      backgroundColor: this.getRandomColor(),
-      borderColor: this.getRandomColor(),
+      backgroundColor: this.dashboardHelperService.getRandomColor(),
+      borderColor: this.dashboardHelperService.getRandomColor(),
       borderWidth: 1,
     }));
     this.initializeChart(output);
   }
 
-  dashboardDayData(dashboardClientInfo: clientChartData) {
-    const transformedData: { [key: string]: number[] } = {};
-    for (const clientInfo of dashboardClientInfo.dataset) {
-      for (const dataObj of clientInfo.data) {
-        const label = dataObj.owner.name;
-        transformedData[label] = Array(30).fill(0);
-      }
-    }
-    for (const clientInfo of dashboardClientInfo.dataset) {
-      const givenDate = new Date(clientInfo.Date);
-      for (const dataObj of clientInfo.data) {
-        const label = dataObj.owner.name;
-        const count = dataObj.Count;
-        const dataDate = new Date(clientInfo.Date);
-        if (!isNaN(dataDate.getTime())) {
-          const index = this.getDayDifference(givenDate, dataDate);
-          if (index >= 0 && index < 5) {
-            transformedData[label][index] += count;
-          }
+  dashboardDayData(rawData: clientChartData) {
+
+    const dateMap = new Map<string, number[]>();
+    rawData.dataset.forEach((entry: clientFilterData) => {
+      dateMap.set('' + entry.Date, new Array(30).fill(0));
+    });
+    rawData.dataset.forEach((entry: clientFilterData) => {
+      const counts = new Array(30).fill(0);
+      entry.data.forEach((item: any) => {
+        const index = new Date(entry.Date).getDate() - 1;
+        counts[index] += item.Count;
+      });
+      dateMap.set('' + entry.Date, counts);
+    });
+    const ownersMap = new Map<string, number[]>();
+    rawData.dataset.forEach((entry: clientFilterData) => {
+      entry.data.forEach((item: countDetails) => {
+        const owner = item.owner.name;
+        if (!ownersMap.has(owner)) {
+          ownersMap.set(owner, new Array(30).fill(0));
         }
-      }
-    }
-    const outputData: ClientDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
-      label: label,
-      data: data,
-      backgroundColor: this.getRandomColor(),
-      borderColor: this.getRandomColor(),
-      borderWidth: 1,
-    }));
+      });
+    });
+
+    rawData.dataset.forEach((entry: clientFilterData) => {
+      const counts = new Array(30).fill(0);
+      entry.data.forEach((item: countDetails) => {
+        const ownerCounts = ownersMap.get(item.owner.name);
+        const index = new Date(entry.Date).getDate() - 1;
+        ownerCounts![index] += item.Count;
+      });
+    });
+    const outputData: any[] = [];
+    ownersMap.forEach((value, key) => {
+      outputData.unshift({
+        label: key,
+        data: value,
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      });
+    });
     this.initializeChart(outputData);
   }
 
@@ -153,8 +169,8 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
       ([label, data]) => ({
         label: label,
         data: data,
-        backgroundColor: this.getRandomColor(),
-        borderColor: this.getRandomColor(),
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
         borderWidth: 1,
       })
     );
@@ -201,11 +217,5 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
         },
       },
     });
-  }
-
-  getRandomColor() {
-    return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
-      Math.random() * 256
-    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
   }
 }
