@@ -7,10 +7,11 @@ import { DashboardPage } from './dashboard.page';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { HttpClientModule } from '@angular/common/http';
 import { ClientChartComponent } from './charts/client-chart/client-chart.component';
+import { RequirementChartComponent } from './charts/requirement-chart/requirement-chart.component';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, HttpClientModule, DashboardPageRoutingModule],
-  declarations: [DashboardPage, ClientChartComponent],
+  declarations: [DashboardPage, ClientChartComponent, RequirementChartComponent],
   providers: [StaticDataConstants]
 })
 export class DashboardPageModule { }

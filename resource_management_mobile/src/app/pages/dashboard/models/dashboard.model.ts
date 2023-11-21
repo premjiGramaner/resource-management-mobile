@@ -1,12 +1,28 @@
-export interface clientChartData {
+export interface baseReqString {
     filterType: string;
     label: string[];
+}
+
+export interface clientChartData extends baseReqString {
     dataset: clientFilterData[];
+}
+export interface requirementChartData extends baseReqString {
+    dataset: requirementFilterData[];
 }
 
 export interface clientFilterData {
     Date: number;
     data: countDetails[];
+}
+
+export interface requirementFilterData {
+    Date: number;
+    data: requirementDetails[];
+}
+
+export interface requirementDetails {
+    Count: number;
+    hiring_stage: string
 }
 
 export interface countDetails {
@@ -33,8 +49,12 @@ export interface ChartInstance {
 
 export interface ClientDataSet {
     label: string;
-    data: number[] | string[]; // Adjust the type based on the structure of your 'data'
+    data: number[] | string[];
     backgroundColor: string;
     borderColor: string;
     borderWidth: number;
+}
+
+export interface requirementDataSet extends ClientDataSet {
+
 }

@@ -25,6 +25,11 @@ export class StaticDataConstants {
         { date: '30 Days', id: 1 },
         { date: '6 Months', id: 2 },
         { date: '5 Years', id: 3 }];
+    chartStyles = {
+        position: 'relative',
+        height: '35vh',
+        width: '40vw'
+    }
 }
 
 export interface ratingData {

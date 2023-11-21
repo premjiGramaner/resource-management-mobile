@@ -9,7 +9,7 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 import { Common } from 'src/app/core/enum/static.enum';
 import { Chart, ChartType, registerables } from 'chart.js';
 import { DashboardService } from './services/dashboard.service';
-import { PostClientChart, clientChartData } from './models/dashboard.model';
+import { PostClientChart, clientChartData, requirementChartData } from './models/dashboard.model';
 import { dashboardClientResponse } from './models/dashboard.API.model';
 Chart.register(...registerables);
 @Component({
@@ -28,6 +28,145 @@ export class DashboardPage implements OnInit {
     label: [],
     filterType: Common.date.toUpperCase(),
   };
+
+  requirementChartData: requirementChartData = {
+    dataset: [],
+    label: [],
+    filterType: Common.date.toUpperCase(),
+  };
+
+  test = [
+    {
+      "Date": "2023-06-30",
+      "data": [
+        {
+          "hiring_stage": "L1 interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-07-01",
+      "data": [
+        {
+          "hiring_stage": "L1 interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-07-05",
+      "data": [
+        {
+          "hiring_stage": "screening",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-07-06",
+      "data": [
+        {
+          "hiring_stage": "screening",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-07-07",
+      "data": [
+        {
+          "hiring_stage": "screening",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-07-20",
+      "data": [
+        {
+          "hiring_stage": "R1 Interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-07-24",
+      "data": [
+        {
+          "hiring_stage": "R1 Interview",
+          "Count": 2
+        },
+        {
+          "hiring_stage": "screening",
+          "Count": 2
+        }
+      ]
+    },
+    {
+      "Date": "2023-08-03",
+      "data": [
+        {
+          "hiring_stage": "L1 interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-08-11",
+      "data": [
+        {
+          "hiring_stage": "L1 interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-08-12",
+      "data": [
+        {
+          "hiring_stage": "L1 interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-08-21",
+      "data": [
+        {
+          "hiring_stage": "screening",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-09-01",
+      "data": [
+        {
+          "hiring_stage": "L1 interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-09-07",
+      "data": [
+        {
+          "hiring_stage": "R1 Interview",
+          "Count": 1
+        }
+      ]
+    },
+    {
+      "Date": "2023-09-10",
+      "data": [
+        {
+          "hiring_stage": "R1 Interview",
+          "Count": 1
+        }
+      ]
+    }
+  ]
 
   constructor(
     private StaticDataConstants: StaticDataConstants,
@@ -62,7 +201,12 @@ export class DashboardPage implements OnInit {
         type: this.filterType,
       };
       this.getDashboardClient(monthReq);
-    } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+      this.getDashboardRequirementData(monthReq);
+    }
+    /**
+     * Year based filter
+     */
+    else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
       let yearRange = await this.getLastFiveYearsRange();
       let yearReq = {
         startDate: yearRange.startDate,
@@ -70,7 +214,12 @@ export class DashboardPage implements OnInit {
         type: this.filterType,
       };
       this.getDashboardClient(yearReq);
-    } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+      this.getDashboardRequirementData(yearReq);
+    }
+    /**
+    * Date based filter
+    */
+    else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
       let dateRange = await this.getLast30DaysDateRange();
       let dateReq = {
         startDate: dateRange.startDate,
@@ -78,9 +227,11 @@ export class DashboardPage implements OnInit {
         type: this.filterType,
       };
       this.getDashboardClient(dateReq);
+      this.getDashboardRequirementData(dateReq);
     }
   }
 
+  /**API Calls */
   getDashboardClient(req: PostClientChart) {
     this.getDashboardAPI.getDashboardClient(req).subscribe(async (res: dashboardClientResponse) => {
       if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
@@ -104,11 +255,42 @@ export class DashboardPage implements OnInit {
       }
     });
   }
+  getDashboardRequirementData(req: any) {
+    this.getDashboardAPI.getDashboardRequirement(req).subscribe(async (res: any) => {
+      console.log(res);
+
+      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+        this.requirementChartData = {
+          filterType: this.filterType,
+          label: await this.getLastSixMonths(),
+          dataset: await res.data.dashboardReminderInfo,
+        };
+      }
+      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+        this.requirementChartData = {
+          filterType: this.filterType,
+          label: await this.getLastFiveYear(),
+          dataset: await res.data.dashboardReminderInfo,
+        };
+      }
+      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+        this.requirementChartData = {
+          filterType: this.filterType,
+          label: await this.getLast30DaysFormattedDates(),
+          dataset: await res.data.dashboardReminderInfo,
+        };
+      }
+    });
+  }
+
+  /**
+   * 
+   * Helper  functions
+   */
   getLast30DaysFormattedDates() {
     const dates = [];
     const today = new Date();
     for (let i = 30; i >= 0; i--) {
-      // for (let i = 10; i >= 0; i--) {
       const date = new Date();
       date.setDate(today.getDate() - i);
       const day = String(date.getDate()).padStart(2, '0');
@@ -126,6 +308,7 @@ export class DashboardPage implements OnInit {
       type: this.filterType,
     };
     this.getDashboardClient(dateReq);
+    this.getDashboardRequirementData(dateReq);
   }
   getLastSixMonths() {
     let today = new Date();

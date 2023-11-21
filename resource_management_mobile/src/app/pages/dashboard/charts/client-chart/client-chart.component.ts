@@ -10,7 +10,6 @@ import {
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 Chart.register(zoomPlugin);
-
 import {
   ChartInstance,
   ClientDataSet,
@@ -19,6 +18,7 @@ import {
   countDetails,
 } from '../../models/dashboard.model';
 import { Common } from 'src/app/core/enum/static.enum';
+import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 @Component({
   selector: 'app-client-chart',
   templateUrl: './client-chart.component.html',
@@ -29,12 +29,9 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() clientChartData!: clientChartData;
   barChart!: ChartInstance;
   @ViewChild('barCanvas') private barCanvas!: ElementRef;
-  chartStyles = {
-    position: 'relative',
-    height: '35vh',
-    width: '40vw'
-  };
-  constructor() { }
+  chartStyles = this.staticDataConstants.chartStyles;
+  noDataAvailable = Common.empty_chart;
+  constructor(private staticDataConstants: StaticDataConstants) { }
 
   ngOnInit() { }
 
@@ -48,9 +45,9 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
       this.barChart.destroy();
       const filterType: string = this.clientChartData.filterType.toUpperCase();
       if (filterType == Common.month.toUpperCase()) {
-        this.barChartMethod();
+        this.dashboardMonthData();
       } else if (filterType == Common.year.toUpperCase()) {
-        this.transformDashboardData(this.clientChartData);
+        this.dashboardYearData(this.clientChartData);
       }
       else if (filterType == Common.date.toUpperCase()) {
         this.dashboardDayData(this.clientChartData);
@@ -63,7 +60,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
     Object.assign(canvasElement.style, this.chartStyles);
   }
 
-  barChartMethod() {
+  dashboardMonthData() {
     const uniqueOwners = this.clientChartData.dataset.reduce(
       (acc: string[], info: clientFilterData) => {
         info.data.forEach((entry: countDetails) => {
@@ -105,7 +102,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
     for (const clientInfo of dashboardClientInfo.dataset) {
       for (const dataObj of clientInfo.data) {
         const label = dataObj.owner.name;
-        transformedData[label] = Array(10).fill(0);
+        transformedData[label] = Array(30).fill(0);
       }
     }
     for (const clientInfo of dashboardClientInfo.dataset) {
@@ -138,7 +135,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
     return diffDays;
   }
 
-  transformDashboardData(dashboardClientInfo: clientChartData) {
+  dashboardYearData(dashboardClientInfo: clientChartData) {
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of dashboardClientInfo.dataset) {
       for (const dataObj of clientInfo.data) {
@@ -165,7 +162,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
   }
 
   initializeChart(data?: ClientDataSet[]) {
-    data = data as ClientDataSet[]
+    data = data as ClientDataSet[];
     this.barChart = new Chart(this.barCanvas.nativeElement, {
       type: 'bar',
       data: {

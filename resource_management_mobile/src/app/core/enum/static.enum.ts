@@ -21,5 +21,7 @@ export enum Common {
     report = 'report',
     date = 'Date',
     month = 'Month',
-    year = 'Year'
+    year = 'Year',
+    empty_chart = 'No charts available.'
+
 }
