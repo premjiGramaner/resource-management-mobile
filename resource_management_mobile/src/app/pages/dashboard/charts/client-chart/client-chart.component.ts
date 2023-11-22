@@ -32,6 +32,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
   @ViewChild('barCanvas') private barCanvas!: ElementRef;
   chartStyles = this.staticDataConstants.chartStyles;
   noDataAvailable = Common.empty_chart;
+
   constructor(
     private staticDataConstants: StaticDataConstants,
     private dashboardHelperService: DashboardHelperService) { }

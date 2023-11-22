@@ -6,6 +6,7 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 import { Common } from 'src/app/core/enum/static.enum';
 import { DashboardHelperService } from '../../services/dashboard-helper.service';
 Chart.register(zoomPlugin);
+
 @Component({
   selector: 'app-resource-chart',
   templateUrl: './resource-chart.component.html',
@@ -16,6 +17,8 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
   @ViewChild('resourceCanvas') private resourceCanvas!: ElementRef;
   resourceChart!: ChartInstance;
   chartStyles = this.staticDataConstants.chartStyles;
+  noDataAvailable = Common.empty_chart;
+
   constructor(
     private staticDataConstants: StaticDataConstants,
     private dashboardHelperService: DashboardHelperService) { }
@@ -156,6 +159,7 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
 
   initializeChart(data?: resourceDataSet[]) {
     data = data as resourceDataSet[];
+
     this.resourceChart = new Chart(this.resourceCanvas.nativeElement, {
       type: 'bar',
       data: {
@@ -166,7 +170,7 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
         plugins: {
           title: {
             display: true,
-            text: 'Client chart',
+            text: 'Resource chart',
           },
           zoom: {
             zoom: {
@@ -178,7 +182,7 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
               },
               mode: 'xy',
             },
-          },
+          }
         },
         responsive: true,
         interaction: {

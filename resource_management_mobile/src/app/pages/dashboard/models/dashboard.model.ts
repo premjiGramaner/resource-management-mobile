@@ -15,7 +15,7 @@ export interface resourceChartData extends baseReqString {
 }
 
 export interface remainderChartData extends baseReqString {
-    dataset: resourceFilterData[];
+    dataset: requirementFilterData[];
 }
 
 export interface clientFilterData {
@@ -66,6 +66,7 @@ export interface ClientData {
 
 export interface ChartInstance {
     destroy: () => void;
+    update: () => void;
 }
 
 export interface ClientDataSet {

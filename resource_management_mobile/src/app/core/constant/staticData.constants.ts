@@ -27,7 +27,7 @@ export class StaticDataConstants {
         { date: '5 Years', id: 3 }];
     chartStyles = {
         position: 'relative',
-        height: '35vh',
+        height: '40vh',
         width: '40vw'
     }
 }

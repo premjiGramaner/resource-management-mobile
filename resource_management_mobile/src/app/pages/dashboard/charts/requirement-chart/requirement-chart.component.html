@@ -1,7 +1,6 @@
 <div>
-  <canvas #requirementCanvas ></canvas> 
+  <div *ngIf="this.requirementChartData.dataset.length ==0" class="empty-chart">
+    <b class="empty-center-text">{{noDataAvailable}}</b>
+  </div>
+  <canvas #requirementCanvas></canvas>
 </div>
-<!-- 
-<div class="empty-chart" *ngIf="this.requirementChartData.dataset.length == 0">
-  {{noDataAvailable}}
-</div> -->

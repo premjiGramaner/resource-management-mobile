@@ -9,7 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ClientChartComponent } from './charts/client-chart/client-chart.component';
 import { RequirementChartComponent } from './charts/requirement-chart/requirement-chart.component';
 import { ResourceChartComponent } from './charts/resource-chart/resource-chart.component';
-// import { RemainderChartComponent } from './charts/remainder-chart/remainder-chart.component';
+import { RemainderChartComponent } from './charts/remainder-chart/remainder-chart.component';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { ResourceChartComponent } from './charts/resource-chart/resource-chart.c
     ClientChartComponent,
     RequirementChartComponent,
     ResourceChartComponent,
-    // RemainderChartComponent
+    RemainderChartComponent
   ],
   providers: [StaticDataConstants],
 })
