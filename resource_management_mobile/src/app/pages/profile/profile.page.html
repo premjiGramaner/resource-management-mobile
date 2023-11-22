@@ -14,13 +14,13 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-card class="p-2">
+      <ion-card class="p-2" id="open-custom-dialog" expand="block">
         <ion-col class="d-flex ion-justify-content-between">
           <ion-label color="primary">Edit Details</ion-label>
           <ion-icon color="primary" name="chevron-forward-outline" class="align-center"></ion-icon>
         </ion-col>
       </ion-card>
-      <ion-card class="p-2">
+      <ion-card class="p-2" id="open-change-dialog" expand="block">
         <ion-col class="d-flex ion-justify-content-between">
           <ion-label color="primary">Change Password</ion-label>
           <ion-icon color="primary" name="chevron-forward-outline" class="align-center"></ion-icon>
@@ -28,4 +28,17 @@
       </ion-card>
     </ion-row>
   </ion-grid>
+
+  <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
+      trigger="open-custom-dialog">
+      <ng-template>
+        <app-edit-profile [user]="user" [flag]="'edit'"></app-edit-profile>
+      </ng-template>
+    </ion-modal>
+    <ion-modal id="skill-modal" [isOpen]="isModalOpen" showBackdrop="false" backdropDismiss="false" #modal
+    trigger="open-change-dialog">
+    <ng-template>
+      <app-edit-profile [user]="user" [flag]="'pass'"></app-edit-profile>
+    </ng-template>
+  </ion-modal>
 </ion-content>

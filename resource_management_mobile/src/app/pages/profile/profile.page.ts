@@ -10,6 +10,8 @@ import { SecurityService } from 'src/app/shared/helpers/security.service';
 })
 export class ProfilePage implements OnInit {
   protected user!: User;
+  isModalOpen = false;
+
   constructor(private security: SecurityService,
     private cookiesConstants: CookiesConstants) { }
 

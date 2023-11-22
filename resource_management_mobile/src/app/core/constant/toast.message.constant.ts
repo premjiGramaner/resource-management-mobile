@@ -11,4 +11,5 @@ export class ToastConstants {
     resource_record_not_found = 'Resource Record Not Found';
     timeout='Session timeout';
     tokenError='JsonWebTokenError';
+    tokenExpired = 'TokenExpiredError';
 }

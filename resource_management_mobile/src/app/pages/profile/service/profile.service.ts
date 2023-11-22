@@ -4,7 +4,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { UserData } from '../../client/models/client.model';
 import { Common } from 'src/app/core/enum/static.enum';
-import { addUser, addUserResponse } from '../models/profile.model';
+import { addUser, addUserResponse, changePassword, editUser } from '../models/profile.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,5 +25,21 @@ export class ProfileService {
         catchError((error: HttpErrorResponse) => {
           return throwError(Common.error_create + 'user' + error.message);
         }));
+  }
+
+  editUser(req: editUser) {
+    return this.http.put<UserData>(`${this.URL}user/update`, req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(Common.error_update+'user' + error.message);
+      })
+    );
+  }
+
+  changePassword(req: changePassword) {
+    return this.http.put<UserData>(`${this.URL}user/changePassword`, req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(Common.error_update+'user' + error.message);
+      })
+    );
   }
 }

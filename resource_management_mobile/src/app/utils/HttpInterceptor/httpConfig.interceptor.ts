@@ -62,7 +62,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
-        if (error.error.error.name == this.toastConstants.tokenError) {
+        if (error.error.error.name == this.toastConstants.tokenError  || error.error.error.name == this.toastConstants.tokenExpired) {
           this.toastService.errorToast(this.toastConstants.timeout);
           this.router.navigate(['']);
           this.security.clearItem();

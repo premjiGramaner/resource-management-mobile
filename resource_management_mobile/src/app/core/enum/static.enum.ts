@@ -18,5 +18,9 @@ export enum Common {
     error_create = 'Error while creating a ',
     error_update = 'Error while updating a ',
     error_delete = 'Error while deleting a ',
-    report = 'report'
+    report = 'report',
+    password = 'password',
+    confirmPassword = 'confirmPassword',
+    edit='edit',
+    text='text'
 }
