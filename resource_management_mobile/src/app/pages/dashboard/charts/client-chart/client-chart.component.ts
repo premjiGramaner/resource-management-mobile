@@ -181,7 +181,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
   initializeChart(data?: ClientDataSet[]) {
     data = data as ClientDataSet[];
     this.barChart = new Chart(this.barCanvas.nativeElement, {
-      type: 'bar',
+      type: Common.bar,
       data: {
         labels: this.clientChartData.label,
         datasets: data,
@@ -190,7 +190,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
         plugins: {
           title: {
             display: true,
-            text: 'Client chart',
+            text: Common.client_chart,
           },
           zoom: {
             zoom: {
@@ -200,7 +200,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
               pinch: {
                 enabled: true,
               },
-              mode: 'xy',
+              mode: Common.mode,
             },
           },
         },

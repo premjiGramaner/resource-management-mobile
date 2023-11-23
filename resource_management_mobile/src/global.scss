@@ -114,6 +114,7 @@ ion-card {
 .header_container {
     display: $display;
     justify-content: $justify-content-space-between;
+    align-items: $center-align-items;
 }
 
 .add-icon {

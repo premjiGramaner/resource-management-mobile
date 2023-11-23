@@ -149,7 +149,7 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
   initializeChart(data?: requirementDataSet[]) {
     data = data as requirementDataSet[]
     this.remainderChart = new Chart(this.remainderCanvas.nativeElement, {
-      type: 'bar',
+      type: Common.bar,
       data: {
         labels: this.remainderChartData.label,
         datasets: data,
@@ -158,7 +158,7 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
         plugins: {
           title: {
             display: true,
-            text: 'Remainder chart',
+            text: Common.remainder_chart,
           },
           zoom: {
             zoom: {
@@ -168,7 +168,7 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
               pinch: {
                 enabled: true,
               },
-              mode: 'xy',
+              mode: Common.mode,
             },
           },
 

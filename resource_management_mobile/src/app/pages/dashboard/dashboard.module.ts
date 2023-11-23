@@ -10,6 +10,7 @@ import { ClientChartComponent } from './charts/client-chart/client-chart.compone
 import { RequirementChartComponent } from './charts/requirement-chart/requirement-chart.component';
 import { ResourceChartComponent } from './charts/resource-chart/resource-chart.component';
 import { RemainderChartComponent } from './charts/remainder-chart/remainder-chart.component';
+import { HiringChartComponent } from './charts/hiring-chart/hiring-chart.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { RemainderChartComponent } from './charts/remainder-chart/remainder-char
     ClientChartComponent,
     RequirementChartComponent,
     ResourceChartComponent,
-    RemainderChartComponent
+    RemainderChartComponent,
+    HiringChartComponent
   ],
   providers: [StaticDataConstants],
 })

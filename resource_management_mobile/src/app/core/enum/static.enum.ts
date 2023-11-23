@@ -22,6 +22,12 @@ export enum Common {
     date = 'Date',
     month = 'Month',
     year = 'Year',
-    empty_chart = 'No charts available.'
+    empty_chart = 'No charts available.',
+    bar = 'bar',
+    hiring_chart = 'Hiring chart',
+    mode = 'xy',
+    requirement_chart = 'Requirement chart',
+    remainder_chart = 'Remainder chart',
+    client_chart = 'Client chart'
 
 }

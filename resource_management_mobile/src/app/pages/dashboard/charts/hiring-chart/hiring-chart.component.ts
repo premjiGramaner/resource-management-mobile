@@ -1,55 +1,62 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { ChartInstance, ClientDataSet, requirementChartData, requirementDataSet, requirementDetails, requirementFilterData } from '../../models/dashboard.model';
-import { Common } from 'src/app/core/enum/static.enum';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { Common } from 'src/app/core/enum/static.enum';
 import { DashboardHelperService } from '../../services/dashboard-helper.service';
+import { ChartInstance, hiringChartData, hiringDataSet, hiringDetails, hiringFilterData } from '../../models/dashboard.model';
+import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
 Chart.register(zoomPlugin);
 @Component({
-  selector: 'app-requirement-chart',
-  templateUrl: './requirement-chart.component.html',
-  styleUrls: ['./requirement-chart.component.scss'],
+  selector: 'app-hiring-chart',
+  templateUrl: './hiring-chart.component.html',
+  styleUrls: ['./hiring-chart.component.scss'],
 })
-export class RequirementChartComponent implements OnInit, OnChanges, AfterViewInit {
-  @Input() requirementChartData!: requirementChartData;
-  requirementChart!: ChartInstance;
-  @ViewChild('requirementCanvas') private requirementCanvas!: ElementRef;
+export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
+  @Input() hiringChartData!: hiringChartData;
+  @ViewChild('hiringCanvas') private hiringCanvas!: ElementRef;
+  hiringChart!: ChartInstance;
   chartStyles = this.staticDataConstants.chartStyles;
   noDataAvailable = Common.empty_chart;
-
-  constructor(
-    private staticDataConstants: StaticDataConstants,
-    private dashboardHelperService: DashboardHelperService) { }
+  constructor(private staticDataConstants: StaticDataConstants,
+    private dashboardHelperService: DashboardHelperService,
+    private cookiesConstants: CookiesConstants) { }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
     this.applyCanvasStyles();
-    this.initializeChart();
+    this.initializeChart()
   }
 
   ngOnChanges() {
-    if (this.requirementChartData.dataset.length != 0) {
-      this.requirementChart.destroy();
-      const filterType: string = this.requirementChartData.filterType.toUpperCase();
+
+    if (this.hiringChartData.dataset.length != 0) {
+      this.hiringChart.destroy();
+      const filterType: string = this.hiringChartData.filterType.toUpperCase();
       if (filterType == Common.month.toUpperCase()) {
-        this.requirementMonthData()
-      } else if (filterType == Common.year.toUpperCase()) {
-        this.requirementYearData(this.requirementChartData);
+        this.hiringMonthData()
+      }
+      else if (filterType == Common.year.toUpperCase()) {
+        this.hiringYearData(this.hiringChartData);
       }
       else if (filterType == Common.date.toUpperCase()) {
-        this.requirementDayData(this.requirementChartData);
+        this.hiringDayData(this.hiringChartData);
       }
     }
   }
 
-  requirementMonthData() {
-    const uniqueOwners = this.requirementChartData.dataset.reduce(
-      (acc: string[], info: requirementFilterData) => {
-        info.data.forEach((entry: requirementDetails) => {
-          if (!acc.includes(entry.hiring_stage)) {
-            acc.push(entry.hiring_stage);
+  applyCanvasStyles() {
+    const canvasElement = this.hiringCanvas.nativeElement;
+    Object.assign(canvasElement.style, this.chartStyles);
+  }
+
+  hiringMonthData() {
+    const uniqueOwners = this.hiringChartData.dataset.reduce(
+      (acc: string[], info: hiringFilterData) => {
+        info.data.forEach((entry: hiringDetails) => {
+          if (!acc.includes(entry[this.hiringChartData.category as keyof hiringDetails] as string)) {
+            acc.push(entry[this.hiringChartData.category as keyof hiringDetails] as string);
           }
         });
         return acc;
@@ -62,17 +69,18 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
      */
     const hiringStage: any = {};
     uniqueOwners.forEach((owner: string) => {
-      hiringStage[owner] = new Array(this.requirementChartData.label.length).fill(0);
+      hiringStage[owner] = new Array(this.hiringChartData.label.length).fill(0);
     });
-    this.requirementChartData.dataset.forEach((info: requirementFilterData) => {
+    this.hiringChartData.dataset.forEach((info: hiringFilterData) => {
       const { Date, data } = info;
-      data.forEach((entry: requirementDetails) => {
-        const owner = entry.hiring_stage;
-        const index = Date - this.requirementChartData.label.length;
+      data.forEach((entry: hiringDetails) => {
+        const owner = entry[this.hiringChartData.category as keyof hiringDetails];
+        const index = Date - this.hiringChartData.label.length;
         hiringStage[owner][index] = entry.Count;
       });
+
     });
-    const output: ClientDataSet[] = Object.entries(hiringStage).map(([owner, data]) => ({
+    const output: hiringDataSet[] = Object.entries(hiringStage).map(([owner, data]) => ({
       label: owner,
       data: data as string[],
       backgroundColor: this.dashboardHelperService.getRandomColor(),
@@ -82,21 +90,21 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
     this.initializeChart(output);
   }
 
-  requirementYearData(requirementInfo: requirementChartData) {
+  hiringYearData(hiringInfo: hiringChartData) {
     const transformedData: { [key: string]: number[] } = {};
-    for (const clientInfo of requirementInfo.dataset) {
+    for (const clientInfo of hiringInfo.dataset) {
       for (const dataObj of clientInfo.data) {
-        const label = dataObj.hiring_stage;
+        const label = dataObj[this.hiringChartData.category as keyof hiringDetails];
         const year = Number(clientInfo.Date);
         const count = dataObj.Count;
         if (!transformedData[label]) {
           transformedData[label] = Array(5).fill(0);
         }
-        const index = Number(requirementInfo.label[0]) - year;
+        const index = Number(hiringInfo.label[0]) - year;
         transformedData[label][index] += count;
       }
     }
-    const outputData: requirementDataSet[] = Object.entries(transformedData).map(
+    const outputData: hiringDataSet[] = Object.entries(transformedData).map(
       ([label, data]) => ({
         label: label,
         data: data,
@@ -107,18 +115,19 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
     );
     this.initializeChart(outputData);
   }
-  requirementDayData(requirementInfo: requirementChartData) {
+
+  hiringDayData(hiringInfo: hiringChartData) {
     const transformedData: { [key: string]: number[] } = {};
-    for (const clientInfo of requirementInfo.dataset) {
+    for (const clientInfo of hiringInfo.dataset) {
       for (const dataObj of clientInfo.data) {
-        const label = dataObj.hiring_stage;
+        const label = dataObj[this.hiringChartData.category as keyof hiringDetails];
         transformedData[label] = Array(30).fill(0);
       }
     }
-    for (const clientInfo of requirementInfo.dataset) {
+    for (const clientInfo of hiringInfo.dataset) {
       const givenDate = new Date(clientInfo.Date);
       for (const dataObj of clientInfo.data) {
-        const label = dataObj.hiring_stage;
+        const label = dataObj[this.hiringChartData.category as keyof hiringDetails];
         const count = dataObj.Count;
         const dataDate = new Date(clientInfo.Date);
         if (!isNaN(dataDate.getTime())) {
@@ -129,7 +138,7 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
         }
       }
     }
-    const outputData: ClientDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
+    const outputData: hiringDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
       label: label,
       data: data,
       backgroundColor: this.dashboardHelperService.getRandomColor(),
@@ -138,20 +147,19 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
     }));
     this.initializeChart(outputData);
   }
-
-  initializeChart(data?: requirementDataSet[]) {
-    data = data as requirementDataSet[]
-    this.requirementChart = new Chart(this.requirementCanvas.nativeElement, {
+  initializeChart(data?: hiringDataSet[]) {
+    data = data as hiringDataSet[];
+    this.hiringChart = new Chart(this.hiringCanvas.nativeElement, {
       type: Common.bar,
       data: {
-        labels: this.requirementChartData.label,
+        labels: this.hiringChartData.label,
         datasets: data,
       },
       options: {
         plugins: {
           title: {
             display: true,
-            text: Common.requirement_chart,
+            text: Common.hiring_chart,
           },
           zoom: {
             zoom: {
@@ -163,8 +171,7 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
               },
               mode: Common.mode,
             },
-          },
-
+          }
         },
         responsive: true,
         interaction: {
@@ -180,10 +187,5 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
         },
       },
     });
-  }
-
-  applyCanvasStyles() {
-    const canvasElement = this.requirementCanvas.nativeElement;
-    Object.assign(canvasElement.style, this.chartStyles);
   }
 }

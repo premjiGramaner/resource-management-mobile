@@ -5,10 +5,9 @@
         <h5>Dashboard</h5>
       </ion-col>
       <ion-col class="mt-3">
-        <ion-select  (ngModelChange)="selectDateType($event)" [(ngModel)]="selectedFilterValue" label-placement="floating"
-          interface="popover" fill="outline" aria-label="user" placeholder="Select User">
-          <ion-select-option *ngFor="let col of filterCategory"
-            value={{col.id}}>{{col.date}}</ion-select-option>
+        <ion-select (ngModelChange)="selectDateType($event)" [(ngModel)]="selectedFilterValue"
+          label-placement="floating" interface="popover" fill="outline" aria-label="user" placeholder="Select User">
+          <ion-select-option *ngFor="let col of filterCategory" value={{col.id}}>{{col.date}}</ion-select-option>
         </ion-select>
       </ion-col>
     </ion-row>
@@ -45,6 +44,44 @@
         </ion-card-header>
         <ion-card-content>
           <app-remainder-chart [remainderChartData]="remainderChartData"></app-remainder-chart>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">
+            <div class="header_container">
+              <div>
+                Hiring
+              </div>
+              <div class="category">
+                <span *ngIf="!isCategoryChecked">Status</span>
+                <ion-toggle aria-label="Enable Notifications" (ngModelChange)="categoryChanged()" [(ngModel)]="isCategoryChecked"></ion-toggle>
+                <span *ngIf="isCategoryChecked">Stage</span>
+              </div>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <app-hiring-chart [hiringChartData]="hiringChartData"></app-hiring-chart>
+        </ion-card-content>
+      </ion-card>
+      <ion-card>
+        <ion-card-header class="card-header">
+          <ion-card-title class="card-title">
+            <div class="header_container">
+              <div>
+                Resource Requirement
+              </div>
+              <div class="category">
+                <span *ngIf="!isCategoryResourceChecked">Status</span>
+                <ion-toggle aria-label="Enable Notifications" (ngModelChange)="categoryResourceChanged()" [(ngModel)]="isCategoryResourceChecked"></ion-toggle>
+                <span *ngIf="isCategoryResourceChecked">Stage</span>
+              </div>
+            </div>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+         
         </ion-card-content>
       </ion-card>
     </ion-row>

@@ -30,8 +30,6 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
     this.initializeChart()
   }
   ngOnChanges() {
-    console.log(this.resourceChartData);
-
     if (this.resourceChartData.dataset.length != 0) {
       this.resourceChart.destroy();
       const filterType: string = this.resourceChartData.filterType.toUpperCase();
@@ -107,8 +105,8 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
     }));
     this.initializeChart(output);
   }
-  resourceDayData(rawData: resourceChartData) {
 
+  resourceDayData(rawData: resourceChartData) {
     const dateMap = new Map<string, number[]>();
     rawData.dataset.forEach((entry: resourceFilterData) => {
       dateMap.set('' + entry.Date, new Array(30).fill(0));
@@ -159,9 +157,8 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
 
   initializeChart(data?: resourceDataSet[]) {
     data = data as resourceDataSet[];
-
     this.resourceChart = new Chart(this.resourceCanvas.nativeElement, {
-      type: 'bar',
+      type: Common.bar,
       data: {
         labels: this.resourceChartData.label,
         datasets: data,
@@ -180,7 +177,7 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
               pinch: {
                 enabled: true,
               },
-              mode: 'xy',
+              mode: Common.mode,
             },
           }
         },

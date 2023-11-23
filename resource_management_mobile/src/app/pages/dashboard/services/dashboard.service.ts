@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PostClientChart, PostRemainderChart } from '../models/dashboard.model';
+import { PostCategoryChart, PostClientChart, PostRemainderChart } from '../models/dashboard.model';
 import { dashboardClientResponse, dashboardRequirementResponse, dashboardResourceResponse } from '../models/dashboard.API.model';
 
 @Injectable({
@@ -24,7 +24,15 @@ export class DashboardService {
     return this.http.post<dashboardResourceResponse>(`${this.URL}dashboard/resource`, req);
   }
 
-  getDashboardRemainder(req: PostRemainderChart): Observable<any> {
-    return this.http.post<any>(`${this.URL}dashboard/reminder`, req);
+  getDashboardRemainder(req: PostRemainderChart): Observable<dashboardRequirementResponse> {
+    return this.http.post<dashboardRequirementResponse>(`${this.URL}dashboard/reminder`, req);
+  }
+
+  getDashboardHiring(req: PostCategoryChart): Observable<any> {
+    return this.http.post<any>(`${this.URL}dashboard/hiring`, req);
+  }
+
+  getDashboardResourceRequirement(req: PostCategoryChart): Observable<any> {
+    return this.http.post<any>(`${this.URL}dashboard/resourceRequirement`, req);
   }
 }

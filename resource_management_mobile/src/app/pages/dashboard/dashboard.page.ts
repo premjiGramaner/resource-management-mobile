@@ -9,7 +9,7 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 import { Common } from 'src/app/core/enum/static.enum';
 import { Chart, ChartType, registerables } from 'chart.js';
 import { DashboardService } from './services/dashboard.service';
-import { PostClientChart, PostRemainderChart, clientChartData, remainderChartData, remainderDataSet, requirementChartData, resourceChartData } from './models/dashboard.model';
+import { PostCategoryChart, PostClientChart, PostRemainderChart, clientChartData, hiringChartData, remainderChartData, remainderDataSet, requirementChartData, resourceChartData } from './models/dashboard.model';
 import { dashboardClientResponse, dashboardRequirementResponse } from './models/dashboard.API.model';
 import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
 import { SecurityService } from 'src/app/shared/helpers/security.service';
@@ -24,7 +24,16 @@ export class DashboardPage implements OnInit {
   selectedFilterValue: Object = '' + this.filterCategory[1].id;
   filterType = Common.month.toUpperCase();
   barChart!: Object;
-
+  isCategoryChecked: boolean = true;
+  isCategoryResourceChecked: boolean = true;
+  categoryType: string = this.cookiesConstants.hiring_stage;
+  categoryResourceType: string = this.cookiesConstants.hiring_stage;
+  globalMonthRange: any;
+  globalYearRange: any;
+  globalDayRange: any;
+  globalResourceDayRange: any;
+  globalResourceMonthRange: any;
+  globalResourceYearRange: any;
   clientChartData: clientChartData = {
     dataset: [],
     label: [],
@@ -48,6 +57,13 @@ export class DashboardPage implements OnInit {
     label: [],
     filterType: Common.month.toUpperCase(),
   };
+
+  hiringChartData: hiringChartData = {
+    dataset: [],
+    label: [],
+    filterType: Common.month.toUpperCase(),
+    category: this.cookiesConstants.hiring_stage
+  }
 
   user_id!: number;
 
@@ -80,7 +96,8 @@ export class DashboardPage implements OnInit {
      * Month based filter
      */
     if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
-      let dateRange = await this.getLastSixMonthsRange();
+      this.globalMonthRange = await this.getLastSixMonthsRange();
+      let dateRange = await this.globalMonthRange;
       let monthReq: PostClientChart = {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
@@ -96,11 +113,13 @@ export class DashboardPage implements OnInit {
       this.getDashboardRequirementData(monthReq);
       this.getDashboardResourceData(monthReq);
       this.getDashboardRemainderData(monthRemainderReq);
+      this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange as PostCategoryChart));
     }
     /**
      * Year based filter
      */
     else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+      this.globalYearRange = await this.getLastFiveYearsRange();
       let yearRange = await this.getLastFiveYearsRange();
       let yearReq = {
         startDate: yearRange.startDate,
@@ -117,20 +136,22 @@ export class DashboardPage implements OnInit {
       this.getDashboardRequirementData(yearReq);
       this.getDashboardResourceData(yearReq);
       this.getDashboardRemainderData(monthRemainderReq);
+      this.getDashboardHiring(this.hiringAPIRequest(this.globalYearRange as PostCategoryChart));
     }
     /**
     * Date based filter
     */
     else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
-      let dateRange = await this.getLast30DaysDateRange();
+      this.globalDayRange = await this.getLast30DaysDateRange();
+      let dateRange = this.globalDayRange;
       let dateReq = {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         type: this.filterType,
       };
       let dateRemainderReq: PostRemainderChart = {
-        startDate: "2023-05-25",
-        endDate: "2023-08-30",
+        startDate: dateRange.startDate,
+        endDate: dateRange.endDate,
         type: this.filterType,
         userId: this.user_id
       };
@@ -138,6 +159,7 @@ export class DashboardPage implements OnInit {
       this.getDashboardRequirementData(dateReq);
       this.getDashboardResourceData(dateReq);
       this.getDashboardRemainderData(dateRemainderReq);
+      this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange as PostCategoryChart));
     }
   }
 
@@ -219,9 +241,7 @@ export class DashboardPage implements OnInit {
   }
 
   getDashboardRemainderData(req: PostRemainderChart) {
-    this.getDashboardAPI.getDashboardRemainder(req).subscribe(async (res: any) => {
-      console.log('res', res);
-
+    this.getDashboardAPI.getDashboardRemainder(req).subscribe(async (res: dashboardRequirementResponse) => {
       if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
         this.remainderChartData = {
           filterType: this.filterType,
@@ -245,10 +265,95 @@ export class DashboardPage implements OnInit {
       }
     });
   }
+
+  getDashboardHiring(req: PostCategoryChart) {
+    this.getDashboardAPI.getDashboardHiring(req).subscribe(async (res: any) => {
+      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+        this.hiringChartData = {
+          filterType: this.filterType,
+          label: await this.getLastSixMonths(),
+          dataset: await res.data.dashboardHiringInfo,
+          category: await this.categoryType
+        };
+      }
+      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+        this.hiringChartData = {
+          filterType: this.filterType,
+          label: await this.getLastFiveYear(),
+          dataset: await res.data.dashboardHiringInfo,
+          category: await this.categoryType
+        };
+      }
+      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+        this.hiringChartData = {
+          filterType: this.filterType,
+          label: await this.getLast30DaysFormattedDates(),
+          dataset: await res.data.dashboardHiringInfo,
+          category: await this.categoryType
+        };
+      }
+    });
+  }
+  getDashboardResourceRequirement(req: PostCategoryChart) {
+    this.getDashboardAPI.getDashboardResourceRequirement(req).subscribe(async (res: any) => {
+
+    })
+  }
   /**
    * 
    * Helper  functions
    */
+  categoryChanged() {
+    this.categoryType = this.isCategoryChecked ? this.cookiesConstants.hiring_status : this.cookiesConstants.hiring_stage;
+    switch (this.filterType.toUpperCase()) {
+      case Common.date.toUpperCase():
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange))
+        break;
+      case Common.month.toUpperCase():
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange))
+        break;
+      case Common.year.toUpperCase():
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalYearRange))
+        break;
+      default:
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange))
+    }
+  }
+
+  categoryResourceChanged() {
+    this.categoryResourceType = this.isCategoryResourceChecked ? this.cookiesConstants.status : this.cookiesConstants.stage;
+    // switch (this.filterType.toUpperCase()) {
+    //   case Common.date.toUpperCase():
+    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceDayRange))
+    //     break;
+    //   case Common.month.toUpperCase():
+    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceMonthRange))
+    //     break;
+    //   case Common.year.toUpperCase():
+    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceYearRange))
+    //     break;
+    //   default:
+    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceDayRange))
+    // }
+  }
+
+  hiringAPIRequest(dateRange: PostCategoryChart) {
+    return {
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
+      type: this.filterType,
+      category: this.categoryType
+    }
+  }
+  resourceAPIRequest(dateRange: PostCategoryChart) {
+    return {
+      startDate: dateRange.startDate,
+      endDate: dateRange.endDate,
+      type: this.filterType,
+      category: this.categoryResourceType
+    }
+  }
+
   getLast30DaysFormattedDates() {
     const dates = [];
     const today = new Date();
@@ -262,8 +367,10 @@ export class DashboardPage implements OnInit {
     }
     return dates;
   }
+
   defaultAllDashboardCall() {
-    let dateRange = this.getLastSixMonthsRange();
+    this.globalMonthRange = this.getLastSixMonthsRange();
+    let dateRange = this.globalMonthRange;
     let dateReq = {
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
@@ -278,7 +385,8 @@ export class DashboardPage implements OnInit {
     this.getDashboardClient(dateReq);
     this.getDashboardRequirementData(dateReq);
     this.getDashboardResourceData(dateReq);
-    this.getDashboardRemainderData(monthRemainderReq)
+    this.getDashboardRemainderData(monthRemainderReq);
+    this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange as PostCategoryChart));
   }
   getLastSixMonths() {
     let today = new Date();
@@ -343,10 +451,5 @@ export class DashboardPage implements OnInit {
     startDate.setDate(today.getDate() - 29);
     const startDateFormatted = startDate.toISOString().split('T')[0];
     return { startDate: startDateFormatted, endDate };
-  }
-  getRandomColor() {
-    return `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(
-      Math.random() * 256
-    )}, ${Math.floor(Math.random() * 256)}, 0.5)`;
   }
 }

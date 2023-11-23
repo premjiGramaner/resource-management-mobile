@@ -28,6 +28,22 @@ export interface requirementFilterData {
     data: requirementDetails[];
 }
 
+export interface hiringChartData extends baseReqString {
+    dataset: hiringFilterData[];
+    category: string;
+}
+
+export interface hiringFilterData {
+    Date: number;
+    data: hiringDetails[];
+}
+
+export interface hiringDetails {
+    Count: number;
+    hiring_stage: string;
+    hiring_status: string;
+}
+
 export interface resourceFilterData {
     Date: number;
     data: resorceDetails[];
@@ -55,8 +71,12 @@ export interface PostClientChart {
     type: string;
 }
 
+export interface PostCategoryChart extends PostClientChart {
+    category: string;
+}
+
 export interface PostRemainderChart extends PostClientChart {
-    userId: number
+    userId: number;
 }
 
 export interface ClientData {
@@ -80,3 +100,4 @@ export interface ClientDataSet {
 export interface requirementDataSet extends ClientDataSet { }
 export interface resourceDataSet extends ClientDataSet { }
 export interface remainderDataSet extends ClientDataSet { }
+export interface hiringDataSet extends ClientDataSet { }
