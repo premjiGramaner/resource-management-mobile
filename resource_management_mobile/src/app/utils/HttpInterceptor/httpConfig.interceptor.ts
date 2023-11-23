@@ -8,7 +8,7 @@ import {
   HttpErrorResponse
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, delay } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
 import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
@@ -19,7 +19,8 @@ import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @Injectable()
 export class HttpConfigInterceptor implements HttpInterceptor {
-  loaderToShow: any;
+  loaderToShow: boolean = false;
+
   constructor(
     public loadingController: LoadingController,
     private cookiesConstants: CookiesConstants,
@@ -54,14 +55,18 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     request = request.clone({
       headers: request.headers.set('Accept', 'application/json')
     });
+    this.showLoader();
     return next.handle(request).pipe(
+      delay(500)).pipe(
       map((event: HttpEvent<any>) => {
+        this.hideLoader();
         if (event instanceof HttpResponse) {
 
         }
         return event;
       }),
       catchError((error: HttpErrorResponse) => {
+        this.hideLoader();
         if (error.error.error.name == this.toastConstants.tokenError  || error.error.error.name == this.toastConstants.tokenExpired) {
           this.toastService.errorToast(this.toastConstants.timeout);
           this.router.navigate(['']);
@@ -72,18 +77,22 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   }
 
   showLoader() {
-    this.loaderToShow = this.loadingController.create({
-      message: 'Processing Server Request'
-    }).then((res) => {
-      res.present();
-
-      res.onDidDismiss().then((dis) => {
-      });
-    });
-    this.hideLoader();
+    if(!this.loaderToShow){
+      this.loaderToShow = true;
+      this.loadingController.create({
+         message: 'Processing Server Request'
+       }).then((res) => {
+         res.present();
+   
+         res.onDidDismiss().then((dis) => {
+         });
+       });
+    }
+    
   }
 
-  hideLoader() {
+ hideLoader() {
+  this.loaderToShow = false;
     this.loadingController.dismiss();
   }
 
