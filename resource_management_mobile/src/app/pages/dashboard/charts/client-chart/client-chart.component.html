@@ -1,7 +1,6 @@
 <div>
-  <div *ngIf="this.clientChartData.dataset.length ==0" class="empty-chart">
-    <b class="empty-center-text">{{noDataAvailable}}</b>
+  <div *ngIf="this.clientChartData.dataset.length == 0" class="empty-chart">
+    <b class="empty-center-text">{{ noDataAvailable }}</b>
   </div>
-  <canvas #barCanvas ></canvas> 
+  <canvas #barCanvas></canvas>
 </div>
-

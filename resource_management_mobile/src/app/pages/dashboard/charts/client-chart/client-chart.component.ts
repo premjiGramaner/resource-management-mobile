@@ -25,7 +25,6 @@ import { DashboardHelperService } from '../../services/dashboard-helper.service'
   templateUrl: './client-chart.component.html',
   styleUrls: ['./client-chart.component.scss'],
 })
-
 export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
   @Input() clientChartData!: clientChartData;
   barChart!: ChartInstance;
@@ -35,7 +34,8 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   constructor(
     private staticDataConstants: StaticDataConstants,
-    private dashboardHelperService: DashboardHelperService) { }
+    private dashboardHelperService: DashboardHelperService
+  ) { }
 
   ngOnInit() { }
 
@@ -52,8 +52,7 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
         this.dashboardMonthData();
       } else if (filterType == Common.year.toUpperCase()) {
         this.dashboardYearData(this.clientChartData);
-      }
-      else if (filterType == Common.date.toUpperCase()) {
+      } else if (filterType == Common.date.toUpperCase()) {
         this.dashboardDayData(this.clientChartData);
       }
     }
@@ -91,18 +90,19 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
         ownersData[owner][index] = entry.Count;
       });
     });
-    const output: ClientDataSet[] = Object.entries(ownersData).map(([owner, data]) => ({
-      label: owner,
-      data: data as string[],
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const output: ClientDataSet[] = Object.entries(ownersData).map(
+      ([owner, data]) => ({
+        label: owner,
+        data: data as string[],
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(output);
   }
 
   dashboardDayData(rawData: clientChartData) {
-
     const dateMap = new Map<string, number[]>();
     rawData.dataset.forEach((entry: clientFilterData) => {
       dateMap.set('' + entry.Date, new Array(30).fill(0));
@@ -148,7 +148,9 @@ export class ClientChartComponent implements OnInit, OnChanges, AfterViewInit {
 
   getDayDifference(date1: Date, date2: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    const diffDays = Math.round(Math.abs((date1.getTime() - date2.getTime()) / oneDay));
+    const diffDays = Math.round(
+      Math.abs((date1.getTime() - date2.getTime()) / oneDay)
+    );
     return diffDays;
   }
 

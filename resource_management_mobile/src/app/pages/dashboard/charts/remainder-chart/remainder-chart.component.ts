@@ -1,7 +1,23 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { DashboardHelperService } from '../../services/dashboard-helper.service';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
-import { clientChartData, ChartInstance, requirementChartData, requirementDataSet, remainderChartData, ClientDataSet, requirementDetails, requirementFilterData } from '../../models/dashboard.model';
+import {
+  ChartInstance,
+  requirementChartData,
+  requirementDataSet,
+  remainderChartData,
+  ClientDataSet,
+  requirementDetails,
+  requirementFilterData,
+} from '../../models/dashboard.model';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { Common } from 'src/app/core/enum/static.enum';
@@ -11,7 +27,8 @@ Chart.register(zoomPlugin);
   templateUrl: './remainder-chart.component.html',
   styleUrls: ['./remainder-chart.component.scss'],
 })
-export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit {
+export class RemainderChartComponent
+  implements OnInit, OnChanges, AfterViewInit {
   @Input() remainderChartData!: remainderChartData;
   remainderChart!: ChartInstance;
   @ViewChild('remainderCanvas') private remainderCanvas!: ElementRef;
@@ -19,11 +36,10 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
   noDataAvailable = Common.empty_chart;
   constructor(
     private staticDataConstants: StaticDataConstants,
-    private dashboardHelperService: DashboardHelperService) { }
+    private dashboardHelperService: DashboardHelperService
+  ) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
   ngAfterViewInit() {
     this.applyCanvasStyles();
     this.initializeChart();
@@ -32,15 +48,14 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
   ngOnChanges() {
     if (this.remainderChartData.dataset.length != 0) {
       this.remainderChart.destroy();
-      const filterType: string = this.remainderChartData.filterType.toUpperCase();
+      const filterType: string =
+        this.remainderChartData.filterType.toUpperCase();
       if (filterType == Common.month.toUpperCase()) {
         this.remainderMonthData();
       } else if (filterType == Common.year.toUpperCase()) {
         this.remainderYearData(this.remainderChartData);
-      }
-      else if (filterType == Common.date.toUpperCase()) {
-
-        this.remainderDayData(this.remainderChartData)
+      } else if (filterType == Common.date.toUpperCase()) {
+        this.remainderDayData(this.remainderChartData);
       }
     }
   }
@@ -62,7 +77,9 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
      */
     const hiringStage: any = {};
     uniqueOwners.forEach((owner: string) => {
-      hiringStage[owner] = new Array(this.remainderChartData.label.length).fill(0);
+      hiringStage[owner] = new Array(this.remainderChartData.label.length).fill(
+        0
+      );
     });
     this.remainderChartData.dataset.forEach((info: requirementFilterData) => {
       const { Date, data } = info;
@@ -72,13 +89,15 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
         hiringStage[owner][index] = entry.Count;
       });
     });
-    const output: ClientDataSet[] = Object.entries(hiringStage).map(([owner, data]) => ({
-      label: owner,
-      data: data as string[],
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const output: ClientDataSet[] = Object.entries(hiringStage).map(
+      ([owner, data]) => ({
+        label: owner,
+        data: data as string[],
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(output);
   }
   remainderYearData(requirementInfo: requirementChartData) {
@@ -95,15 +114,15 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
         transformedData[label][index] += count;
       }
     }
-    const outputData: requirementDataSet[] = Object.entries(transformedData).map(
-      ([label, data]) => ({
-        label: label,
-        data: data,
-        backgroundColor: this.dashboardHelperService.getRandomColor(),
-        borderColor: this.dashboardHelperService.getRandomColor(),
-        borderWidth: 1,
-      })
-    );
+    const outputData: requirementDataSet[] = Object.entries(
+      transformedData
+    ).map(([label, data]) => ({
+      label: label,
+      data: data,
+      backgroundColor: this.dashboardHelperService.getRandomColor(),
+      borderColor: this.dashboardHelperService.getRandomColor(),
+      borderWidth: 1,
+    }));
     this.initializeChart(outputData);
   }
   remainderDayData(requirementInfo: requirementChartData) {
@@ -128,18 +147,22 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
         }
       }
     }
-    const outputData: ClientDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
-      label: label,
-      data: data,
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const outputData: ClientDataSet[] = Object.entries(transformedData).map(
+      ([label, data]) => ({
+        label: label,
+        data: data,
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(outputData);
   }
   getDayDifference(date1: Date, date2: Date): number {
     const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    const diffDays = Math.round(Math.abs((date1.getTime() - date2.getTime()) / oneDay));
+    const diffDays = Math.round(
+      Math.abs((date1.getTime() - date2.getTime()) / oneDay)
+    );
     return diffDays;
   }
   applyCanvasStyles() {
@@ -147,7 +170,7 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
     Object.assign(canvasElement.style, this.chartStyles);
   }
   initializeChart(data?: requirementDataSet[]) {
-    data = data as requirementDataSet[]
+    data = data as requirementDataSet[];
     this.remainderChart = new Chart(this.remainderCanvas.nativeElement, {
       type: Common.bar,
       data: {
@@ -171,7 +194,6 @@ export class RemainderChartComponent implements OnInit, OnChanges, AfterViewInit
               mode: Common.mode,
             },
           },
-
         },
         responsive: true,
         interaction: {

@@ -9,8 +9,25 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 import { Common } from 'src/app/core/enum/static.enum';
 import { Chart, ChartType, registerables } from 'chart.js';
 import { DashboardService } from './services/dashboard.service';
-import { PostCategoryChart, PostClientChart, PostRemainderChart, clientChartData, hiringChartData, remainderChartData, remainderDataSet, requirementChartData, resourceChartData } from './models/dashboard.model';
-import { dashboardClientResponse, dashboardRequirementResponse } from './models/dashboard.API.model';
+import {
+  PostCategoryChart,
+  PostClientChart,
+  PostRemainderChart,
+  clientChartData,
+  hiringChartData,
+  remainderChartData,
+  remainderDataSet,
+  requirementChartData,
+  resourceChartData,
+  resourceRequirementChartData,
+} from './models/dashboard.model';
+import {
+  dashboardClientResponse,
+  dashboardHiringResponse,
+  dashboardRequirementResponse,
+  dashboardResourceRequirementResponse,
+  dashboardResourceResponse,
+} from './models/dashboard.API.model';
 import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
 import { SecurityService } from 'src/app/shared/helpers/security.service';
 Chart.register(...registerables);
@@ -27,13 +44,13 @@ export class DashboardPage implements OnInit {
   isCategoryChecked: boolean = true;
   isCategoryResourceChecked: boolean = true;
   categoryType: string = this.cookiesConstants.hiring_stage;
-  categoryResourceType: string = this.cookiesConstants.hiring_stage;
-  globalMonthRange: any;
-  globalYearRange: any;
-  globalDayRange: any;
-  globalResourceDayRange: any;
-  globalResourceMonthRange: any;
-  globalResourceYearRange: any;
+  categoryResourceType: string = this.cookiesConstants.stage;
+  globalMonthRange!: PostCategoryChart;
+  globalYearRange!: PostCategoryChart;
+  globalDayRange!: PostCategoryChart;
+  globalResourceDayRange!: PostCategoryChart;
+  globalResourceMonthRange!: PostCategoryChart;
+  globalResourceYearRange!: PostCategoryChart;
   clientChartData: clientChartData = {
     dataset: [],
     label: [],
@@ -62,9 +79,15 @@ export class DashboardPage implements OnInit {
     dataset: [],
     label: [],
     filterType: Common.month.toUpperCase(),
-    category: this.cookiesConstants.hiring_stage
-  }
+    category: this.cookiesConstants.hiring_stage,
+  };
 
+  resourceRequirementChartData: resourceRequirementChartData = {
+    dataset: [],
+    label: [],
+    filterType: Common.month.toUpperCase(),
+    category: this.cookiesConstants.stage,
+  };
   user_id!: number;
 
   constructor(
@@ -98,6 +121,7 @@ export class DashboardPage implements OnInit {
     if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
       this.globalMonthRange = await this.getLastSixMonthsRange();
       let dateRange = await this.globalMonthRange;
+      this.globalResourceMonthRange = await this.getLastSixMonthsRange();
       let monthReq: PostClientChart = {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
@@ -107,19 +131,26 @@ export class DashboardPage implements OnInit {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         type: this.filterType,
-        userId: this.user_id
+        userId: this.user_id,
       };
       this.getDashboardClient(monthReq);
       this.getDashboardRequirementData(monthReq);
       this.getDashboardResourceData(monthReq);
       this.getDashboardRemainderData(monthRemainderReq);
-      this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange as PostCategoryChart));
-    }
-    /**
-     * Year based filter
-     */
-    else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+      this.getDashboardHiring(
+        this.hiringAPIRequest(this.globalMonthRange as PostCategoryChart)
+      );
+      this.getDashboardResourceRequirement(
+        this.resourceAPIRequest(
+          this.globalResourceMonthRange as PostCategoryChart
+        )
+      );
+    } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+      /**
+       * Year based filter
+       */
       this.globalYearRange = await this.getLastFiveYearsRange();
+      this.globalResourceYearRange = await this.getLastFiveYearsRange();
       let yearRange = await this.getLastFiveYearsRange();
       let yearReq = {
         startDate: yearRange.startDate,
@@ -130,20 +161,27 @@ export class DashboardPage implements OnInit {
         startDate: yearRange.startDate,
         endDate: yearRange.endDate,
         type: this.filterType,
-        userId: this.user_id
+        userId: this.user_id,
       };
       this.getDashboardClient(yearReq);
       this.getDashboardRequirementData(yearReq);
       this.getDashboardResourceData(yearReq);
       this.getDashboardRemainderData(monthRemainderReq);
-      this.getDashboardHiring(this.hiringAPIRequest(this.globalYearRange as PostCategoryChart));
-    }
-    /**
-    * Date based filter
-    */
-    else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+      this.getDashboardHiring(
+        this.hiringAPIRequest(this.globalYearRange as PostCategoryChart)
+      );
+      this.getDashboardResourceRequirement(
+        this.resourceAPIRequest(
+          this.globalResourceYearRange as PostCategoryChart
+        )
+      );
+    } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+      /**
+       * Date based filter
+       */
       this.globalDayRange = await this.getLast30DaysDateRange();
       let dateRange = this.globalDayRange;
+      this.globalResourceDayRange = await this.getLast30DaysDateRange();
       let dateReq = {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
@@ -153,188 +191,232 @@ export class DashboardPage implements OnInit {
         startDate: dateRange.startDate,
         endDate: dateRange.endDate,
         type: this.filterType,
-        userId: this.user_id
+        userId: this.user_id,
       };
       this.getDashboardClient(dateReq);
       this.getDashboardRequirementData(dateReq);
       this.getDashboardResourceData(dateReq);
       this.getDashboardRemainderData(dateRemainderReq);
-      this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange as PostCategoryChart));
+      this.getDashboardHiring(
+        this.hiringAPIRequest(this.globalDayRange as PostCategoryChart)
+      );
+      this.getDashboardResourceRequirement(
+        this.resourceAPIRequest(
+          this.globalResourceDayRange as PostCategoryChart
+        )
+      );
     }
   }
 
   /**API Calls */
   getDashboardClient(req: PostClientChart) {
-    this.getDashboardAPI.getDashboardClient(req).subscribe(async (res: dashboardClientResponse) => {
-      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
-        this.clientChartData = {
-          filterType: this.filterType,
-          label: await this.getLastSixMonths(),
-          dataset: await res.data.dashboardClientInfo,
-        };
-      } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
-        this.clientChartData = {
-          filterType: this.filterType,
-          label: await this.getLastFiveYear(),
-          dataset: await res.data.dashboardClientInfo,
-        };
-      } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
-        this.clientChartData = {
-          filterType: this.filterType,
-          label: await this.getLast30DaysFormattedDates(),
-          dataset: await res.data.dashboardClientInfo,
-        };
-      }
-    });
+    this.getDashboardAPI
+      .getDashboardClient(req)
+      .subscribe(async (res: dashboardClientResponse) => {
+        if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+          this.clientChartData = {
+            filterType: this.filterType,
+            label: await this.getLastSixMonths(),
+            dataset: await res.data.dashboardClientInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+          this.clientChartData = {
+            filterType: this.filterType,
+            label: await this.getLastFiveYear(),
+            dataset: await res.data.dashboardClientInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+          this.clientChartData = {
+            filterType: this.filterType,
+            label: await this.getLast30DaysFormattedDates(),
+            dataset: await res.data.dashboardClientInfo,
+          };
+        }
+      });
   }
 
   getDashboardRequirementData(req: PostClientChart) {
-    this.getDashboardAPI.getDashboardRequirement(req).subscribe(async (res: dashboardRequirementResponse) => {
-      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
-        this.requirementChartData = {
-          filterType: this.filterType,
-          label: await this.getLastSixMonths(),
-          dataset: await res.data.dashboardReminderInfo,
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
-        this.requirementChartData = {
-          filterType: this.filterType,
-          label: await this.getLastFiveYear(),
-          dataset: await res.data.dashboardReminderInfo,
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
-        this.requirementChartData = {
-          filterType: this.filterType,
-          label: await this.getLast30DaysFormattedDates(),
-          dataset: await res.data.dashboardReminderInfo,
-        };
-      }
-    });
+    this.getDashboardAPI
+      .getDashboardRequirement(req)
+      .subscribe(async (res: dashboardRequirementResponse) => {
+        if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+          this.requirementChartData = {
+            filterType: this.filterType,
+            label: await this.getLastSixMonths(),
+            dataset: await res.data.dashboardReminderInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+          this.requirementChartData = {
+            filterType: this.filterType,
+            label: await this.getLastFiveYear(),
+            dataset: await res.data.dashboardReminderInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+          this.requirementChartData = {
+            filterType: this.filterType,
+            label: await this.getLast30DaysFormattedDates(),
+            dataset: await res.data.dashboardReminderInfo,
+          };
+        }
+      });
   }
 
   getDashboardResourceData(req: PostClientChart) {
-    this.getDashboardAPI.getDashboardResource(req).subscribe(async (res: any) => {
-      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
-        this.resourceChartData = {
-          filterType: this.filterType,
-          label: await this.getLastSixMonths(),
-          dataset: await res.data.dashboardResourceInfo,
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
-        this.resourceChartData = {
-          filterType: this.filterType,
-          label: await this.getLastFiveYear(),
-          dataset: await res.data.dashboardResourceInfo,
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
-        this.resourceChartData = {
-          filterType: this.filterType,
-          label: await this.getLast30DaysFormattedDates(),
-          dataset: await res.data.dashboardResourceInfo,
-        };
-      }
-    });
+    this.getDashboardAPI
+      .getDashboardResource(req)
+      .subscribe(async (res: dashboardResourceResponse) => {
+        if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+          this.resourceChartData = {
+            filterType: this.filterType,
+            label: await this.getLastSixMonths(),
+            dataset: await res.data.dashboardResourceInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+          this.resourceChartData = {
+            filterType: this.filterType,
+            label: await this.getLastFiveYear(),
+            dataset: await res.data.dashboardResourceInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+          this.resourceChartData = {
+            filterType: this.filterType,
+            label: await this.getLast30DaysFormattedDates(),
+            dataset: await res.data.dashboardResourceInfo,
+          };
+        }
+      });
   }
 
   getDashboardRemainderData(req: PostRemainderChart) {
-    this.getDashboardAPI.getDashboardRemainder(req).subscribe(async (res: dashboardRequirementResponse) => {
-      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
-        this.remainderChartData = {
-          filterType: this.filterType,
-          label: await this.getLastSixMonths(),
-          dataset: await res.data.dashboardReminderInfo,
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
-        this.remainderChartData = {
-          filterType: this.filterType,
-          label: await this.getLastFiveYear(),
-          dataset: await res.data.dashboardReminderInfo,
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
-        this.remainderChartData = {
-          filterType: this.filterType,
-          label: await this.getLast30DaysFormattedDates(),
-          dataset: await res.data.dashboardReminderInfo,
-        };
-      }
-    });
+    this.getDashboardAPI
+      .getDashboardRemainder(req)
+      .subscribe(async (res: dashboardRequirementResponse) => {
+        if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+          this.remainderChartData = {
+            filterType: this.filterType,
+            label: await this.getLastSixMonths(),
+            dataset: await res.data.dashboardReminderInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+          this.remainderChartData = {
+            filterType: this.filterType,
+            label: await this.getLastFiveYear(),
+            dataset: await res.data.dashboardReminderInfo,
+          };
+        } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+          this.remainderChartData = {
+            filterType: this.filterType,
+            label: await this.getLast30DaysFormattedDates(),
+            dataset: await res.data.dashboardReminderInfo,
+          };
+        }
+      });
   }
 
   getDashboardHiring(req: PostCategoryChart) {
-    this.getDashboardAPI.getDashboardHiring(req).subscribe(async (res: any) => {
-      if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
-        this.hiringChartData = {
-          filterType: this.filterType,
-          label: await this.getLastSixMonths(),
-          dataset: await res.data.dashboardHiringInfo,
-          category: await this.categoryType
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
-        this.hiringChartData = {
-          filterType: this.filterType,
-          label: await this.getLastFiveYear(),
-          dataset: await res.data.dashboardHiringInfo,
-          category: await this.categoryType
-        };
-      }
-      else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
-        this.hiringChartData = {
-          filterType: this.filterType,
-          label: await this.getLast30DaysFormattedDates(),
-          dataset: await res.data.dashboardHiringInfo,
-          category: await this.categoryType
-        };
-      }
-    });
+    this.getDashboardAPI
+      .getDashboardHiring(req)
+      .subscribe(async (res: dashboardHiringResponse) => {
+        if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+          this.hiringChartData = {
+            filterType: this.filterType,
+            label: await this.getLastSixMonths(),
+            dataset: await res.data.dashboardHiringInfo,
+            category: await this.categoryType,
+          };
+        } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+          this.hiringChartData = {
+            filterType: this.filterType,
+            label: await this.getLastFiveYear(),
+            dataset: await res.data.dashboardHiringInfo,
+            category: await this.categoryType,
+          };
+        } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+          this.hiringChartData = {
+            filterType: this.filterType,
+            label: await this.getLast30DaysFormattedDates(),
+            dataset: await res.data.dashboardHiringInfo,
+            category: await this.categoryType,
+          };
+        }
+      });
   }
   getDashboardResourceRequirement(req: PostCategoryChart) {
-    this.getDashboardAPI.getDashboardResourceRequirement(req).subscribe(async (res: any) => {
-
-    })
+    this.getDashboardAPI
+      .getDashboardResourceRequirement(req)
+      .subscribe(async (res: dashboardResourceRequirementResponse) => {
+        if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
+          this.resourceRequirementChartData = {
+            filterType: this.filterType,
+            label: await this.getLastSixMonths(),
+            dataset: await res.data.dashboardResourceRequirementInfo,
+            category: await this.categoryResourceType,
+          };
+        } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
+          this.resourceRequirementChartData = {
+            filterType: this.filterType,
+            label: await this.getLastFiveYear(),
+            dataset: await res.data.dashboardResourceRequirementInfo,
+            category: await this.categoryResourceType,
+          };
+        } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
+          this.resourceRequirementChartData = {
+            filterType: this.filterType,
+            label: await this.getLast30DaysFormattedDates(),
+            dataset: await res.data.dashboardResourceRequirementInfo,
+            category: await this.categoryResourceType,
+          };
+        }
+      });
   }
   /**
-   * 
+   *
    * Helper  functions
    */
   categoryChanged() {
-    this.categoryType = this.isCategoryChecked ? this.cookiesConstants.hiring_status : this.cookiesConstants.hiring_stage;
+    this.categoryType = this.isCategoryChecked
+      ? this.cookiesConstants.hiring_status
+      : this.cookiesConstants.hiring_stage;
     switch (this.filterType.toUpperCase()) {
       case Common.date.toUpperCase():
-        this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange))
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange));
         break;
       case Common.month.toUpperCase():
-        this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange))
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange));
         break;
       case Common.year.toUpperCase():
-        this.getDashboardHiring(this.hiringAPIRequest(this.globalYearRange))
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalYearRange));
         break;
       default:
-        this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange))
+        this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange));
     }
   }
 
   categoryResourceChanged() {
-    this.categoryResourceType = this.isCategoryResourceChecked ? this.cookiesConstants.status : this.cookiesConstants.stage;
-    // switch (this.filterType.toUpperCase()) {
-    //   case Common.date.toUpperCase():
-    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceDayRange))
-    //     break;
-    //   case Common.month.toUpperCase():
-    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceMonthRange))
-    //     break;
-    //   case Common.year.toUpperCase():
-    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceYearRange))
-    //     break;
-    //   default:
-    //     this.getDashboardResourceRequirement(this.resourceAPIRequest(this.globalResourceDayRange))
-    // }
+    this.categoryResourceType = this.isCategoryResourceChecked
+      ? this.cookiesConstants.status
+      : this.cookiesConstants.stage;
+    switch (this.filterType.toUpperCase()) {
+      case Common.date.toUpperCase():
+        this.getDashboardResourceRequirement(
+          this.resourceAPIRequest(this.globalResourceDayRange)
+        );
+        break;
+      case Common.month.toUpperCase():
+        this.getDashboardResourceRequirement(
+          this.resourceAPIRequest(this.globalResourceMonthRange)
+        );
+        break;
+      case Common.year.toUpperCase():
+        this.getDashboardResourceRequirement(
+          this.resourceAPIRequest(this.globalResourceYearRange)
+        );
+        break;
+      default:
+        this.getDashboardResourceRequirement(
+          this.resourceAPIRequest(this.globalResourceDayRange)
+        );
+    }
   }
 
   hiringAPIRequest(dateRange: PostCategoryChart) {
@@ -342,16 +424,16 @@ export class DashboardPage implements OnInit {
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
       type: this.filterType,
-      category: this.categoryType
-    }
+      category: this.categoryType,
+    };
   }
   resourceAPIRequest(dateRange: PostCategoryChart) {
     return {
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
       type: this.filterType,
-      category: this.categoryResourceType
-    }
+      category: this.categoryResourceType,
+    };
   }
 
   getLast30DaysFormattedDates() {
@@ -371,6 +453,7 @@ export class DashboardPage implements OnInit {
   defaultAllDashboardCall() {
     this.globalMonthRange = this.getLastSixMonthsRange();
     let dateRange = this.globalMonthRange;
+    this.globalResourceMonthRange = this.getLastSixMonthsRange();
     let dateReq = {
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
@@ -380,13 +463,20 @@ export class DashboardPage implements OnInit {
       startDate: dateRange.startDate,
       endDate: dateRange.endDate,
       type: this.filterType,
-      userId: this.user_id
+      userId: this.user_id,
     };
     this.getDashboardClient(dateReq);
     this.getDashboardRequirementData(dateReq);
     this.getDashboardResourceData(dateReq);
     this.getDashboardRemainderData(monthRemainderReq);
-    this.getDashboardHiring(this.hiringAPIRequest(this.globalMonthRange as PostCategoryChart));
+    this.getDashboardHiring(
+      this.hiringAPIRequest(this.globalMonthRange as PostCategoryChart)
+    );
+    this.getDashboardResourceRequirement(
+      this.resourceAPIRequest(
+        this.globalResourceMonthRange as PostCategoryChart
+      )
+    );
   }
   getLastSixMonths() {
     let today = new Date();

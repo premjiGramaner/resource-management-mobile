@@ -1,5 +1,20 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-import { ChartInstance, ClientDataSet, requirementChartData, requirementDataSet, requirementDetails, requirementFilterData } from '../../models/dashboard.model';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
+import {
+  ChartInstance,
+  ClientDataSet,
+  requirementChartData,
+  requirementDataSet,
+  requirementDetails,
+  requirementFilterData,
+} from '../../models/dashboard.model';
 import { Common } from 'src/app/core/enum/static.enum';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -11,7 +26,8 @@ Chart.register(zoomPlugin);
   templateUrl: './requirement-chart.component.html',
   styleUrls: ['./requirement-chart.component.scss'],
 })
-export class RequirementChartComponent implements OnInit, OnChanges, AfterViewInit {
+export class RequirementChartComponent
+  implements OnInit, OnChanges, AfterViewInit {
   @Input() requirementChartData!: requirementChartData;
   requirementChart!: ChartInstance;
   @ViewChild('requirementCanvas') private requirementCanvas!: ElementRef;
@@ -20,7 +36,8 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
 
   constructor(
     private staticDataConstants: StaticDataConstants,
-    private dashboardHelperService: DashboardHelperService) { }
+    private dashboardHelperService: DashboardHelperService
+  ) { }
 
   ngOnInit() { }
 
@@ -32,13 +49,13 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
   ngOnChanges() {
     if (this.requirementChartData.dataset.length != 0) {
       this.requirementChart.destroy();
-      const filterType: string = this.requirementChartData.filterType.toUpperCase();
+      const filterType: string =
+        this.requirementChartData.filterType.toUpperCase();
       if (filterType == Common.month.toUpperCase()) {
-        this.requirementMonthData()
+        this.requirementMonthData();
       } else if (filterType == Common.year.toUpperCase()) {
         this.requirementYearData(this.requirementChartData);
-      }
-      else if (filterType == Common.date.toUpperCase()) {
+      } else if (filterType == Common.date.toUpperCase()) {
         this.requirementDayData(this.requirementChartData);
       }
     }
@@ -62,7 +79,9 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
      */
     const hiringStage: any = {};
     uniqueOwners.forEach((owner: string) => {
-      hiringStage[owner] = new Array(this.requirementChartData.label.length).fill(0);
+      hiringStage[owner] = new Array(
+        this.requirementChartData.label.length
+      ).fill(0);
     });
     this.requirementChartData.dataset.forEach((info: requirementFilterData) => {
       const { Date, data } = info;
@@ -72,13 +91,15 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
         hiringStage[owner][index] = entry.Count;
       });
     });
-    const output: ClientDataSet[] = Object.entries(hiringStage).map(([owner, data]) => ({
-      label: owner,
-      data: data as string[],
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const output: ClientDataSet[] = Object.entries(hiringStage).map(
+      ([owner, data]) => ({
+        label: owner,
+        data: data as string[],
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(output);
   }
 
@@ -96,15 +117,15 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
         transformedData[label][index] += count;
       }
     }
-    const outputData: requirementDataSet[] = Object.entries(transformedData).map(
-      ([label, data]) => ({
-        label: label,
-        data: data,
-        backgroundColor: this.dashboardHelperService.getRandomColor(),
-        borderColor: this.dashboardHelperService.getRandomColor(),
-        borderWidth: 1,
-      })
-    );
+    const outputData: requirementDataSet[] = Object.entries(
+      transformedData
+    ).map(([label, data]) => ({
+      label: label,
+      data: data,
+      backgroundColor: this.dashboardHelperService.getRandomColor(),
+      borderColor: this.dashboardHelperService.getRandomColor(),
+      borderWidth: 1,
+    }));
     this.initializeChart(outputData);
   }
   requirementDayData(requirementInfo: requirementChartData) {
@@ -122,25 +143,30 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
         const count = dataObj.Count;
         const dataDate = new Date(clientInfo.Date);
         if (!isNaN(dataDate.getTime())) {
-          const index = this.dashboardHelperService.getDayDifference(givenDate, dataDate);
+          const index = this.dashboardHelperService.getDayDifference(
+            givenDate,
+            dataDate
+          );
           if (index >= 0 && index < 5) {
             transformedData[label][index] += count;
           }
         }
       }
     }
-    const outputData: ClientDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
-      label: label,
-      data: data,
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const outputData: ClientDataSet[] = Object.entries(transformedData).map(
+      ([label, data]) => ({
+        label: label,
+        data: data,
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(outputData);
   }
 
   initializeChart(data?: requirementDataSet[]) {
-    data = data as requirementDataSet[]
+    data = data as requirementDataSet[];
     this.requirementChart = new Chart(this.requirementCanvas.nativeElement, {
       type: Common.bar,
       data: {
@@ -164,7 +190,6 @@ export class RequirementChartComponent implements OnInit, OnChanges, AfterViewIn
               mode: Common.mode,
             },
           },
-
         },
         responsive: true,
         interaction: {

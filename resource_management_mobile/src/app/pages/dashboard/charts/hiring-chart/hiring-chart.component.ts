@@ -1,10 +1,24 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { Common } from 'src/app/core/enum/static.enum';
 import { DashboardHelperService } from '../../services/dashboard-helper.service';
-import { ChartInstance, hiringChartData, hiringDataSet, hiringDetails, hiringFilterData } from '../../models/dashboard.model';
+import {
+  ChartInstance,
+  hiringChartData,
+  hiringDataSet,
+  hiringDetails,
+  hiringFilterData,
+} from '../../models/dashboard.model';
 import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
 Chart.register(zoomPlugin);
 @Component({
@@ -18,29 +32,28 @@ export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
   hiringChart!: ChartInstance;
   chartStyles = this.staticDataConstants.chartStyles;
   noDataAvailable = Common.empty_chart;
-  constructor(private staticDataConstants: StaticDataConstants,
+  constructor(
+    private staticDataConstants: StaticDataConstants,
     private dashboardHelperService: DashboardHelperService,
-    private cookiesConstants: CookiesConstants) { }
+    private cookiesConstants: CookiesConstants
+  ) { }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
     this.applyCanvasStyles();
-    this.initializeChart()
+    this.initializeChart();
   }
 
   ngOnChanges() {
-
     if (this.hiringChartData.dataset.length != 0) {
       this.hiringChart.destroy();
       const filterType: string = this.hiringChartData.filterType.toUpperCase();
       if (filterType == Common.month.toUpperCase()) {
-        this.hiringMonthData()
-      }
-      else if (filterType == Common.year.toUpperCase()) {
+        this.hiringMonthData();
+      } else if (filterType == Common.year.toUpperCase()) {
         this.hiringYearData(this.hiringChartData);
-      }
-      else if (filterType == Common.date.toUpperCase()) {
+      } else if (filterType == Common.date.toUpperCase()) {
         this.hiringDayData(this.hiringChartData);
       }
     }
@@ -55,8 +68,18 @@ export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
     const uniqueOwners = this.hiringChartData.dataset.reduce(
       (acc: string[], info: hiringFilterData) => {
         info.data.forEach((entry: hiringDetails) => {
-          if (!acc.includes(entry[this.hiringChartData.category as keyof hiringDetails] as string)) {
-            acc.push(entry[this.hiringChartData.category as keyof hiringDetails] as string);
+          if (
+            !acc.includes(
+              entry[
+              this.hiringChartData.category as keyof hiringDetails
+              ] as string
+            )
+          ) {
+            acc.push(
+              entry[
+              this.hiringChartData.category as keyof hiringDetails
+              ] as string
+            );
           }
         });
         return acc;
@@ -74,19 +97,21 @@ export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
     this.hiringChartData.dataset.forEach((info: hiringFilterData) => {
       const { Date, data } = info;
       data.forEach((entry: hiringDetails) => {
-        const owner = entry[this.hiringChartData.category as keyof hiringDetails];
+        const owner =
+          entry[this.hiringChartData.category as keyof hiringDetails];
         const index = Date - this.hiringChartData.label.length;
         hiringStage[owner][index] = entry.Count;
       });
-
     });
-    const output: hiringDataSet[] = Object.entries(hiringStage).map(([owner, data]) => ({
-      label: owner,
-      data: data as string[],
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const output: hiringDataSet[] = Object.entries(hiringStage).map(
+      ([owner, data]) => ({
+        label: owner,
+        data: data as string[],
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(output);
   }
 
@@ -94,7 +119,8 @@ export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of hiringInfo.dataset) {
       for (const dataObj of clientInfo.data) {
-        const label = dataObj[this.hiringChartData.category as keyof hiringDetails];
+        const label =
+          dataObj[this.hiringChartData.category as keyof hiringDetails];
         const year = Number(clientInfo.Date);
         const count = dataObj.Count;
         if (!transformedData[label]) {
@@ -120,31 +146,38 @@ export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of hiringInfo.dataset) {
       for (const dataObj of clientInfo.data) {
-        const label = dataObj[this.hiringChartData.category as keyof hiringDetails];
+        const label =
+          dataObj[this.hiringChartData.category as keyof hiringDetails];
         transformedData[label] = Array(30).fill(0);
       }
     }
     for (const clientInfo of hiringInfo.dataset) {
       const givenDate = new Date(clientInfo.Date);
       for (const dataObj of clientInfo.data) {
-        const label = dataObj[this.hiringChartData.category as keyof hiringDetails];
+        const label =
+          dataObj[this.hiringChartData.category as keyof hiringDetails];
         const count = dataObj.Count;
         const dataDate = new Date(clientInfo.Date);
         if (!isNaN(dataDate.getTime())) {
-          const index = this.dashboardHelperService.getDayDifference(givenDate, dataDate);
+          const index = this.dashboardHelperService.getDayDifference(
+            givenDate,
+            dataDate
+          );
           if (index >= 0 && index < 5) {
             transformedData[label][index] += count;
           }
         }
       }
     }
-    const outputData: hiringDataSet[] = Object.entries(transformedData).map(([label, data]) => ({
-      label: label,
-      data: data,
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const outputData: hiringDataSet[] = Object.entries(transformedData).map(
+      ([label, data]) => ({
+        label: label,
+        data: data,
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(outputData);
   }
   initializeChart(data?: hiringDataSet[]) {
@@ -171,7 +204,7 @@ export class HiringChartComponent implements OnInit, OnChanges, AfterViewInit {
               },
               mode: Common.mode,
             },
-          }
+          },
         },
         responsive: true,
         interaction: {

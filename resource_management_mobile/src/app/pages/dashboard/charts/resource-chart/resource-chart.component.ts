@@ -1,7 +1,22 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  OnChanges,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
-import { ChartInstance, ClientDataSet, resorceDetails, resourceChartData, resourceDataSet, resourceFilterData } from '../../models/dashboard.model';
+import {
+  ChartInstance,
+  ClientDataSet,
+  resorceDetails,
+  resourceChartData,
+  resourceDataSet,
+  resourceFilterData,
+} from '../../models/dashboard.model';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { Common } from 'src/app/core/enum/static.enum';
 import { DashboardHelperService } from '../../services/dashboard-helper.service';
@@ -12,7 +27,8 @@ Chart.register(zoomPlugin);
   templateUrl: './resource-chart.component.html',
   styleUrls: ['./resource-chart.component.scss'],
 })
-export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit {
+export class ResourceChartComponent
+  implements OnInit, OnChanges, AfterViewInit {
   @Input() resourceChartData!: resourceChartData;
   @ViewChild('resourceCanvas') private resourceCanvas!: ElementRef;
   resourceChart!: ChartInstance;
@@ -21,25 +37,25 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
 
   constructor(
     private staticDataConstants: StaticDataConstants,
-    private dashboardHelperService: DashboardHelperService) { }
+    private dashboardHelperService: DashboardHelperService
+  ) { }
 
   ngOnInit() { }
 
   ngAfterViewInit() {
     this.applyCanvasStyles();
-    this.initializeChart()
+    this.initializeChart();
   }
   ngOnChanges() {
     if (this.resourceChartData.dataset.length != 0) {
       this.resourceChart.destroy();
-      const filterType: string = this.resourceChartData.filterType.toUpperCase();
+      const filterType: string =
+        this.resourceChartData.filterType.toUpperCase();
       if (filterType == Common.month.toUpperCase()) {
         this.resourceMonthData();
-      }
-      else if (filterType == Common.year.toUpperCase()) {
+      } else if (filterType == Common.year.toUpperCase()) {
         this.resourceYearData(this.resourceChartData);
-      }
-      else if (filterType == Common.date.toUpperCase()) {
+      } else if (filterType == Common.date.toUpperCase()) {
         this.resourceDayData(this.resourceChartData);
       }
     }
@@ -86,7 +102,9 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
      */
     const ownersData: any = {};
     uniqueOwners.forEach((owner: string) => {
-      ownersData[owner] = new Array(this.resourceChartData.label.length).fill(0);
+      ownersData[owner] = new Array(this.resourceChartData.label.length).fill(
+        0
+      );
     });
     this.resourceChartData.dataset.forEach((info: resourceFilterData) => {
       const { Date, data } = info;
@@ -96,13 +114,15 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
         ownersData[owner][index] = entry.Count;
       });
     });
-    const output: resourceDataSet[] = Object.entries(ownersData).map(([owner, data]) => ({
-      label: owner,
-      data: data as string[],
-      backgroundColor: this.dashboardHelperService.getRandomColor(),
-      borderColor: this.dashboardHelperService.getRandomColor(),
-      borderWidth: 1,
-    }));
+    const output: resourceDataSet[] = Object.entries(ownersData).map(
+      ([owner, data]) => ({
+        label: owner,
+        data: data as string[],
+        backgroundColor: this.dashboardHelperService.getRandomColor(),
+        borderColor: this.dashboardHelperService.getRandomColor(),
+        borderWidth: 1,
+      })
+    );
     this.initializeChart(output);
   }
 
@@ -167,7 +187,7 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
         plugins: {
           title: {
             display: true,
-            text: 'Resource chart',
+            text: Common.resource_chart,
           },
           zoom: {
             zoom: {
@@ -179,7 +199,7 @@ export class ResourceChartComponent implements OnInit, OnChanges, AfterViewInit 
               },
               mode: Common.mode,
             },
-          }
+          },
         },
         responsive: true,
         interaction: {

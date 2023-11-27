@@ -43,7 +43,29 @@ export interface hiringDetails {
     hiring_stage: string;
     hiring_status: string;
 }
+export interface resourceRequirementChartData extends baseReqString {
+    dataset: resourceRequirementFilterData[];
+    category: string;
+}
 
+export interface resourceRequirementFilterData {
+    Date: number;
+    Resource_requirement_id: number;
+    data: resourceRequirementDetails[];
+}
+
+export interface resourceRequirementDetails {
+    Count: number;
+    Stage_stage_id: number;
+    stage: {
+        description: string;
+    };
+
+    Status_status_id: number;
+    status: {
+        description: string;
+    };
+}
 export interface resourceFilterData {
     Date: number;
     data: resorceDetails[];
@@ -68,11 +90,11 @@ export interface countDetails {
 export interface PostClientChart {
     startDate: string;
     endDate: string;
-    type: string;
+    type?: string;
 }
 
 export interface PostCategoryChart extends PostClientChart {
-    category: string;
+    category?: string;
 }
 
 export interface PostRemainderChart extends PostClientChart {
@@ -101,3 +123,4 @@ export interface requirementDataSet extends ClientDataSet { }
 export interface resourceDataSet extends ClientDataSet { }
 export interface remainderDataSet extends ClientDataSet { }
 export interface hiringDataSet extends ClientDataSet { }
+export interface resourceRequirementDataSet extends ClientDataSet { }

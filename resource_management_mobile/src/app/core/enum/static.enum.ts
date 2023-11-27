@@ -6,7 +6,7 @@ export enum Modules {
     History = 'History',
     Location = 'Location',
     Resource_requirement = 'Resource_requirement',
-    Notification = 'Notification'
+    Notification = 'Notification',
 }
 
 export enum Common {
@@ -24,10 +24,11 @@ export enum Common {
     year = 'Year',
     empty_chart = 'No charts available.',
     bar = 'bar',
-    hiring_chart = 'Hiring chart',
+    hiring_chart = 'Hiring',
     mode = 'xy',
-    requirement_chart = 'Requirement chart',
-    remainder_chart = 'Remainder chart',
-    client_chart = 'Client chart'
-
+    requirement_chart = 'Requirement',
+    remainder_chart = 'Remainder',
+    client_chart = 'Client',
+    resource_requirement = 'Resource Requirement',
+    resource_chart = 'Resource',
 }

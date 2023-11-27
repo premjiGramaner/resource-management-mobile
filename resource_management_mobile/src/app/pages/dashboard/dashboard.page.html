@@ -55,7 +55,8 @@
               </div>
               <div class="category">
                 <span *ngIf="!isCategoryChecked">Status</span>
-                <ion-toggle aria-label="Enable Notifications" (ngModelChange)="categoryChanged()" [(ngModel)]="isCategoryChecked"></ion-toggle>
+                <ion-toggle aria-label="Enable Notifications" (ngModelChange)="categoryChanged()"
+                  [(ngModel)]="isCategoryChecked"></ion-toggle>
                 <span *ngIf="isCategoryChecked">Stage</span>
               </div>
             </div>
@@ -74,14 +75,16 @@
               </div>
               <div class="category">
                 <span *ngIf="!isCategoryResourceChecked">Status</span>
-                <ion-toggle aria-label="Enable Notifications" (ngModelChange)="categoryResourceChanged()" [(ngModel)]="isCategoryResourceChecked"></ion-toggle>
+                <ion-toggle aria-label="Enable Notifications" (ngModelChange)="categoryResourceChanged()"
+                  [(ngModel)]="isCategoryResourceChecked"></ion-toggle>
                 <span *ngIf="isCategoryResourceChecked">Stage</span>
               </div>
             </div>
           </ion-card-title>
         </ion-card-header>
         <ion-card-content>
-         
+          <app-resource-requirement-chart
+            [resourceRequirementChartData]="resourceRequirementChartData"></app-resource-requirement-chart>
         </ion-card-content>
       </ion-card>
     </ion-row>
