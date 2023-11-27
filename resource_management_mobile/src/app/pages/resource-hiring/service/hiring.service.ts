@@ -26,6 +26,14 @@ export class HiringService {
     return this.http.get<hiringResponse>(`${this.URL}${Modules.Resource.toLowerCase()}/${Modules.Hiring.toLowerCase()}`);
   }
 
+  getHiringAdminData(skip: number, limit: number, search: string): Observable<hiringResponse> {
+    let urlParams = new URLSearchParams();
+    urlParams.append(Common.skip, skip.toString());
+    urlParams.append(Common.limit, limit.toString());
+    urlParams.append(Common.search, search);
+    return this.http.get<hiringResponse>(`${this.URL}${Modules.Resource.toLowerCase()}/${Modules.Hiring.toLowerCase()}/${Modules.Admin.toLowerCase()}?`+urlParams);
+  }
+
   getHiringHistoryData(id:number) {
     return this.http.get<hiringHistoryResponse>(`${this.URL}${Modules.Resource.toLowerCase()}/${Modules.Hiring.toLowerCase()}/${Modules.History.toLowerCase()}/${id}`);
   }

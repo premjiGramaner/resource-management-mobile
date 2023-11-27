@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./status-tracker.page.scss'],
 })
 export class StatusTrackerPage implements OnInit {
-
+  segment: string = "hiring";
   constructor() { }
 
   ngOnInit() {
   }
+
+  async segmentChanged(event:Event) {
+    
+  }
+
 
 }
