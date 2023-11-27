@@ -31,4 +31,8 @@ export enum Common {
     client_chart = 'Client',
     resource_requirement = 'Resource Requirement',
     resource_chart = 'Resource',
+    hiring_stage = 'hiring_stage',
+    hiring_status = 'hiring_status',
+    stage = 'stage',
+    status = 'status',
 }

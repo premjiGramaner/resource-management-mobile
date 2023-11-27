@@ -43,8 +43,8 @@ export class DashboardPage implements OnInit {
   barChart!: Object;
   isCategoryChecked: boolean = true;
   isCategoryResourceChecked: boolean = true;
-  categoryType: string = this.cookiesConstants.hiring_stage;
-  categoryResourceType: string = this.cookiesConstants.stage;
+  categoryType: string = Common.hiring_stage;
+  categoryResourceType: string = Common.stage;
   globalMonthRange!: PostCategoryChart;
   globalYearRange!: PostCategoryChart;
   globalDayRange!: PostCategoryChart;
@@ -79,14 +79,14 @@ export class DashboardPage implements OnInit {
     dataset: [],
     label: [],
     filterType: Common.month.toUpperCase(),
-    category: this.cookiesConstants.hiring_stage,
+    category: Common.hiring_stage,
   };
 
   resourceRequirementChartData: resourceRequirementChartData = {
     dataset: [],
     label: [],
     filterType: Common.month.toUpperCase(),
-    category: this.cookiesConstants.stage,
+    category: Common.stage,
   };
   user_id!: number;
 
@@ -375,8 +375,8 @@ export class DashboardPage implements OnInit {
    */
   categoryChanged() {
     this.categoryType = this.isCategoryChecked
-      ? this.cookiesConstants.hiring_status
-      : this.cookiesConstants.hiring_stage;
+      ? Common.hiring_status
+      : Common.hiring_stage;
     switch (this.filterType.toUpperCase()) {
       case Common.date.toUpperCase():
         this.getDashboardHiring(this.hiringAPIRequest(this.globalDayRange));
@@ -394,8 +394,8 @@ export class DashboardPage implements OnInit {
 
   categoryResourceChanged() {
     this.categoryResourceType = this.isCategoryResourceChecked
-      ? this.cookiesConstants.status
-      : this.cookiesConstants.stage;
+      ? Common.status
+      : Common.stage;
     switch (this.filterType.toUpperCase()) {
       case Common.date.toUpperCase():
         this.getDashboardResourceRequirement(
