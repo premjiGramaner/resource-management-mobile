@@ -129,3 +129,16 @@ ion-card {
     justify-content:$justify-content-space-between;
 }
 
+@mixin profileBaseClass {
+    background: $profile-bg;
+    border-radius: $profile-border-radious;
+}
+
+.profile_img {
+    @include profileBaseClass;
+    height: 99px;
+    width: 99px;
+    padding: 11px;
+}
+
+

@@ -15,3 +15,12 @@ export interface addUser {
     password: string;
     roleID: number
 }
+
+export interface editUser {
+    name:string;
+    userName:string;
+}
+
+export interface changePassword {
+    password: string;
+}
