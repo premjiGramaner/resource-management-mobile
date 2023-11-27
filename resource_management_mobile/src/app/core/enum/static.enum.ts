@@ -4,6 +4,7 @@ export enum Modules {
     Hiring = 'Hiring',
     Status = 'Status',
     History = 'History',
+    Admin = 'admin',
     Location = 'Location',
     Resource_requirement = 'Resource_requirement',
     Notification = 'Notification',
@@ -35,4 +36,9 @@ export enum Common {
     hiring_status = 'hiring_status',
     stage = 'stage',
     status = 'status',
+    password = 'password',
+    confirmPassword = 'confirmPassword',
+    edit='edit',
+    text='text'
 }
+

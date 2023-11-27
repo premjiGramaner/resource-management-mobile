@@ -36,7 +36,7 @@ export class AddRequirementComponent implements OnInit {
   orgSkillList: Partnerskill[] = [];
   selectedSkillIds: skill[] = [];
   selectedPartners: partner[] = [];
-  module: string = Modules.Requirement.toLowerCase();
+  module: string = Modules.Requirement;
   isModalOpen = false;
   addform!: FormGroup;
 

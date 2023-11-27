@@ -42,7 +42,7 @@ export class AddHiringComponent  implements OnInit {
         hiring_tracker_id: new FormControl(this.viewData.hiring_tracker_id, Validators.required),
         Resource_resource_id: new FormControl(''+this.viewData.Resource_resource_id, Validators.required),
         evaluated_by: new FormControl(''+this.viewData.evaluated_by, Validators.required),
-        evaluated_date: new FormControl(this.viewData.evaluated_date.replace(/\//g, '-'), Validators.required),
+        evaluated_date: new FormControl(this.viewData.evaluated_date?.replace(/\//g, '-'), Validators.required),
         comments: new FormControl(this.viewData.comments, Validators.required)
       });
     } else {

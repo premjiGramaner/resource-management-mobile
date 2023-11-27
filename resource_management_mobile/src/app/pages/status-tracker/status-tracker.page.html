@@ -1,5 +1,27 @@
 <ion-content [fullscreen]="true">
-  <p>
-    Status Tracker works!
-  </p>
+  <ion-header>
+    <ion-toolbar>
+      <ion-segment (ionChange)="segmentChanged($event)" [(ngModel)]="segment">
+        <ion-segment-button value="hiring">
+          <ion-label>Hiring</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="requirement">
+          <ion-label>Requirement</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </ion-header>
+
+  <div [ngSwitch]="segment">
+    <app-hiring-status *ngSwitchCase="'hiring'"></app-hiring-status>
+    <app-requirement-status *ngSwitchCase="'requirement'"></app-requirement-status>
+    <!-- <ion-list *ngSwitchCase="'hiring'">
+      Hiring List
+    </ion-list>
+    <ion-list *ngSwitchCase="'requirement'">
+      Requirement List
+    </ion-list> -->
+  </div>
+
+
 </ion-content>

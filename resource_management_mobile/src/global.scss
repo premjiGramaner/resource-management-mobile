@@ -110,7 +110,6 @@ ion-card {
     width: $width;
     height: $height;
 }
-
 .header_container {
     display: $display;
     justify-content: $justify-content-space-between;
@@ -121,11 +120,13 @@ ion-card {
     width: $width;
     height: $height;
 }
+
 .skill_container {
   display: $display;
   justify-content:$justify-content-space-between;
   margin-top: 10px;
 }
+
 .space-between{
     justify-content:$justify-content-space-between;
 }
@@ -142,9 +143,23 @@ ion-card {
     color: #fff;
     opacity: .6;
 }
+
 .empty-center-text{
     display: flex;
     align-items: center;
     justify-content: center;
     height: 100%;
 }
+
+@mixin profileBaseClass {
+    background: $profile-bg;
+    border-radius: $profile-border-radious;
+}
+
+.profile_img {
+    @include profileBaseClass;
+    height: 99px;
+    width: 99px;
+    padding: 11px;
+}
+
