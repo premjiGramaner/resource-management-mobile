@@ -9,14 +9,16 @@ export interface skillResponce extends BaseResponce {
 
 export interface skillPostResponce extends BaseResponce {
     data: {
-        skillInfo: {
-            category: string;
-            description: string;
-            skill_id?: number;
-        };
+        skillInfo: skillData
     };
 }
 
 export interface skillData extends skill {
-    id?: number;
+    id?: string;
+}
+
+export interface skillProperties {
+    category: string;
+    description: string;
+    skill_id?: number;
 }
