@@ -10,7 +10,7 @@
             value={{requirement.requirement_id}}>{{requirement.name}}</ion-select-option>
         </ion-select>
         <!-- view state -->
-        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.requirement"
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="viewResourceData.requirement"
           [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
           <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text><ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
@@ -28,7 +28,7 @@
           <ion-text slot="label">Evaluated By<ion-text color="danger"> *</ion-text></ion-text>
           <ion-select-option *ngFor="let user of userData" value={{user.user_id}}>{{user.name}}</ion-select-option>
         </ion-select>
-        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.evaluated_by_name"
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="viewResourceData.evaluated_by_name"
           [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
           <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
