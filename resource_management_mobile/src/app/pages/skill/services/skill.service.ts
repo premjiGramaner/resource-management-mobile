@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { partnerData, skillResponce } from '../../partner/models/partner.model';
+import { skillData } from '../models/skill.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,7 +29,7 @@ export class SkillService {
     return this.http.get<skillResponce>(`${this.URL}skill?` + urlParams);
   }
 
-  postSkill(skillSaveReq: any) {
+  postSkill(skillSaveReq: skillData) {
     return this.http.post(`${this.URL}skill`, skillSaveReq).pipe(
       catchError((error: HttpErrorResponse) => {
         return throwError('Error while posting a data ' + error.message);
