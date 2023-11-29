@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ResourceRequirementService } from './services/resource-requirement.service';
-import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
+import {
+  InfiniteScrollCustomEvent,
+  IonItemSliding,
+  ModalController,
+} from '@ionic/angular';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
@@ -16,8 +20,6 @@ import {
   viewResourceData,
 } from './models/resource-requirement-model';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
-import { DatePipe } from '@angular/common';
-import { CommonService } from 'src/app/shared/services/common.service';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 
 @Component({
@@ -55,41 +57,48 @@ export class ResourceRequirementPage implements OnInit {
         Requirement_requirement_id: this.addResource.resourceForm.value.Requirement_requirement_id,
         evaluated_by: this.addResource.resourceForm.value.evaluated_by,
         resources: this.addResource.resourceForm.value.resources,
-        evaluated_date: this.dateformatConverterPipe.transform(this.addResource.resourceForm.value.evaluated_date) as string,
+        evaluated_date: this.dateformatConverterPipe.transform(
+          this.addResource.resourceForm.value.evaluated_date
+        ) as string,
         comments: this.addResource.resourceForm.value.comments,
       };
       if (!this.resourceEdit) {
-        this.resourceRequirementService.postResource(addResourceRequest).subscribe((res: Object) => {
-          let response = res as ResourceResponse;
-          this.toastService.presentToast(response.message);
-          this.UpdateDataSet();
-          this.isModalOpen = false;
-        });
+        this.resourceRequirementService
+          .postResource(addResourceRequest)
+          .subscribe((res: Object) => {
+            let response = res as ResourceResponse;
+            this.toastService.presentToast(response.message);
+            this.UpdateDataSet();
+            this.isModalOpen = false;
+          });
       } else {
-        addResourceRequest['Resource_requirement_id'] = this.resourceMoreData.Resource_requirement_id;
-        this.resourceRequirementService.editResource(addResourceRequest as editResourceRequest).subscribe((res: Object) => {
-          let response = res as ResourceResponse;
-          this.toastService.presentToast(response.message);
-          this.UpdateDataSet();
-          this.isModalOpen = false;
-        });
+        addResourceRequest['Resource_requirement_id'] =
+          this.resourceMoreData.Resource_requirement_id;
+        this.resourceRequirementService
+          .editResource(addResourceRequest as editResourceRequest)
+          .subscribe((res: Object) => {
+            let response = res as ResourceResponse;
+            this.toastService.presentToast(response.message);
+            this.UpdateDataSet();
+            this.isModalOpen = false;
+          });
       }
-
     }
   }
-
 
   onSearch() {
     this.showSearch = !this.showSearch;
   }
 
   getAllResource() {
-    this.resourceRequirementService.getAllResource().subscribe((data: ResourceResponse) => {
-      this.resourceData = [
-        ...this.resourceData,
-        ...data.data.resourceRequirementInfo,
-      ];
-    });
+    this.resourceRequirementService
+      .getAllResource()
+      .subscribe((data: ResourceResponse) => {
+        this.resourceData = [
+          ...this.resourceData,
+          ...data.data.resourceRequirementInfo,
+        ];
+      });
   }
 
   getResource(skip: number, limit: number, search: string) {
@@ -164,7 +173,11 @@ export class ResourceRequirementPage implements OnInit {
     }
   }
 
-  async deleteModal(item: postResourceRequest, index: number, sliding: IonItemSliding) {
+  async deleteModal(
+    item: postResourceRequest,
+    index: number,
+    sliding: IonItemSliding
+  ) {
     let data = {
       from: Modules.Resource_requirement,
       type: Common.Delete,
@@ -225,13 +238,15 @@ export class ResourceRequirementPage implements OnInit {
           'Requirement_requirement_id',
           'Resource_requirement_id',
         ];
-        const newArray = res.data.resourceRequirementInfo.map((obj: viewResourceData) => {
-          const newObj = { ...obj };
-          keyToRemove.map((item) => {
-            delete newObj[item as keyof viewResourceData];
-          });
-          return newObj;
-        });
+        const newArray = res.data.resourceRequirementInfo.map(
+          (obj: viewResourceData) => {
+            const newObj = { ...obj };
+            keyToRemove.map((item) => {
+              delete newObj[item as keyof viewResourceData];
+            });
+            return newObj;
+          }
+        );
         const pdfTableData = newArray.map((item: viewResourceData) => {
           return [
             item.comments || '',
