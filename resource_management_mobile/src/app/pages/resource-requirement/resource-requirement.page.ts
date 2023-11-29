@@ -11,10 +11,14 @@ import { Common, Modules } from 'src/app/core/enum/static.enum';
 import {
   ResourceResponse,
   deleteResponce,
+  editResourceRequest,
   postResourceRequest,
   viewResourceData,
 } from './models/resource-requirement-model';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
+import { DatePipe } from '@angular/common';
+import { CommonService } from 'src/app/shared/services/common.service';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 
 @Component({
   selector: 'app-resource-requirement',
@@ -37,7 +41,8 @@ export class ResourceRequirementPage implements OnInit {
     private resourceRequirementService: ResourceRequirementService,
     private toastService: ToastService,
     private modalCtrl: ModalController,
-    private toastConstants: ToastConstants
+    private toastConstants: ToastConstants,
+    private dateformatConverterPipe: DateformatConverterPipe
   ) { }
 
   ngOnInit() {
@@ -50,29 +55,29 @@ export class ResourceRequirementPage implements OnInit {
         Requirement_requirement_id: this.addResource.resourceForm.value.Requirement_requirement_id,
         evaluated_by: this.addResource.resourceForm.value.evaluated_by,
         resources: this.addResource.resourceForm.value.resources,
-        evaluated_date: this.addResource.resourceForm.value.evaluated_date,
+        evaluated_date: this.dateformatConverterPipe.transform(this.addResource.resourceForm.value.evaluated_date) as string,
         comments: this.addResource.resourceForm.value.comments,
       };
       if (!this.resourceEdit) {
         this.resourceRequirementService.postResource(addResourceRequest).subscribe((res: Object) => {
           let response = res as ResourceResponse;
           this.toastService.presentToast(response.message);
-          // save data to local array
-          this.resourceData.unshift(addResourceRequest);
+          this.UpdateDataSet();
+          this.isModalOpen = false;
         });
       } else {
-        addResourceRequest = this.addResource.resourceForm.value;
-        addResourceRequest['Resource_requirement_id'] =
-          this.resourceMoreData.Resource_requirement_id;
-        this.resourceRequirementService.editResource(this.addResource.resourceForm.value).subscribe((res: Object) => {
+        addResourceRequest['Resource_requirement_id'] = this.resourceMoreData.Resource_requirement_id;
+        this.resourceRequirementService.editResource(addResourceRequest as editResourceRequest).subscribe((res: Object) => {
           let response = res as ResourceResponse;
           this.toastService.presentToast(response.message);
-          // save data to local array
-          this.resourceData.splice(this.selectedIndex, 1, addResourceRequest);
+          this.UpdateDataSet();
+          this.isModalOpen = false;
         });
       }
+
     }
   }
+
 
   onSearch() {
     this.showSearch = !this.showSearch;
@@ -96,6 +101,11 @@ export class ResourceRequirementPage implements OnInit {
           ...data.data.resourceRequirementInfo,
         ];
       });
+  }
+
+  UpdateDataSet() {
+    this.resourceData = [];
+    this.getResource(this.skip, 20, this.searchQuery);
   }
 
   handleSearch(event: any) {
