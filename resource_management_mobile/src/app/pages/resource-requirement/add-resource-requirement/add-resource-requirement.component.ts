@@ -38,7 +38,7 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
   requirementData: resourceEntireData[] = [];
   resourceId!: number;
   @Input() flag!: string;
-  @Input() ViewRespurceData!: viewResourceData;
+  @Input() viewResourceData!: viewResourceData;
   addedResource: resourceData[] = [];
   constructor(
     private toastConstants: ToastConstants,
@@ -61,23 +61,23 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
       evaluated_by_name: new FormControl(''),
     });
 
-    if (this.ViewRespurceData != undefined) {
+    if (this.viewResourceData != undefined) {
       let convertedDate;
       try {
-        convertedDate = this.datePipe.transform(new Date(this.ViewRespurceData.evaluated_date), 'dd/MM/yyyy') as string
+        convertedDate = this.datePipe.transform(new Date(this.viewResourceData.evaluated_date), 'dd/MM/yyyy') as string
       } catch (error) {
-        convertedDate = this.ViewRespurceData.evaluated_date
+        convertedDate = this.viewResourceData.evaluated_date
       }
       this.resourceForm.patchValue({
-        comments: this.ViewRespurceData.comments,
-        Requirement_requirement_id: '' + this.ViewRespurceData.Requirement_requirement_id,
-        evaluated_by: '' + this.ViewRespurceData.evaluated_by,
+        comments: this.viewResourceData.comments,
+        Requirement_requirement_id: '' + this.viewResourceData.Requirement_requirement_id,
+        evaluated_by: '' + this.viewResourceData.evaluated_by,
         evaluated_date: convertedDate,
-        evaluated_by_name: this.ViewRespurceData.evaluated_by_name,
-        requirement: this.ViewRespurceData.requirement,
+        evaluated_by_name: this.viewResourceData.evaluated_by_name,
+        requirement: this.viewResourceData.requirement,
       });
-      this.resourceId = this.ViewRespurceData.Requirement_requirement_id;
-      this.addedResource = this.ViewRespurceData.ResourceRequirementMappings.map((item: any) => {
+      this.resourceId = this.viewResourceData.Requirement_requirement_id;
+      this.addedResource = this.viewResourceData.ResourceRequirementMappings.map((item: any) => {
         item = item as ResourceRequirementMappingsNewKeys;
         const { resourceName, stageDescription, statusDescription, ...rest } = item;
         return {
