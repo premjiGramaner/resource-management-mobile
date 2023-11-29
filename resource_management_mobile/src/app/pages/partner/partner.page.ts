@@ -117,6 +117,7 @@ export class PartnerPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteClient(item.partner_id, index);
+        modal.dismiss();
       }
     });
 
