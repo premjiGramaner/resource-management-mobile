@@ -115,6 +115,7 @@ export class ClientPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteClient(item.client_id, index);
+        modal.dismiss();
       }
     });
 
