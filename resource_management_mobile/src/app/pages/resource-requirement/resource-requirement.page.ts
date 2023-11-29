@@ -185,6 +185,7 @@ export class ResourceRequirementPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteData(item.Resource_requirement_id as number, index);
+        modal.dismiss();
       }
     });
 
