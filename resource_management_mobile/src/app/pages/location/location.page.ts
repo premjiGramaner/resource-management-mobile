@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
+import {
+  InfiniteScrollCustomEvent,
+  IonItemSliding,
+  ModalController,
+} from '@ionic/angular';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { LocationService } from './services/location.service';
@@ -62,7 +66,12 @@ export class LocationPage implements OnInit {
     }, 500);
   }
 
-  setOpen(isOpen: boolean, type: string, locationInfo?: locationData, index?: number) {
+  setOpen(
+    isOpen: boolean,
+    type: string,
+    locationInfo?: locationData,
+    index?: number
+  ) {
     this.modelType = type;
     this.isModalOpen = isOpen;
     this.locationEdit = false;
@@ -100,13 +109,17 @@ export class LocationPage implements OnInit {
           this.toastConstants.Delete_success_message
         );
       },
-      error: (response) => {
-        this.toastService.errorToast(this.toastConstants.try_again);
+      error: (error) => {
+        this.toastService.errorToast(error.message);
       },
     });
   }
 
-  async deleteModal(item: locationData, index: number, sliding: IonItemSliding) {
+  async deleteModal(
+    item: locationData,
+    index: number,
+    sliding: IonItemSliding
+  ) {
     let data = {
       from: Modules.Location,
       type: Common.Delete,
@@ -127,6 +140,7 @@ export class LocationPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteLocation(item.Location_ID, index);
+        modal.dismiss();
       }
     });
 
@@ -179,24 +193,34 @@ export class LocationPage implements OnInit {
   }
 
   saveLocationForm() {
-    if (!this.locationEdit) {
-      this.locationService
-        .postLocation(this.locationForm.value)
-        .subscribe((res) => {
+    if (this.locationForm.status == Status.INVALID) {
+      this.locationForm.markAllAsTouched();
+    } else {
+      if (!this.locationEdit) {
+        this.locationService
+          .postLocation(this.locationForm.value)
+          .subscribe((res) => {
+            const skillResponse = res as locationResponse;
+            this.toastService.presentToast(skillResponse.message);
+            // save data to local array
+            this.locationData.unshift(this.locationForm.value);
+            this.isModalOpen = false;
+          });
+      } else {
+        let updateReq = this.locationForm.value;
+        updateReq['Location_ID'] = this.locationMoreData.Location_ID;
+        this.locationService.editLocation(updateReq).subscribe((res) => {
           const skillResponse = res as locationResponse;
           this.toastService.presentToast(skillResponse.message);
           // save data to local array
-          this.locationData.unshift(this.locationForm.value);
+          this.locationData.splice(
+            this.selectedIndex,
+            1,
+            this.locationForm.value
+          );
+          this.isModalOpen = false;
         });
-    } else {
-      let updateReq = this.locationForm.value;
-      updateReq['Location_ID'] = this.locationMoreData.Location_ID;
-      this.locationService.editLocation(updateReq).subscribe((res) => {
-        const skillResponse = res as locationResponse;
-        this.toastService.presentToast(skillResponse.message);
-        // save data to local array
-        this.locationData.splice(this.selectedIndex, 1, this.locationForm.value);
-      });
+      }
     }
   }
 

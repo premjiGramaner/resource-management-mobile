@@ -9,7 +9,8 @@ export class ToastConstants {
     invalid_requirement_ID = 'Please select the requirement';
     all_required_field = 'Please ender all required fields';
     resource_record_not_found = 'Resource Record Not Found';
-    timeout='Session timeout';
-    tokenError='JsonWebTokenError';
+    timeout = 'Session timeout';
+    tokenError = 'JsonWebTokenError';
     tokenExpired = 'TokenExpiredError';
+    invalidUser = 'Invalid User';
 }

@@ -7,6 +7,8 @@ import { Status } from '../../core/enum/status.enum';
 import { SecurityService } from 'src/app/shared/helpers/security.service';
 import { RouteConstants } from 'src/app/core/constant/routes.constants';
 import { CookiesConstants } from 'src/app/core/constant/cookies.constants';
+import { ToastService } from 'src/app/core/toast/toast.service';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -24,7 +26,9 @@ export class LoginPage implements OnInit {
     private router: Router,
     private security: SecurityService,
     private routeConstants: RouteConstants,
-    private cookiesConstants: CookiesConstants
+    private cookiesConstants: CookiesConstants,
+    private toastService: ToastService,
+    private toastConstants: ToastConstants
   ) { }
 
   ngOnInit() {
@@ -45,9 +49,8 @@ export class LoginPage implements OnInit {
       this.onSubmit = false;
     }
     if (this.loginForm.valid) {
-      this.loginService
-        .postLoginRequest(this.loginForm.value)
-        .subscribe((res: LoginResponse) => {
+      this.loginService.postLoginRequest(this.loginForm.value).subscribe({
+        next: (res: LoginResponse) => {
           if (res.statusCode == 200) {
             this.security.setItem(this.cookiesConstants.token, res.data.jwt);
             this.security.setItem(
@@ -55,9 +58,12 @@ export class LoginPage implements OnInit {
               res.data.userData
             );
             this.router.navigate([this.routeConstants.dashboard]);
-          } else if (res.statusCode == 400) {
           }
-        });
+        },
+        error: (error) => {
+          this.toastService.errorToast(this.toastConstants.invalidUser);
+        }
+      });
     }
   }
 }

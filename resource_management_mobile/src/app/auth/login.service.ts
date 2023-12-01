@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { LoginRequest, LoginResponse } from './models/auth.model';
 
@@ -12,6 +12,10 @@ export class LoginService {
 
   constructor(private httpClient: HttpClient) { }
   postLoginRequest(req: LoginRequest): Observable<LoginResponse> {
-    return this.httpClient.post<LoginResponse>(`${this.URL}user/login`, req);
+    return this.httpClient.post<LoginResponse>(`${this.URL}user/login`, req).pipe(
+      catchError((error: HttpErrorResponse) => {
+        return throwError(() => new Error(error.error.message));
+      })
+    );
   }
 }
