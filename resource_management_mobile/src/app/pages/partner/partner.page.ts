@@ -53,6 +53,7 @@ export class PartnerPage implements OnInit {
             this.toastService.presentToast(res.message);
             // save data to local array
             this.partnerData.unshift(this.addPartner.partnerForm.value);
+            this.isModalOpen = false;
           });
       } else {
         let updateReq = this.addPartner.partnerForm.value;
@@ -62,6 +63,7 @@ export class PartnerPage implements OnInit {
           // save data to local array
           this.partnerData.splice(this.selectedIndex, 1);
           this.partnerData.unshift(this.addPartner.partnerForm.value);
+          this.isModalOpen = false;
         });
       }
     }
@@ -115,6 +117,7 @@ export class PartnerPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteClient(item.partner_id, index);
+        modal.dismiss();
       }
     });
 
