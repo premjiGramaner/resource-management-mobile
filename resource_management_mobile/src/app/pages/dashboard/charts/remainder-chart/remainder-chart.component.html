@@ -1,0 +1,6 @@
+<div>
+  <div *ngIf="this.remainderChartData.dataset.length ==0" class="empty-chart">
+    <b class="empty-center-text">{{noDataAvailable}}</b>
+  </div>
+  <canvas #remainderCanvas></canvas>
+</div>

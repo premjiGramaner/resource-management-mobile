@@ -1,0 +1,6 @@
+<div>
+  <div *ngIf="this.resourceRequirementChartData.dataset.length ==0" class="empty-chart">
+    <b class="empty-center-text">{{noDataAvailable}}</b>
+  </div>
+  <canvas #resourceRequirementCanvas></canvas>
+</div>

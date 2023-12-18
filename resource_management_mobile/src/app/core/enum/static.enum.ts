@@ -7,7 +7,7 @@ export enum Modules {
     Admin = 'admin',
     Location = 'Location',
     Resource_requirement = 'Resource_requirement',
-    Notification = 'Notification'
+    Notification = 'Notification',
 }
 
 export enum Common {
@@ -20,8 +20,25 @@ export enum Common {
     error_update = 'Error while updating a ',
     error_delete = 'Error while deleting a ',
     report = 'report',
+    date = 'Date',
+    month = 'Month',
+    year = 'Year',
+    empty_chart = 'No charts available.',
+    bar = 'bar',
+    hiring_chart = 'Hiring',
+    mode = 'xy',
+    requirement_chart = 'Requirement',
+    remainder_chart = 'Remainder',
+    client_chart = 'Client',
+    resource_requirement = 'Resource Requirement',
+    resource_chart = 'Resource',
+    hiring_stage = 'hiring_stage',
+    hiring_status = 'hiring_status',
+    stage = 'stage',
+    status = 'status',
     password = 'password',
     confirmPassword = 'confirmPassword',
     edit='edit',
     text='text'
 }
+

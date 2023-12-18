@@ -1,0 +1,46 @@
+.top {
+    margin-top: 23px;
+}
+
+.card-header {
+    background: #6d6d72;
+    padding: 11px 12px;
+}
+
+.card-title {
+    color: white;
+    font-weight: 600;
+    font-size: .99rem;
+}
+
+.category {
+    font-size: 13px;
+    font-weight: 550;
+    color: rgb(223 223 249);
+}
+
+ion-toggle {
+    padding: 12px;
+
+    --track-background: #ddd;
+    --track-background-checked: #ddd;
+
+    --handle-background: #eb7769;
+    --handle-background-checked: #95c34e;
+
+    --handle-width: 16px;
+    --handle-height: 21px;
+    --handle-max-height: auto;
+    --handle-spacing: 6px;
+
+    --handle-border-radius: 4px;
+    --handle-box-shadow: none;
+}
+
+ion-toggle::part(track) {
+    height: 10px;
+    width: 40px;
+
+    /* Required for iOS handle to overflow the height of the track */
+    overflow: visible;
+}
