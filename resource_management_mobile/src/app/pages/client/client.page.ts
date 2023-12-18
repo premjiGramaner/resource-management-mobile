@@ -56,6 +56,7 @@ export class ClientPage implements OnInit {
             this.toastService.presentToast(res.message);
             // save data to local array
             this.clientData.unshift(this.addClient.clientForm.value);
+            this.isModalOpen = false;
           });
       } else {
         let editedClientData = this.addClient.clientForm.value;
@@ -65,6 +66,7 @@ export class ClientPage implements OnInit {
           .editClient(this.addClient.clientForm.value)
           .subscribe((res) => {
             this.toastService.presentToast(res.message);
+            this.isModalOpen = false;
           });
       }
     }
@@ -113,6 +115,7 @@ export class ClientPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteClient(item.client_id, index);
+        modal.dismiss();
       }
     });
 
