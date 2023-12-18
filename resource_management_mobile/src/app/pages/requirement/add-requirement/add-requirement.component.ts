@@ -17,6 +17,7 @@ import { Partnerskill, partnerData, partnerResponce, skillResponce } from '../..
 import { locationData, locationResponse } from '../../location/models/location.model';
 import { statusData, statusResponse } from 'src/app/shared/models/common.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 
 @Component({
   selector: 'app-add-requirement',

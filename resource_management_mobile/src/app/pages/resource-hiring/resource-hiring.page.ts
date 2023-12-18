@@ -10,6 +10,8 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-resource-hiring',
@@ -32,7 +34,7 @@ export class ResourceHiringPage implements OnInit {
 
   @ViewChild('add') add !: AddHiringComponent;
 
-  constructor(private hiringService: HiringService, private modalCtrl: ModalController, private toastService: ToastService, private statisConstants: StaticDataConstants) { }
+  constructor(private hiringService: HiringService, private modalCtrl: ModalController, private toastService: ToastService, private statisConstants: StaticDataConstants, private dateformatConverterPipe:DateformatConverterPipe, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.getHiring(this.skip, 20, this.searchQuery);
@@ -55,6 +57,11 @@ export class ResourceHiringPage implements OnInit {
   }
 
   addEditCall(editData: hiringData | undefined) {
+    this.add.addform.patchValue({
+      evaluated_date: this.dateformatConverterPipe.transform(
+        this.add.addform.value.evaluated_date
+      ) as string
+    })
     if (editData) {
       return this.hiringService.updateHiring(this.add.addform.value)
     } else {
@@ -205,6 +212,7 @@ export class ResourceHiringPage implements OnInit {
   }
 
   detailData(info: hiringData, type: string) {
+    info.evaluated_date = this.datePipe.transform(info.evaluated_date, 'dd/MM/yyyy') || "";
     this.hiringData = info;
     this.modelType = type;
     this.isModalOpen = true;

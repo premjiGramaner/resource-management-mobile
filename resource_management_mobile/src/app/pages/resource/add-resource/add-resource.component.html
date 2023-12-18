@@ -118,10 +118,10 @@
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-input class="inputTxt" type="date" fill="outline" labelPlacement="floating" placeholder="Enter Earliest Joining Date"
-          formControlName="earliest_joining_date" errorText="Invalid earliest joining date">
-          <div slot="label">Earliest Joining Date<ion-text color="danger"> *</ion-text></div>
-        </ion-input>
+        <ion-input class="inputTxt"  type="text" fill="outline" labelPlacement="floating" placeholder="Enter Earliest Joining Date"
+        formControlName="earliest_joining_date" errorText="Invalid earliest joining date" id="open-date-custom-dialog">
+         <div slot="label"> Earliest Joining Date<ion-text color="danger">*</ion-text></div>
+       </ion-input>
       </ion-item>
 
       <ion-item>
@@ -171,6 +171,12 @@
       trigger="open-custom-dialog">
       <ng-template>
         <app-skill-card [skillList]="skillList" [flag]="module" (addSkill)="addSkill($event)"></app-skill-card>
+      </ng-template>
+    </ion-modal>
+    <ion-modal  id="resource-modal"  showBackdrop="false" backdropDismiss="false" #modal
+    trigger="open-date-custom-dialog">
+      <ng-template>
+        <ion-datetime presentation="date" (ionChange)="evaluatedDate($event)" ></ion-datetime>
       </ng-template>
     </ion-modal>
   </form>

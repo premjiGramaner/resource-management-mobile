@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -10,6 +10,7 @@ import { ResourcePage } from './resource.page';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ViewResourceComponent } from './view-resource/view-resource.component';
 import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 
 @NgModule({
   imports: [
@@ -20,6 +21,8 @@ import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-c
     ReactiveFormsModule,
     SkillCardComponent
   ],
-  declarations: [ResourcePage,AddResourceComponent, ViewResourceComponent]
+  declarations: [ResourcePage,AddResourceComponent, ViewResourceComponent],
+  providers:[DatePipe, DateformatConverterPipe]
+
 })
 export class ResourcePageModule {}

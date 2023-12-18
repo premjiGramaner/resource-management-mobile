@@ -26,7 +26,7 @@ export enum Common {
     empty_chart = 'No charts available.',
     bar = 'bar',
     hiring_chart = 'Hiring',
-    mode = 'xy',
+    mode = 'x',
     requirement_chart = 'Requirement',
     remainder_chart = 'Remainder',
     client_chart = 'Client',
