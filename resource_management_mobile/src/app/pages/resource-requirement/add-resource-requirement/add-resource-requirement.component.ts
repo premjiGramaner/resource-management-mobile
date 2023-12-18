@@ -14,11 +14,13 @@ import { IonItemSliding } from '@ionic/angular';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Modules } from 'src/app/core/enum/static.enum';
 import {
+  ResourceRequirementMappingsNewKeys,
   resourceData,
   resourceEntireData,
   viewResourceData,
 } from '../models/resource-requirement-model';
 import { userProfile } from 'src/app/core/base-model/base.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-resource-requirement',
@@ -28,6 +30,7 @@ import { userProfile } from 'src/app/core/base-model/base.model';
 export class AddResourceRequirementComponent implements OnInit, OnChanges {
   resourceForm!: FormGroup;
   isModalOpen = false;
+  isDateModalOpen = false;
   isEnableEdit: boolean = false;
   module: string = Modules.Resource_requirement;
   onSubmit: boolean = true;
@@ -35,19 +38,19 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
   requirementData: resourceEntireData[] = [];
   resourceId!: number;
   @Input() flag!: string;
-  @Input() ViewRespurceData!: viewResourceData;
+  @Input() viewResourceData!: viewResourceData;
   addedResource: resourceData[] = [];
   constructor(
     private toastConstants: ToastConstants,
     private toastService: ToastService,
     private requirementService: RequirementService,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
     this.getRequirementService();
     this.userService();
-
     this.resourceForm = new FormGroup({
       Requirement_requirement_id: new FormControl('', Validators.required),
       evaluated_by: new FormControl('', Validators.required),
@@ -58,17 +61,24 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
       evaluated_by_name: new FormControl(''),
     });
 
-    if (this.ViewRespurceData != undefined) {
+    if (this.viewResourceData != undefined) {
+      let convertedDate;
+      try {
+        convertedDate = this.datePipe.transform(new Date(this.viewResourceData.evaluated_date), 'dd/MM/yyyy') as string
+      } catch (error) {
+        convertedDate = this.viewResourceData.evaluated_date
+      }
       this.resourceForm.patchValue({
-        comments: this.ViewRespurceData.comments,
-        Requirement_requirement_id: '' + this.ViewRespurceData.Requirement_requirement_id,
-        evaluated_by: '' + this.ViewRespurceData.evaluated_by,
-        evaluated_date: this.ViewRespurceData.evaluated_date.replace(/\//g, '-'),
-        evaluated_by_name: this.ViewRespurceData.evaluated_by_name,
-        requirement: this.ViewRespurceData.requirement,
+        comments: this.viewResourceData.comments,
+        Requirement_requirement_id: '' + this.viewResourceData.Requirement_requirement_id,
+        evaluated_by: '' + this.viewResourceData.evaluated_by,
+        evaluated_date: convertedDate,
+        evaluated_by_name: this.viewResourceData.evaluated_by_name,
+        requirement: this.viewResourceData.requirement,
       });
-      this.resourceId = this.ViewRespurceData.Requirement_requirement_id;
-      this.addedResource = this.ViewRespurceData.ResourceRequirementMappings.map((item: any) => {
+      this.resourceId = this.viewResourceData.Requirement_requirement_id;
+      this.addedResource = this.viewResourceData.ResourceRequirementMappings.map((item: any) => {
+        item = item as ResourceRequirementMappingsNewKeys;
         const { resourceName, stageDescription, statusDescription, ...rest } = item;
         return {
           resource_name: resourceName,
@@ -101,8 +111,34 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
     });
   }
 
+  /**
+   * 
+   * @param event carry the date properties
+   */
+  evaluatedDate(event: any) {
+    this.resourceForm.patchValue({
+      evaluated_date: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy')
+    })
+    this.isDateModalOpen = false;
+  }
+
+  dateInputboxClicked() {
+    this.isDateModalOpen = true;
+  }
+
   requirementSelected(event: number) {
     this.resourceId = event;
+    const resourceValue = this.requirementData.find((item => event == item.requirement_id)) as resourceEntireData;
+    this.resourceForm.patchValue({
+      requirement: resourceValue.name
+    })
+  }
+
+  evaluatedSelected(event: number) {
+    const evaluatedValue = this.userData.find((item => event == item.user_id)) as userProfile;
+    this.resourceForm.patchValue({
+      evaluated_by_name: evaluatedValue.name
+    })
   }
 
   userService() {

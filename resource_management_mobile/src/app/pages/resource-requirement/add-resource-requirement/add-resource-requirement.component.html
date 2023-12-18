@@ -5,14 +5,14 @@
         <ion-select class="inputTxt" *ngIf="!isEnableEdit" label-placement="floating" interface="popover"
           formControlName="Requirement_requirement_id" fill="outline" aria-label="user" placeholder="Select User"
           (ngModelChange)="requirementSelected($event)">
-          <ion-text slot="label">Requirement</ion-text>
+          <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text></ion-text>
           <ion-select-option *ngFor="let requirement of requirementData"
             value={{requirement.requirement_id}}>{{requirement.name}}</ion-select-option>
         </ion-select>
         <!-- view state -->
-        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.requirement"
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="viewResourceData.requirement"
           [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
-          <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text></ion-text>
+          <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text><ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
           *ngIf="resourceForm.controls['Requirement_requirement_id'].invalid && (resourceForm.controls['Requirement_requirement_id'].dirty || resourceForm.controls['Requirement_requirement_id'].touched)"
@@ -23,12 +23,12 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-select class="inputTxt" label-placement="floating" *ngIf="!isEnableEdit" interface="popover"
+        <ion-select class="inputTxt"  (ngModelChange)="evaluatedSelected($event)" label-placement="floating" *ngIf="!isEnableEdit" interface="popover"
           formControlName="evaluated_by" fill="outline" aria-label="user" placeholder="Select User">
-          <ion-text slot="label">Evaluated By</ion-text>
+          <ion-text slot="label">Evaluated By<ion-text color="danger"> *</ion-text></ion-text>
           <ion-select-option *ngFor="let user of userData" value={{user.user_id}}>{{user.name}}</ion-select-option>
         </ion-select>
-        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.evaluated_by_name"
+        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="viewResourceData.evaluated_by_name"
           [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
           <ion-text slot="label">Requirement<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
@@ -41,11 +41,11 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input class="inputTxt" *ngIf="!isEnableEdit" type="date" fill="outline" labelPlacement="floating"
-          placeholder="Enter Evaluated Date" formControlName="evaluated_date">
+        <ion-input class="inputTxt" *ngIf="!isEnableEdit" (ionFocus)="dateInputboxClicked()" type="text" fill="outline" labelPlacement="floating"
+         formControlName="evaluated_date"  id="open-date-custom-dialog">
           <div slot="label"> Evaluated Date<ion-text color="danger">*</ion-text></div>
         </ion-input>
-        <ion-input class="inputTxt" label-placement="floating" [(ngModel)]="ViewRespurceData.evaluated_date"
+        <ion-input class="inputTxt"  label-placement="floating" [(ngModel)]="resourceForm.value.evaluated_date"
           [ngModelOptions]="{standalone: true}" fill="outline" *ngIf="isEnableEdit" [readonly]="isEnableEdit">
           <ion-text slot="label">Evaluated Date<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
@@ -105,6 +105,11 @@
     #modal trigger="open-custom-dialog">
     <ng-template>
       <app-resource-card [resourceId]="resourceId" (addResource)="getSelectedResource($event)"></app-resource-card>
+    </ng-template>
+  </ion-modal>
+  <ion-modal  id="resource-modal" [isOpen]="isDateModalOpen" >
+    <ng-template>
+      <ion-datetime presentation="date" (ionChange)="evaluatedDate($event)" ></ion-datetime>
     </ng-template>
   </ion-modal>
 </ion-content>

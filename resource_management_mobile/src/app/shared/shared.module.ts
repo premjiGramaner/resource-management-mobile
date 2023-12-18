@@ -1,27 +1,22 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { SharedPageRoutingModule } from './shared-routing.module';
-
 import { SharedPage } from './shared.page';
-import { FooterComponent } from './footer/footer.component'
+import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
-import { DeleteNavComponent } from './components/delete-nav/delete-nav.component';
+import { DateformatConverterPipe } from './helpers/pipes/dateformat-converter.pipe';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    IonicModule,
-    SharedPageRoutingModule
-  ],
-  exports:[
+  imports: [CommonModule, FormsModule, IonicModule, SharedPageRoutingModule],
+  exports: [HeaderComponent, FooterComponent],
+  declarations: [
+    SharedPage,
+    FooterComponent,
     HeaderComponent,
-    FooterComponent
+    DateformatConverterPipe,
   ],
-  declarations: [SharedPage, FooterComponent, HeaderComponent]
+  providers: [DatePipe],
 })
-export class SharedPageModule {}
+export class SharedPageModule { }

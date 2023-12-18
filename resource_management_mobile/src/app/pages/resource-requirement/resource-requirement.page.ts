@@ -1,6 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ResourceRequirementService } from './services/resource-requirement.service';
-import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
+import {
+  InfiniteScrollCustomEvent,
+  IonItemSliding,
+  ModalController,
+} from '@ionic/angular';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
@@ -11,10 +15,12 @@ import { Common, Modules } from 'src/app/core/enum/static.enum';
 import {
   ResourceResponse,
   deleteResponce,
+  editResourceRequest,
   postResourceRequest,
   viewResourceData,
 } from './models/resource-requirement-model';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 
 @Component({
   selector: 'app-resource-requirement',
@@ -37,7 +43,8 @@ export class ResourceRequirementPage implements OnInit {
     private resourceRequirementService: ResourceRequirementService,
     private toastService: ToastService,
     private modalCtrl: ModalController,
-    private toastConstants: ToastConstants
+    private toastConstants: ToastConstants,
+    private dateformatConverterPipe: DateformatConverterPipe
   ) { }
 
   ngOnInit() {
@@ -50,26 +57,31 @@ export class ResourceRequirementPage implements OnInit {
         Requirement_requirement_id: this.addResource.resourceForm.value.Requirement_requirement_id,
         evaluated_by: this.addResource.resourceForm.value.evaluated_by,
         resources: this.addResource.resourceForm.value.resources,
-        evaluated_date: this.addResource.resourceForm.value.evaluated_date,
+        evaluated_date: this.dateformatConverterPipe.transform(
+          this.addResource.resourceForm.value.evaluated_date
+        ) as string,
         comments: this.addResource.resourceForm.value.comments,
       };
       if (!this.resourceEdit) {
-        this.resourceRequirementService.postResource(addResourceRequest).subscribe((res: Object) => {
-          let response = res as ResourceResponse;
-          this.toastService.presentToast(response.message);
-          // save data to local array
-          this.resourceData.unshift(addResourceRequest);
-        });
+        this.resourceRequirementService
+          .postResource(addResourceRequest)
+          .subscribe((res: Object) => {
+            let response = res as ResourceResponse;
+            this.toastService.presentToast(response.message);
+            this.UpdateDataSet();
+            this.isModalOpen = false;
+          });
       } else {
-        addResourceRequest = this.addResource.resourceForm.value;
         addResourceRequest['Resource_requirement_id'] =
           this.resourceMoreData.Resource_requirement_id;
-        this.resourceRequirementService.editResource(this.addResource.resourceForm.value).subscribe((res: Object) => {
-          let response = res as ResourceResponse;
-          this.toastService.presentToast(response.message);
-          // save data to local array
-          this.resourceData.splice(this.selectedIndex, 1, addResourceRequest);
-        });
+        this.resourceRequirementService
+          .editResource(addResourceRequest as editResourceRequest)
+          .subscribe((res: Object) => {
+            let response = res as ResourceResponse;
+            this.toastService.presentToast(response.message);
+            this.UpdateDataSet();
+            this.isModalOpen = false;
+          });
       }
     }
   }
@@ -79,12 +91,14 @@ export class ResourceRequirementPage implements OnInit {
   }
 
   getAllResource() {
-    this.resourceRequirementService.getAllResource().subscribe((data: ResourceResponse) => {
-      this.resourceData = [
-        ...this.resourceData,
-        ...data.data.resourceRequirementInfo,
-      ];
-    });
+    this.resourceRequirementService
+      .getAllResource()
+      .subscribe((data: ResourceResponse) => {
+        this.resourceData = [
+          ...this.resourceData,
+          ...data.data.resourceRequirementInfo,
+        ];
+      });
   }
 
   getResource(skip: number, limit: number, search: string) {
@@ -96,6 +110,11 @@ export class ResourceRequirementPage implements OnInit {
           ...data.data.resourceRequirementInfo,
         ];
       });
+  }
+
+  UpdateDataSet() {
+    this.resourceData = [];
+    this.getResource(this.skip, 20, this.searchQuery);
   }
 
   handleSearch(event: any) {
@@ -154,7 +173,11 @@ export class ResourceRequirementPage implements OnInit {
     }
   }
 
-  async deleteModal(item: postResourceRequest, index: number, sliding: IonItemSliding) {
+  async deleteModal(
+    item: postResourceRequest,
+    index: number,
+    sliding: IonItemSliding
+  ) {
     let data = {
       from: Modules.Resource_requirement,
       type: Common.Delete,
@@ -175,6 +198,7 @@ export class ResourceRequirementPage implements OnInit {
     mySubject.subscribe((value: any) => {
       if (value == true) {
         this.deleteData(item.Resource_requirement_id as number, index);
+        modal.dismiss();
       }
     });
 
@@ -214,13 +238,15 @@ export class ResourceRequirementPage implements OnInit {
           'Requirement_requirement_id',
           'Resource_requirement_id',
         ];
-        const newArray = res.data.resourceRequirementInfo.map((obj: viewResourceData) => {
-          const newObj = { ...obj };
-          keyToRemove.map((item) => {
-            delete newObj[item as keyof viewResourceData];
-          });
-          return newObj;
-        });
+        const newArray = res.data.resourceRequirementInfo.map(
+          (obj: viewResourceData) => {
+            const newObj = { ...obj };
+            keyToRemove.map((item) => {
+              delete newObj[item as keyof viewResourceData];
+            });
+            return newObj;
+          }
+        );
         const pdfTableData = newArray.map((item: viewResourceData) => {
           return [
             item.comments || '',

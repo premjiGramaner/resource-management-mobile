@@ -51,11 +51,11 @@ export interface updateStatus {
     Resource_requirement_id: number;
     Requirement_requirement_id: number;
     Resource_resource_id: number;
-    Status_status_id:number;
+    Status_status_id: number;
     Stage_stage_id: number;
 }
 
-export interface adminRequirementData extends updateStatus{
+export interface adminRequirementData extends updateStatus {
     requirement: string;
     resource: string;
     stage: string;
@@ -71,6 +71,7 @@ export interface resourceData extends resourceIDs, ResourceRequirementMappingsNe
 export interface viewResourceData extends postResourceRequest {
     requirement?: string;
     evaluated_by_name?: string;
+    evaluated_c_date?: string;
     ResourceRequirementMappings: ResourceRequirementMappingsNewKeys[];
 }
 
@@ -90,7 +91,7 @@ export interface resourceMatchedData {
 }
 
 export interface requirementBasicData {
-    evaluated_date: string;
+    evaluated_date: string | Date;
     Requirement_requirement_id: number;
     evaluated_by: number;
     comments: string;
