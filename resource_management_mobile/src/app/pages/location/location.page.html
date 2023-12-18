@@ -79,14 +79,10 @@
       </ion-header>
       <ion-content class="ion-padding">
         <form [formGroup]="locationForm">
-          <ion-grid>
-            <ion-row>
-              <ion-input label-placement="floating" errorText="This field is required." formControlName="Description"
-                fill="outline" [readonly]="isEnableEdit">
-                <ion-text slot="label">Description<ion-text color="danger"> *</ion-text></ion-text>
-              </ion-input>
-            </ion-row>
-          </ion-grid>
+          <ion-textarea class="inputTxtArea" label-placement="floating" errorText="This field is required."
+            formControlName="Description" fill="outline" [readonly]="isEnableEdit" [counter]="true" maxlength="200">
+            <div slot="label">Description<ion-text color="danger"> *</ion-text></div>
+          </ion-textarea>
         </form>
       </ion-content>
     </ng-template>
