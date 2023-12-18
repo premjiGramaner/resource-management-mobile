@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
+import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import {
@@ -12,6 +12,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { skillData, skillPostResponce } from './models/skill.model';
+import { Status } from 'src/app/core/enum/status.enum';
 
 @Component({
   selector: 'app-skill',
@@ -46,7 +47,7 @@ export class SkillPage implements OnInit {
   }
 
   getSkill(skip: number, limit: number, search: string) {
-    this.skillService.getSkill(skip, limit, search).subscribe((data: any) => {
+    this.skillService.getSkill(skip, limit, search).subscribe((data: skillResponce) => {
       this.skillData = [...this.skillData, ...data.data.skillInfo];
     });
   }
@@ -62,14 +63,14 @@ export class SkillPage implements OnInit {
     this.showSearch = !this.showSearch;
   }
 
-  setOpen(isOpen: boolean, type: string, skillInfo?: any, index?: any) {
+  setOpen(isOpen: boolean, type: string, skillInfo?: skillData, index?: number) {
     this.modelType = type;
     this.isModalOpen = isOpen;
-    this.selectedIndex = index;
-    this.setDataSkillForm(skillInfo);
+    this.selectedIndex = index as number;
+    this.setDataSkillForm(skillInfo as skillData);
   }
 
-  setDataSkillForm(skillInfo: any) {
+  setDataSkillForm(skillInfo: skillData) {
     if (skillInfo != undefined) {
       this.isEnableEdit = true;
       this.skillMoreData = skillInfo;
@@ -134,43 +135,50 @@ export class SkillPage implements OnInit {
     this.isEnableEdit = false;
   }
 
-  savePartnerForm() {
-    if (!this.skillEdit) {
-      this.skillService.postSkill(this.skillForm.value).subscribe((res) => {
-        const skillResponse = res as skillPostResponce;
-        this.toastService.presentToast(skillResponse.message);
-        // save data to local array
-        this.skillData.unshift(this.skillForm.value);
-      });
+  saveForm() {
+    if (this.skillForm.status == Status.INVALID) {
+      this.skillForm.markAllAsTouched();
     } else {
-      let updateReq = this.skillForm.value;
-      updateReq['skill_id'] = this.skillMoreData.skill_id;
-      this.skillService.editSkill(updateReq).subscribe((res: any) => {
-        const skillResponse = res as skillPostResponce;
-        this.toastService.presentToast(skillResponse.message);
-        // save data to local array
-        this.skillData.splice(this.selectedIndex, 1);
-        this.skillData.unshift(this.skillForm.value);
-      });
+      if (!this.skillEdit) {
+        this.skillService.postSkill(this.skillForm.value).subscribe((res) => {
+          const skillResponse = res as skillPostResponce;
+          this.toastService.presentToast(skillResponse.message);
+          // save data to local array
+          this.skillData.unshift(this.skillForm.value);
+          this.isModalOpen = false;
+        });
+      } else {
+        let updateReq = this.skillForm.value;
+        updateReq['skill_id'] = this.skillMoreData.skill_id;
+        this.skillService.editSkill(updateReq).subscribe((res: any) => {
+          const skillResponse = res as skillPostResponce;
+          this.toastService.presentToast(skillResponse.message);
+          // save data to local array
+          this.skillData.splice(this.selectedIndex, 1);
+          this.skillData.unshift(this.skillForm.value);
+          this.isModalOpen = false;
+        });
+      }
     }
+
   }
 
   async openExportModel() {
     this.skillService.getAllSkill().subscribe(async (res: skillResponce) => {
       const keyToRemove = ['skill_id'];
-      const newArray = res.data.skillInfo.map((obj: any) => {
+      const newArray = res.data.skillInfo.map((obj: skillData) => {
         const newObj = { ...obj };
         keyToRemove.map((item) => {
-          delete newObj[item];
+          delete newObj[item as keyof skillData];
         });
         return newObj;
       });
-      const pdfTableData = newArray.map((item: any) => {
+      const pdfTableData = newArray.map((item: skillData) => {
         return [item.category || '', item.description || ''];
       });
       let keys = Object.keys(newArray[0]);
       let elementToRemove = 'skill_id';
-      let pdfHeader = keys.reduce((result: any, item: any) => {
+      let pdfHeader = keys.reduce((result: Array<string>, item: string) => {
         if (item !== elementToRemove) {
           result.push(item.split('_').join('').toUpperCase());
         }
@@ -200,7 +208,7 @@ export class SkillPage implements OnInit {
     });
   }
 
-  async deleteModal(item: any, index: any, sliding: any) {
+  async deleteModal(item: skillData, index: number, sliding: IonItemSliding) {
     let data = {
       from: 'Skill',
       type: 'Delete',
@@ -220,7 +228,8 @@ export class SkillPage implements OnInit {
 
     mySubject.subscribe((value: any) => {
       if (value == true) {
-        this.deleteClient(item.skill_id, index);
+        this.deleteClient('' + item.skill_id, index);
+        modal.dismiss();
       }
     });
 
@@ -232,14 +241,14 @@ export class SkillPage implements OnInit {
 
   deleteClient(id: string, index: number) {
     this.skillService.deleteSkill(id).subscribe({
-      next: (response: any) => {
+      next: (response) => {
         this.skillData.splice(index, 1);
         this.toastService.presentToast(
           this.toastConstants.Delete_success_message
         );
       },
       error: (response) => {
-        this.toastService.presentToast(this.toastConstants.try_again);
+        this.toastService.errorToast(this.toastConstants.try_again);
       },
     });
   }
