@@ -41,7 +41,7 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input class="inputTxt" *ngIf="!isEnableEdit" (ionFocus)="dateInputboxClicked()" type="text" fill="outline" labelPlacement="floating"
+        <ion-input class="inputTxt" *ngIf="!isEnableEdit"  type="text" fill="outline" labelPlacement="floating"
          formControlName="evaluated_date"  id="open-date-custom-dialog">
           <div slot="label"> Evaluated Date<ion-text color="danger">*</ion-text></div>
         </ion-input>
@@ -69,7 +69,7 @@
           <ion-col class="card-user-info">
             <ion-row class="d-flex justify-content-between skill_container">
               <ion-label class="resource-heading">Resource <ion-text color="danger"> *</ion-text></ion-label>
-              <ion-label *ngIf="flag != 'edit'"><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
+              <ion-label *ngIf="flag != 'edit'"  id="open-custom-dialog"><ion-icon class="add-icon" expand="block"
                   name="add-circle-outline"></ion-icon></ion-label>
             </ion-row>
             <ion-row>
@@ -107,7 +107,7 @@
       <app-resource-card [resourceId]="resourceId" (addResource)="getSelectedResource($event)"></app-resource-card>
     </ng-template>
   </ion-modal>
-  <ion-modal  id="resource-modal" [isOpen]="isDateModalOpen" >
+  <ion-modal  id="resource-modal" trigger="open-date-custom-dialog" >
     <ng-template>
       <ion-datetime presentation="date" (ionChange)="evaluatedDate($event)" ></ion-datetime>
     </ng-template>

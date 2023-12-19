@@ -10,7 +10,7 @@ import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { RequirementService } from '../../requirement/services/requirement.service';
 import { ProfileService } from '../../profile/service/profile.service';
-import { IonItemSliding } from '@ionic/angular';
+import { IonItemSliding, ModalController } from '@ionic/angular';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Modules } from 'src/app/core/enum/static.enum';
 import {
@@ -45,7 +45,8 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
     private toastService: ToastService,
     private requirementService: RequirementService,
     private profileService: ProfileService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private modalCtrl: ModalController,
   ) { }
 
   ngOnInit() {
@@ -119,12 +120,9 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
     this.resourceForm.patchValue({
       evaluated_date: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy')
     })
-    this.isDateModalOpen = false;
+    this.modalCtrl.dismiss()
   }
 
-  dateInputboxClicked() {
-    this.isDateModalOpen = true;
-  }
 
   requirementSelected(event: number) {
     this.resourceId = event;
