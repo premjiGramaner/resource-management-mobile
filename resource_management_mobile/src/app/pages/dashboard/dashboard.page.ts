@@ -16,7 +16,6 @@ import {
   clientChartData,
   hiringChartData,
   remainderChartData,
-  remainderDataSet,
   requirementChartData,
   resourceChartData,
   resourceRequirementChartData,
@@ -25,6 +24,7 @@ import {
   dashboardClientResponse,
   dashboardHiringResponse,
   dashboardRequirementResponse,
+  dashboardReminderInfoResponse,
   dashboardResourceRequirementResponse,
   dashboardResourceResponse,
 } from './models/dashboard.API.model';
@@ -243,19 +243,19 @@ export class DashboardPage implements OnInit {
           this.requirementChartData = {
             filterType: this.filterType,
             label: await this.getLastSixMonths(),
-            dataset: await res.data.dashboardReminderInfo,
+            dataset: await res.data.dashboardRequirementInfo,
           };
         } else if (this.filterType.toUpperCase() == Common.year.toUpperCase()) {
           this.requirementChartData = {
             filterType: this.filterType,
             label: await this.getLastFiveYear(),
-            dataset: await res.data.dashboardReminderInfo,
+            dataset: await res.data.dashboardRequirementInfo,
           };
         } else if (this.filterType.toUpperCase() == Common.date.toUpperCase()) {
           this.requirementChartData = {
             filterType: this.filterType,
             label: await this.getLast30DaysFormattedDates(),
-            dataset: await res.data.dashboardReminderInfo,
+            dataset: await res.data.dashboardRequirementInfo,
           };
         }
       });
@@ -290,7 +290,7 @@ export class DashboardPage implements OnInit {
   getDashboardRemainderData(req: PostRemainderChart) {
     this.getDashboardAPI
       .getDashboardRemainder(req)
-      .subscribe(async (res: dashboardRequirementResponse) => {
+      .subscribe(async (res: dashboardReminderInfoResponse) => {
         if (this.filterType.toUpperCase() == Common.month.toUpperCase()) {
           this.remainderChartData = {
             filterType: this.filterType,
@@ -481,7 +481,7 @@ export class DashboardPage implements OnInit {
   getLastSixMonths() {
     let today = new Date();
     let months = [];
-    for (let i = 5; i >= 0; i--) {
+    for (let i = 6; i > 0; i--) {
       let pastMonth = new Date(today);
       pastMonth.setMonth(pastMonth.getMonth() - i);
       months.push(pastMonth.toLocaleString('default', { month: 'long' }));

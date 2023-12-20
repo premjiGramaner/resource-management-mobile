@@ -10,6 +10,7 @@ import {
 import {
   dashboardClientResponse,
   dashboardHiringResponse,
+  dashboardReminderInfoResponse,
   dashboardRequirementResponse,
   dashboardResourceRequirementResponse,
   dashboardResourceResponse,
@@ -35,7 +36,7 @@ export class DashboardService {
     req: PostClientChart
   ): Observable<dashboardRequirementResponse> {
     return this.http.post<dashboardRequirementResponse>(
-      `${this.URL}dashboard/reminder`,
+      `${this.URL}dashboard/requirement`,
       req
     );
   }
@@ -51,8 +52,8 @@ export class DashboardService {
 
   getDashboardRemainder(
     req: PostRemainderChart
-  ): Observable<dashboardRequirementResponse> {
-    return this.http.post<dashboardRequirementResponse>(
+  ): Observable<dashboardReminderInfoResponse> {
+    return this.http.post<dashboardReminderInfoResponse>(
       `${this.URL}dashboard/reminder`,
       req
     );
