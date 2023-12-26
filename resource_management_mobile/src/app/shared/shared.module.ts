@@ -10,13 +10,8 @@ import { DateformatConverterPipe } from './helpers/pipes/dateformat-converter.pi
 
 @NgModule({
   imports: [CommonModule, FormsModule, IonicModule, SharedPageRoutingModule],
-  exports: [HeaderComponent, FooterComponent],
-  declarations: [
-    SharedPage,
-    FooterComponent,
-    HeaderComponent,
-    DateformatConverterPipe,
-  ],
+  exports: [HeaderComponent],
+  declarations: [SharedPage, HeaderComponent, DateformatConverterPipe],
   providers: [DatePipe],
 })
 export class SharedPageModule { }
