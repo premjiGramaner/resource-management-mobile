@@ -27,7 +27,7 @@ import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-rem
 import { PartnerService } from '../services/partner.service';
 import { BehaviorSubject } from 'rxjs';
 import { DropdownEvent } from 'src/app/core/base-model/base.model';
-import { selectedSkill } from '../models/partner.model';
+import { Partnerskill, selectedSkill } from '../models/partner.model';
 
 @Component({
   selector: 'app-add-partner',
@@ -136,7 +136,7 @@ export class AddPartnerComponent implements OnInit, OnChanges {
 
   skillObj(skill: selectedSkill) {
     const index = this.skillList.findIndex(
-      (el: any) => el.skill_id == parseInt(skill.skill_id)
+      (el: Partnerskill) => el.skill_id == parseInt(skill.skill_id)
     );
     if (index >= 0) {
       Object.assign(skill, { description: this.skillList[index].description });
