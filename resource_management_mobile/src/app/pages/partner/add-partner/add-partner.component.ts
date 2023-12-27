@@ -53,16 +53,16 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     private toastConstants: ToastConstants,
     private staticData: StaticDataConstants,
     private partnerService: PartnerService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) { }
 
   ngOnInit() {
     this.getSkillList();
     this.dropDownData = {
-      title: 'supportMode',
+      title: this.toastConstants.partner_supportModeDropdown_title,
       data: this.supportMode,
       displayKey: '',
-      placeholder: 'Select Support Mode',
+      placeholder: this.toastConstants.partner_dropdown_placeholder,
       searchOnKey: '',
     };
     this.partnerForm = new FormGroup({
@@ -116,12 +116,14 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     this.arrangeSkillData(this.partnerForm.value.skills);
     sliding.close();
   }
+
   arrangeSkillData(skills: selectedSkill[]) {
     this.selectedSkillIds = [];
     for (var val of skills) {
       this.skillObj(val);
     }
   }
+
   addSkill(skill: any) {
     skill as selectedSkill;
     skill.specialised_ind = skill.relevant_experience;
@@ -131,6 +133,7 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     this.partnerForm.value.skills.push(skill);
     this.skillObj(skill);
   }
+
   skillObj(skill: selectedSkill) {
     const index = this.skillList.findIndex(
       (el: any) => el.skill_id == parseInt(skill.skill_id)
@@ -140,6 +143,7 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     }
     this.selectedSkillIds.push(skill);
   }
+
   getSkillList() {
     this.partnerService.getSkill().subscribe((res) => {
       this.skillList = res.data.skillInfo;
@@ -167,4 +171,5 @@ export class AddPartnerComponent implements OnInit, OnChanges {
 
     return this.partnerForm.valid;
   }
+
 }
