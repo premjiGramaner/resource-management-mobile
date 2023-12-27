@@ -4,8 +4,12 @@
 
 export const environment = {
   production: false,
-  baseUrl:'http://localhost:5001/api/'
+  baseUrl:'https://0993-2405-201-c022-5ce2-19e0-759c-5cf5-944c.ngrok-free.app/api/'
 };
+
+// http://localhost:5001/api/
+// http://c894-43-249-224-163.ngrok-free.app/api/
+// https://c894-43-249-224-163.ngrok-free.app
 
 /*
  * For easier debugging in development mode, you can import the following file
