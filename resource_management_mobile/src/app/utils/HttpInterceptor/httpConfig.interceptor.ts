@@ -61,9 +61,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       delay(500)).pipe(
         map((event: HttpEvent<any>) => {
           this.hideLoader();
-          if (event instanceof HttpResponse) {
-
-          }
           return event;
         }),
         catchError((error: HttpErrorResponse) => {
@@ -84,18 +81,21 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         message: 'Processing Server Request'
       }).then((res) => {
         res.present();
-
         res.onDidDismiss().then((dis) => {
         });
       });
     }
 
-  }
-
+  // hideLoader() {
+  //   this.loaderToShow = false;
+  //     this.loadingController.dismiss();
+  //   }
   hideLoader() {
     this.loaderToShow = false;
-    this.loadingController.dismiss();
+    this.loadingController.getTop().then(overlay => {
+      if (overlay) {
+        overlay.dismiss();
+      }
+    });
   }
-
-
 }
