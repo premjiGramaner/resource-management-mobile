@@ -15,12 +15,22 @@ export interface resourceChartData extends baseReqString {
 }
 
 export interface remainderChartData extends baseReqString {
-    dataset: requirementFilterData[];
+    dataset: remainterFilterData[];
 }
 
 export interface clientFilterData {
     Date: number;
     data: countDetails[];
+}
+
+export interface remainterFilterData {
+    Date: number;
+    data: remainterDetails[];
+}
+
+export interface remainterDetails {
+    Count: number;
+    hiring_stage: string;
 }
 
 export interface requirementFilterData {
@@ -75,11 +85,14 @@ export interface resorceDetails {
     type: string;
     Count: number;
 }
+
+
 export interface requirementDetails {
     Count: number;
-    hiring_stage: string;
+    stat: {
+        description: string
+    };
 }
-
 export interface countDetails {
     Count: number;
     owner: {

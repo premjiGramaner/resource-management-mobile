@@ -129,6 +129,11 @@ ion-card {
     margin-top: 10px;
 }
 
+.align_end {
+    display: $display;
+    justify-content: $justify-content-end;
+}
+
 .space-between {
     justify-content: $justify-content-space-between;
 }

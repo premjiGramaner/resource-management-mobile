@@ -13,6 +13,9 @@
     </ion-row>
   </ion-grid>
   <ion-grid class="p-2 ps-3 pe-3 shadow top">
+    <ion-row class="align_end">
+      <ion-button id="open-custom-dialog" expand="block">Add User</ion-button>
+    </ion-row>
     <ion-row>
       <ion-card>
         <ion-card-header class="card-header">
@@ -89,4 +92,12 @@
       </ion-card>
     </ion-row>
   </ion-grid>
+  
+  <ion-modal id="add-user" #modal trigger="open-custom-dialog">
+    <ng-template>
+      <div class="wrapper">
+       <app-add-user></app-add-user>
+      </div>
+    </ng-template>
+  </ion-modal>
 </ion-content>

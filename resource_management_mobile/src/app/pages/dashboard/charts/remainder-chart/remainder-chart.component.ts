@@ -11,12 +11,12 @@ import { DashboardHelperService } from '../../services/dashboard-helper.service'
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import {
   ChartInstance,
-  requirementChartData,
+  remainterFilterData,
   requirementDataSet,
   remainderChartData,
   ClientDataSet,
-  requirementDetails,
-  requirementFilterData,
+  remainterDetails,
+  remainderDataSet,
 } from '../../models/dashboard.model';
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -61,8 +61,8 @@ export class RemainderChartComponent
   }
   remainderMonthData() {
     const uniqueOwners = this.remainderChartData.dataset.reduce(
-      (acc: string[], info: requirementFilterData) => {
-        info.data.forEach((entry: requirementDetails) => {
+      (acc: string[], info: remainterFilterData) => {
+        info.data.forEach((entry: remainterDetails) => {
           if (!acc.includes(entry.hiring_stage)) {
             acc.push(entry.hiring_stage);
           }
@@ -81,9 +81,9 @@ export class RemainderChartComponent
         0
       );
     });
-    this.remainderChartData.dataset.forEach((info: requirementFilterData) => {
+    this.remainderChartData.dataset.forEach((info: remainterFilterData) => {
       const { Date, data } = info;
-      data.forEach((entry: requirementDetails) => {
+      data.forEach((entry: remainterDetails) => {
         const owner = entry.hiring_stage;
         const index = Date - this.remainderChartData.label.length;
         hiringStage[owner][index] = entry.Count;
@@ -100,7 +100,7 @@ export class RemainderChartComponent
     );
     this.initializeChart(output);
   }
-  remainderYearData(requirementInfo: requirementChartData) {
+  remainderYearData(requirementInfo: remainderChartData) {
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of requirementInfo.dataset) {
       for (const dataObj of clientInfo.data) {
@@ -125,7 +125,7 @@ export class RemainderChartComponent
     }));
     this.initializeChart(outputData);
   }
-  remainderDayData(requirementInfo: requirementChartData) {
+  remainderDayData(requirementInfo: remainderChartData) {
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of requirementInfo.dataset) {
       for (const dataObj of clientInfo.data) {
@@ -169,8 +169,8 @@ export class RemainderChartComponent
     const canvasElement = this.remainderCanvas.nativeElement;
     Object.assign(canvasElement.style, this.chartStyles);
   }
-  initializeChart(data?: requirementDataSet[]) {
-    data = data as requirementDataSet[];
+  initializeChart(data?: remainderDataSet[]) {
+    data = data as remainderDataSet[];
     this.remainderChart = new Chart(this.remainderCanvas.nativeElement, {
       type: Common.bar,
       data: {

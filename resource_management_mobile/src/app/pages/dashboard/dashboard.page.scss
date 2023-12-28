@@ -44,3 +44,27 @@ ion-toggle::part(track) {
     /* Required for iOS handle to overflow the height of the track */
     overflow: visible;
 }
+
+ion-modal#add-user {
+    --width: fit-content;
+    --min-width: 350px;
+    --height: fit-content;
+    --border-radius: 6px;
+    --box-shadow: 0 28px 48px rgba(0, 0, 0, 0.4);
+}
+
+ion-modal#add-user h1 {
+    margin: 20px 20px 10px 20px;
+}
+
+ion-modal#add-user ion-icon {
+    margin-right: 6px;
+    width: 48px;
+    height: 48px;
+    padding: 4px 0;
+    color: #aaaaaa;
+}
+
+ion-modal#add-user .wrapper {
+    margin-bottom: 10px;
+}
