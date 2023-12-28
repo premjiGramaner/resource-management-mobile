@@ -12,6 +12,7 @@ import { ResourceChartComponent } from './charts/resource-chart/resource-chart.c
 import { RemainderChartComponent } from './charts/remainder-chart/remainder-chart.component';
 import { HiringChartComponent } from './charts/hiring-chart/hiring-chart.component';
 import { ResourceRequirementChartComponent } from './charts/resource-requirement-chart/resource-requirement-chart.component';
+import { AddUserComponent } from 'src/app/shared/components/add-user/add-user.component';
 
 @NgModule({
   imports: [
@@ -20,6 +21,7 @@ import { ResourceRequirementChartComponent } from './charts/resource-requirement
     IonicModule,
     HttpClientModule,
     DashboardPageRoutingModule,
+    AddUserComponent
   ],
   declarations: [
     DashboardPage,

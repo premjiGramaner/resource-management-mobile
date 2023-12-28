@@ -2,6 +2,7 @@ import { BaseResponce } from 'src/app/core/base-model/base.model';
 import {
     clientFilterData,
     hiringFilterData,
+    remainterFilterData,
     requirementFilterData,
     resourceFilterData,
     resourceRequirementFilterData,
@@ -14,12 +15,17 @@ export interface dashboardClientResponse extends BaseResponce {
 }
 export interface dashboardRequirementResponse extends BaseResponce {
     data: {
-        dashboardReminderInfo: requirementFilterData[];
+        dashboardRequirementInfo: requirementFilterData[];
     };
 }
 export interface dashboardResourceResponse extends BaseResponce {
     data: {
         dashboardResourceInfo: resourceFilterData[];
+    };
+}
+export interface dashboardReminderInfoResponse extends BaseResponce {
+    data: {
+        dashboardReminderInfo: remainterFilterData[];
     };
 }
 export interface dashboardHiringResponse extends BaseResponce {

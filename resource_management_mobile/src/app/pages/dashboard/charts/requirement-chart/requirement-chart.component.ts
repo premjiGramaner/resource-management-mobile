@@ -65,8 +65,8 @@ export class RequirementChartComponent
     const uniqueOwners = this.requirementChartData.dataset.reduce(
       (acc: string[], info: requirementFilterData) => {
         info.data.forEach((entry: requirementDetails) => {
-          if (!acc.includes(entry.hiring_stage)) {
-            acc.push(entry.hiring_stage);
+          if (!acc.includes(entry.stat.description)) {
+            acc.push(entry.stat.description);
           }
         });
         return acc;
@@ -86,7 +86,7 @@ export class RequirementChartComponent
     this.requirementChartData.dataset.forEach((info: requirementFilterData) => {
       const { Date, data } = info;
       data.forEach((entry: requirementDetails) => {
-        const owner = entry.hiring_stage;
+        const owner = entry.stat.description;
         const index = Date - this.requirementChartData.label.length;
         hiringStage[owner][index] = entry.Count;
       });
@@ -107,7 +107,7 @@ export class RequirementChartComponent
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of requirementInfo.dataset) {
       for (const dataObj of clientInfo.data) {
-        const label = dataObj.hiring_stage;
+        const label = dataObj.stat.description;
         const year = Number(clientInfo.Date);
         const count = dataObj.Count;
         if (!transformedData[label]) {
@@ -132,14 +132,14 @@ export class RequirementChartComponent
     const transformedData: { [key: string]: number[] } = {};
     for (const clientInfo of requirementInfo.dataset) {
       for (const dataObj of clientInfo.data) {
-        const label = dataObj.hiring_stage;
+        const label = dataObj.stat.description;
         transformedData[label] = Array(30).fill(0);
       }
     }
     for (const clientInfo of requirementInfo.dataset) {
       const givenDate = new Date(clientInfo.Date);
       for (const dataObj of clientInfo.data) {
-        const label = dataObj.hiring_stage;
+        const label = dataObj.stat.description;
         const count = dataObj.Count;
         const dataDate = new Date(clientInfo.Date);
         if (!isNaN(dataDate.getTime())) {
