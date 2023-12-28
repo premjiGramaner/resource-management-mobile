@@ -56,6 +56,7 @@ ion-accordion {
     --background: var(--main-menu-bg);
     padding: 5px;
     color: $white;
+    position: relative;
 }
 
 .logout-icon {
