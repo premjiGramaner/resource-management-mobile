@@ -7,7 +7,8 @@
     <ion-list lines="none">
       <ion-item>
         <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
-          interface="popover" placeholder="Select Partner" formControlName="partner_id" errorText="Invalid Partner" required>
+          interface="popover" placeholder="Select Partner" formControlName="partner_id" errorText="Invalid Partner"
+          required>
           <div slot="label">Select Partner<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let partner of partnerList"
             value={{partner.partner_id}}>{{partner.name}}</ion-select-option>
@@ -15,12 +16,13 @@
       </ion-item>
 
       <ion-item>
-        <ion-input class="inputTxt" type="date" fill="outline" labelPlacement="floating" placeholder="Enter Shared On Date"
-          formControlName="shared_on" errorText="Invalid Shared On Date">
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating"
+          placeholder="Enter Shared On Date" formControlName="shared_on" errorText="Invalid Shared On Date"
+          id="open-date-custom-dialog">
           <div slot="label">Shared On Date<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
-      
+
       <ion-item>
         <ion-grid>
           <ion-row>
@@ -31,6 +33,13 @@
         </ion-grid>
       </ion-item>
     </ion-list>
+
+    <ion-modal id="resource-modal" showBackdrop="false" backdropDismiss="false" #modal
+      trigger="open-date-custom-dialog">
+      <ng-template>
+        <ion-datetime presentation="date" (ionChange)="evaluatedDate($event)"></ion-datetime>
+      </ng-template>
+    </ion-modal>
   </form>
 
 </div>

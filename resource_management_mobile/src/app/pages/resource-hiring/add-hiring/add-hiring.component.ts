@@ -10,6 +10,7 @@ import { hiringData } from '../model/hiring.model';
 import { UserData, UserInfo } from '../../client/models/client.model';
 import { resourceData, resourceResponse } from '../../resource/models/resource.model';
 import { statusData, statusResponse } from 'src/app/shared/models/common.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-add-hiring',
@@ -32,7 +33,8 @@ export class AddHiringComponent  implements OnInit {
     private resourceService: ResourceService,
     private userService: ProfileService,
     private modalController: ModalController,
-    private staticData: StaticDataConstants) { }
+    private staticData: StaticDataConstants,
+    private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.getResourceList();
@@ -42,7 +44,7 @@ export class AddHiringComponent  implements OnInit {
         hiring_tracker_id: new FormControl(this.viewData.hiring_tracker_id, Validators.required),
         Resource_resource_id: new FormControl(''+this.viewData.Resource_resource_id, Validators.required),
         evaluated_by: new FormControl(''+this.viewData.evaluated_by, Validators.required),
-        evaluated_date: new FormControl(this.viewData.evaluated_date?.replace(/\//g, '-'), Validators.required),
+        evaluated_date: new FormControl(this.viewData.evaluated_date?.replace(/\//g, '/'), Validators.required),
         comments: new FormControl(this.viewData.comments, Validators.required)
       });
     } else {
@@ -88,5 +90,15 @@ export class AddHiringComponent  implements OnInit {
 
   setClose() {
     this.modalController.dismiss();
+  }
+  /**
+   * 
+   * @param event carry the date properties
+   */
+  evaluatedDate(event: any) {
+    this.addform.patchValue({
+      evaluated_date: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy')
+    })
+    this.setClose();
   }
 }

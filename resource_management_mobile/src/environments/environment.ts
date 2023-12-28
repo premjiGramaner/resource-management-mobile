@@ -1,16 +1,5 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:5001/api/'
+  baseUrl:'https://0993-2405-201-c022-5ce2-19e0-759c-5cf5-944c.ngrok-free.app/api/'
 };
-
-/**
- * Local
- * http://localhost:5001/api/
- */
-
-/**
- * live
- dinesh/feature/partner_module
- * https://0993-2405-201-c022-5ce2-19e0-759c-5cf5-944c.ngrok-free.app/api/
- */

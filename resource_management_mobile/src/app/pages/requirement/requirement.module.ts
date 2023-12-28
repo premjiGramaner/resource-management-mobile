@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
@@ -11,6 +11,7 @@ import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-c
 import { ViewRequirementComponent } from './view-requirement/view-requirement.component';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
 import { PartnerCradComponent } from 'src/app/shared/components/partner-crad/partner-crad.component';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { PartnerCradComponent } from 'src/app/shared/components/partner-crad/par
     SkillCardComponent,
     PartnerCradComponent
   ],
-  declarations: [RequirementPage,ViewRequirementComponent,AddRequirementComponent]
+  declarations: [RequirementPage,ViewRequirementComponent,AddRequirementComponent],
+  providers:[DatePipe, DateformatConverterPipe]
 })
 export class RequirementPageModule {}

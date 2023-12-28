@@ -18,6 +18,7 @@ import { skillResponce } from '../../skill/models/skill.model';
 import { skill } from 'src/app/core/base-model/base.model';
 import { Modules } from 'src/app/core/enum/static.enum';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-add-resource',
   templateUrl: './add-resource.component.html',
@@ -46,7 +47,8 @@ export class AddResourceComponent implements OnInit {
     private toastService: ToastService,
     private toastConstants: ToastConstants,
     private modalController: ModalController,
-    private staticData: StaticDataConstants
+    private staticData: StaticDataConstants,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit() {
@@ -72,7 +74,7 @@ export class AddResourceComponent implements OnInit {
         current_organisation: new FormControl(this.viewData.current_organisation, Validators.required),
         current_org_duration: new FormControl(this.viewData.current_org_duration, Validators.required),
         notice_period: new FormControl(this.viewData.notice_period, Validators.required),
-        earliest_joining_date: new FormControl(this.viewData.earliest_joining_date.replace(/\//g, '-'), Validators.required),
+        earliest_joining_date: new FormControl(this.viewData.earliest_joining_date.replace(/\//g, '/'), Validators.required),
         reason_for_change: new FormControl(this.viewData.reason_for_change, Validators.required),
         skills: new FormControl(this.viewData.skills),
       });
@@ -194,4 +196,14 @@ export class AddResourceComponent implements OnInit {
     this.modalController.dismiss();
   }
 
+   /**
+   * 
+   * @param event carry the date properties
+   */
+   evaluatedDate(event: any) {
+    this.addform.patchValue({
+      earliest_joining_date: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy')
+    })
+    this.setClose();
+  }
 }
