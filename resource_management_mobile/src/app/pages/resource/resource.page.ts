@@ -10,6 +10,8 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { DatePipe } from '@angular/common';
+import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.page.html',
@@ -29,7 +31,7 @@ export class ResourcePage implements OnInit {
 
   @ViewChild('add') add !: AddResourceComponent;
 
-  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastService: ToastService,private staticData: StaticDataConstants) { }
+  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastService: ToastService,private staticData: StaticDataConstants, private dateformatConverterPipe: DateformatConverterPipe, private datePipe: DatePipe) { }
 
   ngOnInit() {
     this.getResources(this.skip, 20, this.searchQuery);
@@ -52,6 +54,11 @@ export class ResourcePage implements OnInit {
   }
 
   addEditCall(editData: resourceData | undefined) {
+    this.add.addform.patchValue({
+      earliest_joining_date: this.dateformatConverterPipe.transform(
+        this.add.addform.value.earliest_joining_date
+      ) as string
+    })
     if (editData) {
       return this.resourceService.updateResource(this.add.addform.value)
     } else {
@@ -186,6 +193,7 @@ export class ResourcePage implements OnInit {
 
 
   detailData(info: resourceData, type: string) {
+    info.earliest_joining_date = this.datePipe.transform(info.earliest_joining_date, 'dd/MM/yyyy') || "";
     this.resourceData = info;
     this.modelType = type;
     this.isModalOpen = true;

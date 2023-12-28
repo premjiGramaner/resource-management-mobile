@@ -47,7 +47,8 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     if (!request.headers.has('Content-Type')) {
       request = request.clone({
         setHeaders: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'ngrok-skip-browser-warning': '69420'
         }
       });
     }

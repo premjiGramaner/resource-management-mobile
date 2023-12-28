@@ -25,6 +25,7 @@ export class AddUserComponent implements OnInit {
       userName: new FormControl('', Validators.required),
       password: new FormControl('', Validators.required),
       roleID: new FormControl(1, Validators.required),
+      
     });
   }
 
@@ -40,7 +41,9 @@ export class AddUserComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
-      this.profileService.addUser(form.value)
+      var pass = this.checkPwd(form.value.password.toString());
+      if(pass == true){
+        this.profileService.addUser(form.value)
         .subscribe({
           next: (response: addUserResponse) => {
             this.modalController.dismiss();
@@ -50,8 +53,28 @@ export class AddUserComponent implements OnInit {
             this.toastService.errorToast(response.message)
           },
         });
+      } else {
+        this.toastService.errorToast(pass);
+      }
+      
     } else {
       this.addform.markAllAsTouched();
     }
   }
+
+  checkPwd(str:string) {
+    if (str.length < 8) {
+        return("Too Short (Min. 8 char)");
+    } else if (str.length > 50) {
+        return("Too Long (Max. 50 char)");
+    } else if (str.search(/\d/) == -1) {
+        return("Atleast 1 number");
+    } else if (str.search(/[a-zA-Z]/) == -1) {
+        return("Atleast 1 letter");
+    } else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
+        return("Bad Charcters");
+    }
+    return true;
+}
+
 }

@@ -1,9 +1,10 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
 import { partnerData } from 'src/app/pages/partner/models/partner.model';
 import { partner } from 'src/app/pages/requirement/models/requirement.model';
+import { DateformatConverterPipe } from '../../helpers/pipes/dateformat-converter.pipe';
 
 @Component({
   selector: 'app-partner-crad',
@@ -18,7 +19,7 @@ export class PartnerCradComponent  implements OnInit {
 
   addform!: FormGroup;
   @Output() addPartner = new EventEmitter<partner>();
-  constructor( private modalController: ModalController) { }
+  constructor( private modalController: ModalController, private datePipe: DatePipe, private dateformatConverterPipe: DateformatConverterPipe) { }
 
   ngOnInit() {
     this.addform = new FormGroup({
@@ -33,6 +34,11 @@ export class PartnerCradComponent  implements OnInit {
 
   onSubmit(form:FormGroup){
     if(form.valid){
+      form.patchValue({
+        shared_on: this.dateformatConverterPipe.transform(
+          form.value.shared_on
+        ) as string
+      })
       this.addPartner.emit(form.value);
       this.modalController.dismiss();
     } else {
@@ -40,4 +46,14 @@ export class PartnerCradComponent  implements OnInit {
     }
   }
 
+  /**
+   * 
+   * @param event carry the date properties
+   */
+  evaluatedDate(event: any) {
+    this.addform.patchValue({
+      shared_on: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy')
+    })
+    this.setClose();
+  }
 }

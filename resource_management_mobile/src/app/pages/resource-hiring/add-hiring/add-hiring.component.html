@@ -16,49 +16,52 @@
           interface="popover" placeholder="Select Evaluated By" formControlName="evaluated_by"
           errorText="Invalid evaluated by">
           <div slot="label">Select Evaluated By<ion-text color="danger"> *</ion-text></div>
-          <ion-select-option *ngFor="let user of userList"
-            value={{user.user_id}}>{{user.name}}</ion-select-option>
+          <ion-select-option *ngFor="let user of userList" value={{user.user_id}}>{{user.name}}</ion-select-option>
         </ion-select>
       </ion-item>
       <ion-item *ngIf="!viewData">
         <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
-          interface="popover" placeholder="Select Hiring Stage" formControlName="hiring_stage" errorText="Invalid hiring stage">
+          interface="popover" placeholder="Select Hiring Stage" formControlName="hiring_stage"
+          errorText="Invalid hiring stage">
           <div slot="label">Select Hiring Stage<ion-text color="danger"> *</ion-text></div>
-          <ion-select-option *ngFor="let hiringStage of hiringStageList" value={{hiringStage}}>{{hiringStage}}</ion-select-option>
+          <ion-select-option *ngFor="let hiringStage of hiringStageList"
+            value={{hiringStage}}>{{hiringStage}}</ion-select-option>
         </ion-select>
       </ion-item>
 
       <ion-item *ngIf="!viewData">
         <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
-          interface="popover" placeholder="Select Hiring Status" formControlName="hiring_status" errorText="Invalid hiring status">
+          interface="popover" placeholder="Select Hiring Status" formControlName="hiring_status"
+          errorText="Invalid hiring status">
           <div slot="label">Select Hiring Status<ion-text color="danger"> *</ion-text></div>
-          <ion-select-option *ngFor="let hiringStatus of hiringStatusList" value={{hiringStatus}}>{{hiringStatus}}</ion-select-option>
+          <ion-select-option *ngFor="let hiringStatus of hiringStatusList"
+            value={{hiringStatus}}>{{hiringStatus}}</ion-select-option>
         </ion-select>
       </ion-item>
 
-      
-      
+
+
 
       <ion-item *ngIf="!viewData">
         <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
-          interface="popover" placeholder="Select Status" formControlName="Status_status_id"
-          errorText="Invalid status">
+          interface="popover" placeholder="Select Status" formControlName="Status_status_id" errorText="Invalid status">
           <div slot="label">Select Status<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let status of statusList"
             value={{status.status_id}}>{{status.description}}</ion-select-option>
         </ion-select>
       </ion-item>
-      
+
       <ion-item>
-        <ion-input class="inputTxt" type="date" fill="outline" labelPlacement="floating" placeholder="Enter Evaluated Date"
-          formControlName="evaluated_date" errorText="Invalid evaluated date">
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating"
+          placeholder="Enter Evaluated Date" formControlName="evaluated_date" errorText="Invalid evaluated date"
+          id="open-date-custom-dialog">
           <div slot="label"> Evaluated Date<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="1000"
-          minHeight="40" placeholder="Enter Comments" formControlName="comments"
+        <ion-textarea class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [counter]="true"
+          maxlength="1000" minHeight="40" placeholder="Enter Comments" formControlName="comments"
           errorText="Invalid comments">
           <div slot="label">Comments<ion-text color="danger"> *</ion-text></div>
         </ion-textarea>
@@ -66,6 +69,11 @@
 
     </ion-list>
 
-    
+    <ion-modal id="resource-modal" showBackdrop="false" backdropDismiss="false" #modal
+      trigger="open-date-custom-dialog">
+      <ng-template>
+        <ion-datetime presentation="date" (ionChange)="evaluatedDate($event)"></ion-datetime>
+      </ng-template>
+    </ion-modal>
   </form>
 </ion-content>
