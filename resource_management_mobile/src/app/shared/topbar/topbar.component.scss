@@ -92,3 +92,8 @@ ion-icon {
 .center-profile {
     @include centerElement();
 }
+
+.active {
+    color: #0ee7ff;
+    font-weight: 700;
+}
