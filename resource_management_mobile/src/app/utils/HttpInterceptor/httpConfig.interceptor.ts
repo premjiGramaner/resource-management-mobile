@@ -86,8 +86,6 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       });
     }
 
-  }
-
   // hideLoader() {
   //   this.loaderToShow = false;
   //     this.loadingController.dismiss();

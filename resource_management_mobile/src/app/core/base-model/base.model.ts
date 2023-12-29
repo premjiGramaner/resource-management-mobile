@@ -20,3 +20,19 @@ export interface role {
     id: number;
     name: string;
 }
+
+export interface DropdownEvent {
+    id?: number;
+    value: string;
+}
+
+export interface CustomDropDownData {
+    data: [],
+    search: boolean,
+    height: string,
+    searchPlaceholder: string,
+    displayKey: string,
+    placeholder: string,
+    searchOnKey: string,
+    selectedDropDownData: string
+}

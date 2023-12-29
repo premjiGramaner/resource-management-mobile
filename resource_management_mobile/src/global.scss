@@ -198,3 +198,17 @@ ion-icon {
     width: 99px;
     padding: 11px;
 }
+
+
+ion-popover {
+    &::part(content) {
+      min-width: 230px;
+    }
+  }
+
+.custom-dropdown{
+    display: $display;
+    justify-content: $justify-content-center;
+}
+
+

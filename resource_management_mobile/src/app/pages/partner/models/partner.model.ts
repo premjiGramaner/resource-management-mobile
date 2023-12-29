@@ -32,6 +32,14 @@ export interface Partnerskill extends skill {
     primary_skill?: boolean;
 }
 
+export interface selectedSkill {
+    description?: string;
+    skill_id: string;
+    specialised_ind?: number;
+    relevant_experience?: number;
+    primary_skill_ind?: number;
+}
+
 export interface skillResponce extends BaseResponce {
     data: {
         skillInfo: Partnerskill[];
