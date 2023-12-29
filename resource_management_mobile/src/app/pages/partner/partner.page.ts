@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
 import { InfiniteScrollCustomEvent, ModalController } from '@ionic/angular';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { BehaviorSubject } from 'rxjs';

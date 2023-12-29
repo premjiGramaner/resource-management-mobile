@@ -37,6 +37,7 @@
     "ionicons": "^7.0.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.7.0",
+    "ngx-select-dropdown": "^3.3.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "xlsx": "^0.18.5",

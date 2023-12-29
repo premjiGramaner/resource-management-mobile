@@ -13,4 +13,6 @@ export class ToastConstants {
     tokenError = 'JsonWebTokenError';
     tokenExpired = 'TokenExpiredError';
     invalidUser = 'Invalid User';
+    partner_dropdown_placeholder = 'Select Support Mode';
+    partner_supportModeDropdown_title = 'supportMode';
 }

@@ -13,7 +13,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { IonItemSliding, ModalController } from '@ionic/angular';
+import {
+  IonItemSliding,
+  ModalController,
+  PopoverController,
+} from '@ionic/angular';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 
 import { Status } from 'src/app/core/enum/status.enum';
@@ -21,6 +25,9 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { PartnerService } from '../services/partner.service';
+import { BehaviorSubject } from 'rxjs';
+import { DropdownEvent } from 'src/app/core/base-model/base.model';
+import { Partnerskill, selectedSkill } from '../models/partner.model';
 
 @Component({
   selector: 'app-add-partner',
@@ -38,17 +45,26 @@ export class AddPartnerComponent implements OnInit, OnChanges {
   isEnableEdit: boolean = false;
   module: string = 'partner';
   skillList: any = [];
+  dropDownData: any;
+  selectedDropDownData: string = '';
   @Output() childFormSubmitted = new EventEmitter<FormGroup>();
   constructor(
     private removeDuplicate: DuplicateRemoverPipe,
     private toastConstants: ToastConstants,
     private staticData: StaticDataConstants,
     private partnerService: PartnerService,
-    private toastService: ToastService
+    private toastService: ToastService,
   ) { }
 
   ngOnInit() {
     this.getSkillList();
+    this.dropDownData = {
+      title: this.toastConstants.partner_supportModeDropdown_title,
+      data: this.supportMode,
+      displayKey: '',
+      placeholder: this.toastConstants.partner_dropdown_placeholder,
+      searchOnKey: '',
+    };
     this.partnerForm = new FormGroup({
       name: new FormControl('', Validators.required),
       contact_person_name: new FormControl('', Validators.required),
@@ -63,6 +79,7 @@ export class AddPartnerComponent implements OnInit, OnChanges {
       skills: new FormControl([]),
     });
     if (this.viewPartnerData != undefined) {
+      this.selectedDropDownData = this.viewPartnerData.supported_mode;
       this.partnerForm.patchValue({
         name: this.viewPartnerData.name,
         contact_person_name: this.viewPartnerData.contact_person_name,
@@ -78,13 +95,20 @@ export class AddPartnerComponent implements OnInit, OnChanges {
       });
     }
   }
+
   ngOnChanges(changes: SimpleChanges): void {
-    // React to changes in the input property 'data'
-    if (this.flag == 'save') {
+    if (this.flag.toLowerCase() == Status.SAVE.toLowerCase()) {
       this.isEnableEdit = false;
     } else {
       this.isEnableEdit = true;
     }
+  }
+
+  dropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.partnerForm.patchValue({
+      supported_mode: event.value,
+    });
   }
 
   deleteSkill(i: number, sliding: IonItemSliding) {
@@ -92,13 +116,16 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     this.arrangeSkillData(this.partnerForm.value.skills);
     sliding.close();
   }
-  arrangeSkillData(skills: any) {
+
+  arrangeSkillData(skills: selectedSkill[]) {
     this.selectedSkillIds = [];
     for (var val of skills) {
       this.skillObj(val);
     }
   }
+
   addSkill(skill: any) {
+    skill as selectedSkill;
     skill.specialised_ind = skill.relevant_experience;
     delete skill.relevant_experience;
     delete skill.primary_skill_ind;
@@ -106,21 +133,23 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     this.partnerForm.value.skills.push(skill);
     this.skillObj(skill);
   }
-  skillObj(skill: any) {
+
+  skillObj(skill: selectedSkill) {
     const index = this.skillList.findIndex(
-      (el: any) => el.skill_id == parseInt(skill.skill_id)
+      (el: Partnerskill) => el.skill_id == parseInt(skill.skill_id)
     );
     if (index >= 0) {
       Object.assign(skill, { description: this.skillList[index].description });
     }
     this.selectedSkillIds.push(skill);
   }
+
   getSkillList() {
     this.partnerService.getSkill().subscribe((res) => {
       this.skillList = res.data.skillInfo;
       if (this.viewPartnerData != undefined) {
         const skillList = this.viewPartnerData.skills;
-        skillList.map((skill: any) => {
+        skillList.map((skill: Array<string>) => {
           this.selectedSkillIds.push(skill);
         });
         this.selectedSkillIds = this.removeDuplicate.transform(
@@ -142,4 +171,5 @@ export class AddPartnerComponent implements OnInit, OnChanges {
 
     return this.partnerForm.valid;
   }
+
 }

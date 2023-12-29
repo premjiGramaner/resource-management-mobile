@@ -11,6 +11,8 @@ import { AddPartnerComponent } from './add-partner/add-partner.component';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
 import { PartnerService } from './services/partner.service';
+import { SelectDropDownModule } from 'ngx-select-dropdown';
+import { SearchableDropdownComponent } from 'src/app/shared/components/searchable-dropdown/searchable-dropdown.component';
 
 @NgModule({
   declarations: [PartnerPage, AddPartnerComponent],
@@ -24,6 +26,8 @@ import { PartnerService } from './services/partner.service';
     ReactiveFormsModule,
     DuplicateRemoverPipe,
     SkillCardComponent,
+    SelectDropDownModule,
+    SearchableDropdownComponent,
   ],
 })
 export class PartnerPageModule { }
