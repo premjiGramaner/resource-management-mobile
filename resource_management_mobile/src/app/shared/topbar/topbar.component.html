@@ -39,7 +39,7 @@
         <ion-col>
           <ion-list lines="full" class="ion-list">
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.dashboard}}>
+              <ion-item routerLinkActive="active" routerLink={{routeConstants.dashboard}}>
                 <ion-label>Dashboard</ion-label>
               </ion-item>
             </ion-menu-toggle>
@@ -48,12 +48,12 @@
                 <ion-item slot="header">
                   <ion-label>Admin Management</ion-label>
                 </ion-item>
-                <div class="ion-padding sub_menu" slot="content">
+                <div class="ion-padding sub_menu" slot="content" routerLinkActive="active">
                   <ion-menu-toggle routerLink={{routeConstants.status_tracker}}>
                     Status Tracker
                   </ion-menu-toggle>
                 </div>
-                <div class="ion-padding sub_menu" slot="content">
+                <div class="ion-padding sub_menu" slot="content" routerLinkActive="active">
                   <ion-menu-toggle routerLink={{routeConstants.resource_requirement}}>Resource
                     Requirement</ion-menu-toggle>
                 </div>
@@ -71,27 +71,27 @@
               </ion-accordion>
             </ion-accordion-group>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.partner}}>
+              <ion-item routerLink={{routeConstants.partner}} routerLinkActive="active">
                 <ion-label>Partner</ion-label>
               </ion-item>
             </ion-menu-toggle>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.client}}>
+              <ion-item routerLink={{routeConstants.client}} routerLinkActive="active">
                 <ion-label>Client</ion-label>
               </ion-item>
             </ion-menu-toggle>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.resource}}>
+              <ion-item routerLink={{routeConstants.resource}} routerLinkActive="active">
                 <ion-label>Resource</ion-label>
               </ion-item>
             </ion-menu-toggle>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.requirement}}>
+              <ion-item routerLink={{routeConstants.requirement}} routerLinkActive="active">
                 <ion-label>Requirement</ion-label>
               </ion-item>
             </ion-menu-toggle>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.settings}}>
+              <ion-item routerLink={{routeConstants.settings}} routerLinkActive="active">
                 <ion-label>Settings</ion-label>
               </ion-item>
             </ion-menu-toggle>
