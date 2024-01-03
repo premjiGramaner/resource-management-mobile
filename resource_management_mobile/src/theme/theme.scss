@@ -38,7 +38,7 @@ $header-font-weight: 600;
 
 @mixin userName {
     font-size: 1.2em !important;
-    color: black !important;
+    color: var(--label-text) !important;
     margin-bottom: 8px;
     font-weight: 500;
 }
@@ -53,7 +53,7 @@ $header-font-weight: 600;
 @mixin userOtherInfo {
     font-size: 1em !important;
     font-weight: 400 !important;
-    color: grey !important;
+    color: var(--label-sub-text) !important;
 }
 
 @mixin status-text {

@@ -8,4 +8,5 @@ export class CookiesConstants {
   hiring_status = 'hiring_status';
   stage = 'stage';
   status = 'status';
+  themeValue = 'isDarkTheme';
 }

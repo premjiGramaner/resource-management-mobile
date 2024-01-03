@@ -14,32 +14,34 @@
       <ion-row class="ion-justify-content-center">
         <ion-col class="item_list">
           <form [formGroup]="loginForm" novalidate autocomplete="true">
-            <ion-item>
-              <ion-input label="User Name" class="input_field" formControlName="userName" labelPlacement="floating"
-                placeholder="Enter text"></ion-input>
-            </ion-item>
-            <ion-label
-              *ngIf="loginForm.controls['userName'].invalid && (loginForm.controls['userName'].dirty || loginForm.controls['userName'].touched) || !onSubmit"
-              class="alert alert-danger">
-              <ion-label *ngIf="loginForm.controls['userName'].errors?.['required'] ">
-                Name is required.
-              </ion-label>
-            </ion-label>
-            <ion-item>
-              <ion-input label="Password" formControlName="password" class="input_field" type={{passwordInputType}}
-                id="password_parent" class="password_feiled" labelPlacement="floating"></ion-input>
-              <span (click)="passwordShow()" id="password_child">
-                <ion-icon name="eye-off-outline" *ngIf="!showPasswordText" slot="end"></ion-icon>
-                <ion-icon name="eye-outline" *ngIf="showPasswordText" slot="end"></ion-icon>
-              </span>
-            </ion-item>
-            <ion-label slot="bottom"
-              *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched) || !onSubmit"
-              class="alert alert-danger">
-              <ion-label *ngIf="loginForm.controls['password'].errors?.['required'] ">
-                Password is required.
-              </ion-label>
-            </ion-label>
+            <ion-list lines="none">
+              <ion-item>
+                <ion-input label="User Name" class="input_field" formControlName="userName" labelPlacement="floating"
+                  placeholder="Enter text"></ion-input>
+                <ion-label
+                  *ngIf="loginForm.controls['userName'].invalid && (loginForm.controls['userName'].dirty || loginForm.controls['userName'].touched) || !onSubmit"
+                  class="alert alert-danger">
+                  <ion-label *ngIf="loginForm.controls['userName'].errors?.['required'] ">
+                    Name is required.
+                  </ion-label>
+                </ion-label>
+              </ion-item>
+              <ion-item>
+                <ion-input label="Password" formControlName="password" class="input_field" type={{passwordInputType}}
+                  id="password_parent" class="password_feiled" labelPlacement="floating"></ion-input>
+                <span (click)="passwordShow()" id="password_child">
+                  <ion-icon name="eye-off-outline" *ngIf="!showPasswordText" slot="end"></ion-icon>
+                  <ion-icon name="eye-outline" *ngIf="showPasswordText" slot="end"></ion-icon>
+                </span>
+                <ion-label slot="bottom"
+                  *ngIf="loginForm.controls['password'].invalid && (loginForm.controls['password'].dirty || loginForm.controls['password'].touched) || !onSubmit"
+                  class="alert alert-danger">
+                  <ion-label *ngIf="loginForm.controls['password'].errors?.['required'] ">
+                    Password is required.
+                  </ion-label>
+                </ion-label>
+              </ion-item>
+            </ion-list>
           </form>
         </ion-col>
       </ion-row>
