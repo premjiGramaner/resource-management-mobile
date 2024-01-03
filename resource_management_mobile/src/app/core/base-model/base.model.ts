@@ -37,11 +37,3 @@ export interface CustomDropDownData {
     searchOnKey?: string,
     selectedDropDownData?: string
 }
-
-export interface StaticDropDownData {
-    title: string;
-    data?: [],
-    displayKey: string,
-    placeholder: string,
-    searchOnKey: string,
-}
