@@ -23,9 +23,12 @@ export class AddUserComponent implements OnInit {
     this.addform = new FormGroup({
       name: new FormControl('', Validators.required),
       userName: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
       roleID: new FormControl(1, Validators.required),
-      
+      password: new FormControl(null, Validators.compose([
+        Validators.required,
+        Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&].{7,}'),
+        Validators.minLength(8)
+      ]))
     });
   }
 
@@ -41,8 +44,6 @@ export class AddUserComponent implements OnInit {
 
   onSubmit(form: FormGroup) {
     if (form.valid) {
-      var pass = this.checkPwd(form.value.password.toString());
-      if(pass == true){
         this.profileService.addUser(form.value)
         .subscribe({
           next: (response: addUserResponse) => {
@@ -52,29 +53,10 @@ export class AddUserComponent implements OnInit {
           error: (response) => {
             this.toastService.errorToast(response.message)
           },
-        });
-      } else {
-        this.toastService.errorToast(pass);
-      }
-      
+        });      
     } else {
       this.addform.markAllAsTouched();
     }
   }
-
-  checkPwd(str:string) {
-    if (str.length < 8) {
-        return("Too Short (Min. 8 char)");
-    } else if (str.length > 50) {
-        return("Too Long (Max. 50 char)");
-    } else if (str.search(/\d/) == -1) {
-        return("Atleast 1 number");
-    } else if (str.search(/[a-zA-Z]/) == -1) {
-        return("Atleast 1 letter");
-    } else if (str.search(/[^a-zA-Z0-9\!\@\#\$\%\^\&\*\(\)\_\+]/) != -1) {
-        return("Bad Charcters");
-    }
-    return true;
-}
 
 }

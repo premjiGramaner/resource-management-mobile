@@ -5,20 +5,23 @@
   </div>
   <form [formGroup]="addform" (ngSubmit)="onSubmit(addform)">
     <ion-list lines="none">
-      <ion-item >
-        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" formControlName="name" errorText="Invalid name" required>
+      <ion-item>
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" formControlName="name"
+          errorText="Invalid name" required>
           <div slot="label">Name<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
-      <ion-item >
-        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" formControlName="userName" errorText="Invalid username" required>
+      <ion-item>
+        <ion-input class="inputTxt" type="text" fill="outline" labelPlacement="floating" formControlName="userName"
+          errorText="Invalid username" required>
           <div slot="label">Username<ion-text color="danger"> *</ion-text></div>
         </ion-input>
       </ion-item>
 
-      <ion-item >
-        <ion-input class="inputTxt" type={{passwordInputType}} fill="outline" labelPlacement="floating" formControlName="password" errorText="Invalid password" required>
+      <ion-item>
+        <ion-input class="inputTxt" type={{passwordInputType}} fill="outline" labelPlacement="floating"
+          formControlName="password" errorText="Password must contains atleast Uppercase, Lowercase, Number and Special Character with min. 8 characters" required>
           <div slot="label">Password<ion-text color="danger"> *</ion-text></div>
         </ion-input>
         <span (click)="passwordShow()" id="password_child" class="showHide">
@@ -26,7 +29,7 @@
           <ion-icon name="eye-outline" *ngIf="showPasswordText" slot="end"></ion-icon>
         </span>
       </ion-item>
-    
+
       <ion-item>
         <ion-grid>
           <ion-row>
