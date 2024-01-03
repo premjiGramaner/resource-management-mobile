@@ -90,6 +90,10 @@ ion-accordion-group {
     padding: 11px;
 }
 
+.center-icon {
+    @include centerElement();
+}
+
 .user {
     @include userName;
 }
@@ -199,16 +203,17 @@ ion-icon {
     padding: 11px;
 }
 
+ion-item>ion-card {
+    background: var(--card-bg);
+}
 
 ion-popover {
     &::part(content) {
-      min-width: 230px;
+        min-width: 230px;
     }
-  }
+}
 
-.custom-dropdown{
+.custom-dropdown {
     display: $display;
     justify-content: $justify-content-center;
 }
-
-

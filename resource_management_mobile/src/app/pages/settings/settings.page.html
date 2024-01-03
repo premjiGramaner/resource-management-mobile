@@ -1,7 +1,12 @@
 <ion-content [fullscreen]="true">
-  <div class="text-center m-4">
-    <p class="fs-1 fw-bold">Settings</p>
-    <ion-img class="mt-4" src="/assets/icon/coming.png"
-      alt="The Wisconsin State Capitol building in Madison, WI at night"></ion-img>
-  </div>
+  <ion-item lines="full" style="margin-top: 20px;">
+    <ion-icon slot="start" name="moon"></ion-icon>
+    <ion-label>
+      Enable Dark Theme
+    </ion-label>
+    <!-- <ion-toggle id="themeToggle" slot="end" [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)"></ion-toggle> -->
+    <ion-toggle [(ngModel)]="themeToggle" (ionChange)="toggleChange($event)" justify="space-between"
+    >Dark Mode</ion-toggle>
+
+  </ion-item>
 </ion-content>

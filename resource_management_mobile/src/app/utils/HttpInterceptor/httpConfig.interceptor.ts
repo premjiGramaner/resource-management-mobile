@@ -5,7 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpResponse,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { map, catchError, delay } from 'rxjs/operators';
@@ -30,17 +30,18 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     private toastService: ToastService
   ) { }
 
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+  intercept(
+    request: HttpRequest<any>,
+    next: HttpHandler
+  ): Observable<HttpEvent<any>> {
     const token = this.security.getItem(this.cookiesConstants.token);
 
     //Authentication by setting header with token value
     if (token) {
       request = request.clone({
         setHeaders: {
-          'token': token
-        }
+          token: token,
+        },
       });
     }
 
@@ -48,48 +49,55 @@ export class HttpConfigInterceptor implements HttpInterceptor {
       request = request.clone({
         setHeaders: {
           'content-type': 'application/json',
-          'ngrok-skip-browser-warning': '69420'
-        }
+          'ngrok-skip-browser-warning': '69420',
+        },
       });
     }
 
     request = request.clone({
-      headers: request.headers.set('Accept', 'application/json')
+      headers: request.headers.set('Accept', 'application/json'),
     });
     this.showLoader();
-    return next.handle(request).pipe(
-      delay(500)).pipe(
+    return next
+      .handle(request)
+      .pipe(delay(500))
+      .pipe(
         map((event: HttpEvent<any>) => {
           this.hideLoader();
           return event;
         }),
         catchError((error: HttpErrorResponse) => {
           this.hideLoader();
-          if (error.error.error.name == this.toastConstants.tokenError || error.error.error.name == this.toastConstants.tokenExpired) {
+          if (
+            error.error.error.name == this.toastConstants.tokenError ||
+            error.error.error.name == this.toastConstants.tokenExpired
+          ) {
             this.toastService.errorToast(this.toastConstants.timeout);
             this.router.navigate(['']);
             this.security.clearItem();
           }
           return throwError(error);
-        }));
+        })
+      );
   }
 
   showLoader() {
     if (!this.loaderToShow) {
       this.loaderToShow = true;
-      this.loadingController.create({
-        message: 'Processing Server Request'
-      }).then((res) => {
-        res.present();
-        res.onDidDismiss().then((dis) => {
+      this.loadingController
+        .create({
+          message: 'Processing Server Request',
+        })
+        .then((res) => {
+          res.present();
+          res.onDidDismiss().then((dis) => { });
         });
-      });
     }
   }
-  
+
   hideLoader() {
     this.loaderToShow = false;
-    this.loadingController.getTop().then(overlay => {
+    this.loadingController.getTop().then((overlay) => {
       if (overlay) {
         overlay.dismiss();
       }
