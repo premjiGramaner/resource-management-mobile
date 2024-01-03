@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
 import { IonicModule } from '@ionic/angular';
-
 import { ClientPageRoutingModule } from './client-routing.module';
-
 import { ClientPage } from './client.page';
 import { ClientService } from './service/client.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -27,7 +24,7 @@ import { SearchableDropdownComponent } from 'src/app/shared/components/searchabl
     ViewClientComponent,
     DuplicateRemoverPipe,
     SkillCardComponent,
-    SearchableDropdownComponent
+    SearchableDropdownComponent,
   ],
   declarations: [ClientPage, AddClientComponent],
   providers: [ClientService, DuplicateRemoverPipe, ToastConstants],

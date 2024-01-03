@@ -1,4 +1,3 @@
-
 export interface BaseResponce {
     statusCode: number;
     message: string;
@@ -27,13 +26,13 @@ export interface DropdownEvent {
 }
 
 export interface CustomDropDownData {
-    data?: [],
-    title?: string,
-    search?: boolean,
-    height?: string,
-    searchPlaceholder?: string,
-    displayKey?: string,
-    placeholder?: string,
-    searchOnKey?: string,
-    selectedDropDownData?: string
+    data?: [];
+    title?: string;
+    search?: boolean;
+    height?: string;
+    searchPlaceholder?: string;
+    displayKey?: string;
+    placeholder?: string;
+    searchOnKey?: string;
+    selectedDropDownData?: string;
 }

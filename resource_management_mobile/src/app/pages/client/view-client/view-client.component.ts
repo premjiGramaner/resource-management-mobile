@@ -14,6 +14,5 @@ import { ClientService } from '../service/client.service';
 export class ViewClientComponent implements OnInit {
   @Input() viewClientData!: ClientArrayData;
   constructor() { }
-  ngOnInit() {
-  }
+  ngOnInit() { }
 }

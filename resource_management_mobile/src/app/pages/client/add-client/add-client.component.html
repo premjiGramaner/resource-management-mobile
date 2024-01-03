@@ -41,7 +41,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input class="inputTxt" type="number" label-placement="floating" formControlName="contact_person_phone" fill="outline">
+        <ion-input class="inputTxt" type="number" label-placement="floating" formControlName="contact_person_phone"
+          fill="outline">
           <ion-text slot="label">Contact Person Phone<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -54,10 +55,10 @@
       </ion-row>
       <ion-row>
         <ion-col size="12">
-          <app-searchable-dropdown [dropDownData]="dropDownData"
-            (dropDownEvent)="dropDownEvent($event)" [selectedData]="selectedDropDownData"></app-searchable-dropdown>
+          <app-searchable-dropdown [dropDownData]="dropDownData" (dropDownEvent)="dropDownEvent($event)"
+            [selectedData]="selectedDropDownData"></app-searchable-dropdown>
         </ion-col>
-  
+
       </ion-row>
       <ion-row>
         <ion-input class="inputTxt" label-placement="floating" formControlName="sales_person_name" fill="outline">
@@ -77,7 +78,8 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input class="inputTxt" label-placement="floating" type="number" formControlName="sales_person_phone" fill="outline">
+        <ion-input class="inputTxt" label-placement="floating" type="number" formControlName="sales_person_phone"
+          fill="outline">
           <ion-text slot="label">Sales Person Phone</ion-text>
         </ion-input>
       </ion-row>
@@ -87,7 +89,7 @@
         </ion-input>
       </ion-row>
       <ion-row>
-        <ion-input  class="inputTxt" label-placement="floating" formControlName="finance_person_email_id" fill="outline">
+        <ion-input class="inputTxt" label-placement="floating" formControlName="finance_person_email_id" fill="outline">
           <ion-text slot="label">Finance Person Email Id</ion-text>
         </ion-input>
         <ion-label
@@ -99,11 +101,12 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-input class="inputTxt" label-placement="floating" type="number" formControlName="finance_person_phone" fill="outline">
+        <ion-input class="inputTxt" label-placement="floating" type="number" formControlName="finance_person_phone"
+          fill="outline">
           <ion-text slot="label">Finance Person Phone</ion-text></ion-input>
       </ion-row>
       <ion-row>
-        <ion-input  class="inputTxt" label-placement="floating" formControlName="strength" fill="outline">
+        <ion-input class="inputTxt" label-placement="floating" formControlName="strength" fill="outline">
           <ion-text slot="label">Strength<ion-text color="danger"> *</ion-text></ion-text>
         </ion-input>
         <ion-label
@@ -115,18 +118,18 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-textarea class="inputTxt" type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="200"
-        minHeight="40" placeholder="Enter Reason for Change" formControlName="address"
-        errorText="This field is required.">
-        <div slot="label">Address<ion-text color="danger"> *</ion-text></div>
-      </ion-textarea>
+        <ion-textarea class="inputTxt" type="text" fill="outline" labelPlacement="floating" [counter]="true"
+          maxlength="200" minHeight="40" placeholder="Enter Reason for Change" formControlName="address"
+          errorText="This field is required.">
+          <div slot="label">Address<ion-text color="danger"> *</ion-text></div>
+        </ion-textarea>
       </ion-row>
       <ion-card class="w-100">
         <ion-row>
           <ion-col class="card-user-info ">
             <ion-row class="d-flex justify-content-between">
               <ion-label class="skill-heading">Skills <ion-text color="danger"> *</ion-text></ion-label>
-              <ion-label ><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
+              <ion-label><ion-icon class="add-icon" id="open-custom-dialog" expand="block"
                   name="add-circle-outline"></ion-icon></ion-label>
             </ion-row>
             <ion-row>
