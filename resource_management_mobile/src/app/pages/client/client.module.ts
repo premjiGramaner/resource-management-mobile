@@ -14,6 +14,7 @@ import { ViewClientComponent } from './view-client/view-client.component';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
+import { SearchableDropdownComponent } from 'src/app/shared/components/searchable-dropdown/searchable-dropdown.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-c
     HttpClientModule,
     ViewClientComponent,
     DuplicateRemoverPipe,
-    SkillCardComponent
+    SkillCardComponent,
+    SearchableDropdownComponent
   ],
   declarations: [ClientPage, AddClientComponent],
   providers: [ClientService, DuplicateRemoverPipe, ToastConstants],

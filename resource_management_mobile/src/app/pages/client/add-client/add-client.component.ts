@@ -23,6 +23,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { ClientArrayData, UserInfo, Clientskill } from '../models/client.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { CustomDropDownData, DropdownEvent, StaticDropDownData } from 'src/app/core/base-model/base.model';
 
 @Component({
   selector: 'app-add-client',
@@ -41,14 +42,22 @@ export class AddClientComponent implements OnInit {
   selectedSkillIds: Clientskill[] = [];
   skilId: any;
   isModalOpen = false;
+  dropDownData: CustomDropDownData;
+  selectedDropDownData: string = '';
   constructor(
     private clientService: ClientService,
     private toastService: ToastService,
     private modalController: ModalController,
     private fb: FormBuilder,
-    private removeDuplicate: DuplicateRemoverPipe,
     private toastConstants: ToastConstants
-  ) { }
+  ) {
+    this.dropDownData = {
+      title: toastConstants.client_supportModeDropdown_title,
+      displayKey: 'name',
+      placeholder: toastConstants.client_dropdown_placeholder,
+      searchOnKey: 'name',
+    };
+  }
 
   ngOnInit() {
     this.clientForm = new FormGroup({
@@ -132,8 +141,18 @@ export class AddClientComponent implements OnInit {
   getUserList() {
     this.clientService.getUser().subscribe((res) => {
       this.userList = res.data.userInfo;
+      this.dropDownData.data = res.data.userInfo as [];
     });
   }
+
+  dropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.clientForm.patchValue({
+      ownership_id: event.value.user_id,
+    });
+    console.log(event, this.clientForm.value)
+  }
+
 
   getSkillList() {
     this.clientService.getSkill().subscribe((res) => {

@@ -53,12 +53,11 @@
         </ion-label>
       </ion-row>
       <ion-row>
-        <ion-select class="inputTxt" label-placement="floating" interface="popover" formControlName="ownership_id" fill="outline"
-          aria-label="user" placeholder="Select User">
-          <ion-text slot="label">Ownership Name</ion-text>
-          <ion-select-option *ngFor="let user of userList"
-            value={{user.user_id}}>{{user.name}}</ion-select-option>
-        </ion-select>
+        <ion-col size="12">
+          <app-searchable-dropdown [dropDownData]="dropDownData"
+            (dropDownEvent)="dropDownEvent($event)" [selectedData]="selectedDropDownData"></app-searchable-dropdown>
+        </ion-col>
+  
       </ion-row>
       <ion-row>
         <ion-input class="inputTxt" label-placement="floating" formControlName="sales_person_name" fill="outline">

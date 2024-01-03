@@ -15,4 +15,6 @@ export class ToastConstants {
     invalidUser = 'Invalid User';
     partner_dropdown_placeholder = 'Select Support Mode';
     partner_supportModeDropdown_title = 'supportMode';
+    client_dropdown_placeholder = 'Ownership Name';
+    client_supportModeDropdown_title = 'Ownership';
 }

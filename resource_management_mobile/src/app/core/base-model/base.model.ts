@@ -27,12 +27,21 @@ export interface DropdownEvent {
 }
 
 export interface CustomDropDownData {
-    data: [],
-    search: boolean,
-    height: string,
-    searchPlaceholder: string,
+    data?: [],
+    title?: string,
+    search?: boolean,
+    height?: string,
+    searchPlaceholder?: string,
+    displayKey?: string,
+    placeholder?: string,
+    searchOnKey?: string,
+    selectedDropDownData?: string
+}
+
+export interface StaticDropDownData {
+    title: string;
+    data?: [],
     displayKey: string,
     placeholder: string,
     searchOnKey: string,
-    selectedDropDownData: string
 }
