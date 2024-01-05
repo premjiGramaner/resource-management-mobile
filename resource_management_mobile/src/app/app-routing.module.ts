@@ -93,6 +93,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: 'bench',
+        loadChildren: () =>
+          import('./pages/bench-resource/bench-resource.module').then(
+            (m) => m.BenchResourcePageModule
+          ),
+      },
+      {
         path: 'notifications',
         loadChildren: () =>
           import('./pages/notifications/notifications.module').then(
@@ -108,6 +115,11 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: 'bench-resource',
+    loadChildren: () => import('./pages/bench-resource/bench-resource.module').then(m => m.BenchResourcePageModule)
+  },
+
 ];
 
 @NgModule({

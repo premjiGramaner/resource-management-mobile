@@ -1,0 +1,44 @@
+<ion-content [fullscreen]="true">
+  <ion-grid id="container" class="p-2 ps-3 pe-3 shadow">
+    <ion-row>
+      <ion-col>
+        <h5>Bench Resource</h5>
+      </ion-col>
+      <ion-col class="mt-3">
+        <ion-icon name="download-outline" size="default" class="ion-float-right"></ion-icon>
+        <!-- <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon> -->
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row>
+      <ion-searchbar *ngIf="showSearch" (ionInput)="handleSearch($event)" show-cancel-button="never"
+        placeholder="Search" [debounce]="1000"></ion-searchbar>
+    </ion-row> -->
+  </ion-grid>
+  <ion-grid>
+    <ion-row>
+      <ion-list lines="none" class="w-100">
+        <ion-item-sliding *ngFor="let item of benchData; let i = index" #sliding>
+          <ion-item id="open-modal" expand="block">
+            <ion-card class="shadow">
+              <ion-row>
+                <ion-col class="card-user-info">
+                  <ion-row class="d-flex justify-content-between">
+                    <ion-label class="user"> {{item.name}} </ion-label>
+                    <ion-label class="user-status"> {{item.experience}} Y</ion-label>
+                  </ion-row>
+                  <ion-label class="user-label">Email:- {{item.email_id}} </ion-label>
+                  <ion-label class="user-label"><span>Phone:- </span> {{item.mobile_no}}</ion-label>
+                </ion-col>
+              </ion-row>
+            </ion-card>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="danger">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </ion-row>
+  </ion-grid>
+</ion-content>

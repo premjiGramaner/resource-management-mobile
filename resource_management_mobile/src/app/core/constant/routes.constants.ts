@@ -16,4 +16,5 @@ export class RouteConstants {
   location = '/main/location';
   notification = '/main/notifications';
   profile = '/main/profile';
+  bench = '/main/bench';
 }
