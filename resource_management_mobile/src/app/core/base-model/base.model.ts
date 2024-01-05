@@ -26,6 +26,7 @@ export interface DropdownEvent {
 }
 
 export interface CustomDropDownData {
+    id?: number;
     data?: [];
     title?: string;
     search?: boolean;
@@ -35,4 +36,5 @@ export interface CustomDropDownData {
     placeholder?: string;
     searchOnKey?: string;
     selectedDropDownData?: string;
+    config?: any
 }

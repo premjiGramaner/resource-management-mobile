@@ -1,12 +1,15 @@
 .ngx-dropdown-container .ngx-dropdown-button {
   min-height: 54px !important;
   background-color: var(--search-dropdown-color) !important;
-  border: .4px solid rgb(116, 115, 115) !important;
+  border: .4px solid  var(--search-dropdown-border-color) !important;
   color: var(--search-dropdown-text) !important;
 }
 
 .ngx-dropdown-container .ngx-dropdown-list-container {
   background: var(--card-bg) !important;
+  max-height: 300px !important;
+  position:  relative !important;
+  top: 0px !important;
 }
 
 .ngx-dropdown-container .ngx-dropdown-list-container .available-items .available-item {
