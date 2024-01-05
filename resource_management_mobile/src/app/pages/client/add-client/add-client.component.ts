@@ -56,9 +56,12 @@ export class AddClientComponent implements OnInit {
   ) {
     this.dropDownData = {
       title: toastConstants.client_supportModeDropdown_title,
-      displayKey: 'name',
-      placeholder: toastConstants.client_dropdown_placeholder,
-      searchOnKey: 'name',
+      config: {
+        displayKey: 'name',
+        placeholder: toastConstants.client_dropdown_placeholder,
+        searchOnKey: 'name',
+        search: true,
+      }
     };
   }
 
@@ -114,7 +117,7 @@ export class AddClientComponent implements OnInit {
         strength: this.viewClientData.strength,
         address: this.viewClientData.address,
       });
-
+      this.selectedDropDownData = this.viewClientData.ownership_name;
       /**Add data to the skill_ids */
       this.selectedSkillIds = this.viewClientData.skills;
       const idsFormArray = this.clientForm.get('skill_ids') as FormArray;
@@ -151,7 +154,6 @@ export class AddClientComponent implements OnInit {
     this.clientForm.patchValue({
       ownership_id: event.value.user_id,
     });
-    console.log(event, this.clientForm.value);
   }
 
   getSkillList() {
