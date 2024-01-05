@@ -1,33 +1,45 @@
 <div class="p-2">
   <div class="header_container">
     <h4>Add Resource</h4>
-    <ion-icon name="close" size="default" (click)="setClose()" class="align-self-center"></ion-icon>
+    <ion-icon name="close" (click)="setClose()" class="align-self-center"></ion-icon>
   </div>
-  <form [formGroup]="resourceform" (ngSubmit)="onSubmit(resourceform)" >
+  <form [formGroup]="resourceform" (ngSubmit)="onSubmit(resourceform)">
     <ion-list lines="none">
       <ion-item>
-        <ion-select class="always-flip input_space" (ngModelChange)="selectedResourceValue($event)" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-col size="12">
+          <app-searchable-dropdown [dropDownData]="resourceDropDownData"
+            (dropDownEvent)="resourceDropDownEvent($event)"></app-searchable-dropdown>
+        </ion-col>
+        <!-- <ion-select class="always-flip input_space" (ngModelChange)="selectedResourceValue($event)" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Partner" formControlName="resource_id" errorText=" This field is required." required>
           <div slot="label">Select Resource<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let resource of resourceData"
             value={{resource.resource_id}}>{{resource.name}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip input_space" (ngModelChange)="selectedStageValue($event)" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-col size="12">
+          <app-searchable-dropdown [dropDownData]="stageDropDownData"
+            (dropDownEvent)="stageDropDownEvent($event)"></app-searchable-dropdown>
+        </ion-col>
+        <!-- <ion-select class="always-flip input_space" (ngModelChange)="selectedStageValue($event)" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
         interface="popover" placeholder="Select Partner" formControlName="stage_id" errorText=" This field is required." required>
         <div slot="label">Select Stage<ion-text color="danger"> *</ion-text></div>
         <ion-select-option *ngFor="let stage of StageData"
           value={{stage.stage_id}}>{{stage.description}}</ion-select-option>
-      </ion-select>
+      </ion-select> -->
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip input_space" (ngModelChange)="selectedStatusValue($event)" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <ion-col size="12">
+          <app-searchable-dropdown [dropDownData]="statusDropDownData"
+            (dropDownEvent)="statusDropDownEvent($event)"></app-searchable-dropdown>
+        </ion-col>
+        <!-- <ion-select class="always-flip input_space" (ngModelChange)="selectedStatusValue($event)" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
         interface="popover" placeholder="Select Partner" formControlName="status_id" errorText=" This field is required." required>
         <div slot="label">Select Status<ion-text color="danger"> *</ion-text></div>
         <ion-select-option *ngFor="let status of StatusData"
           value={{status.status_id}}>{{status.description}}</ion-select-option>
-      </ion-select>
+      </ion-select> -->
       </ion-item>
       <ion-item>
         <ion-grid>

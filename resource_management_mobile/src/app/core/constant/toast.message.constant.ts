@@ -17,4 +17,12 @@ export class ToastConstants {
     partner_supportModeDropdown_title = 'supportMode';
     client_dropdown_placeholder = 'Ownership Name';
     client_supportModeDropdown_title = 'Ownership';
+    requirement_Dropdown_title = 'Requirement';
+    requirement_placeholder = 'Requirement';
+    evaluated_Dropdown_title = 'Evaluated By';
+    evaluated_dropdown_placeholder = 'Evaluated By';
+    resource_card_placeholder = 'Select Resource';
+    resource_card_stage_placeholder = 'Select Stage';
+    resource_card_status_placeholder = 'Select Status';
+    location_error_message = `Location can't delete! Due to dependency exists !!`
 }

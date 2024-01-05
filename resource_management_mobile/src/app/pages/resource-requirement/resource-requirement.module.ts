@@ -8,6 +8,7 @@ import { AddResourceRequirementComponent } from './add-resource-requirement/add-
 import { HttpClientModule } from '@angular/common/http';
 import { ResourceCardComponent } from 'src/app/shared/components/resource-card/resource-card.component';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { SearchableDropdownComponent } from 'src/app/shared/components/searchable-dropdown/searchable-dropdown.component';
 
 @NgModule({
   imports: [
@@ -17,7 +18,8 @@ import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat
     ResourceRequirementPageRoutingModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ResourceCardComponent
+    ResourceCardComponent,
+    SearchableDropdownComponent
   ],
   declarations: [ResourceRequirementPage, AddResourceRequirementComponent],
   providers: [DatePipe, DateformatConverterPipe]

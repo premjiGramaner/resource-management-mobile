@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { SelectDropDownModule } from 'ngx-select-dropdown';
@@ -23,7 +23,6 @@ export class SearchableDropdownComponent implements OnInit, OnChanges {
   dropDownConfig = this.staticDataConstants.dropDownConfig;
   selectedEventData!: string;
   public searchTerm = '';
-  public OriginalArray: string[] = [];
   constructor(
     private staticDataConstants: StaticDataConstants
   ) { }
@@ -33,9 +32,6 @@ export class SearchableDropdownComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.dropDownConfig['displayKey'] = this.dropDownData.displayKey as string;
-    this.dropDownConfig['placeholder'] = this.dropDownData.placeholder as string;
-    this.dropDownConfig['searchOnKey'] = this.dropDownData.searchOnKey as string;
     this.selectedEventData = this.selectedData;
   }
 
