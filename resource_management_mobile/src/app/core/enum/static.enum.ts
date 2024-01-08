@@ -6,8 +6,9 @@ export enum Modules {
     History = 'History',
     Admin = 'admin',
     Location = 'Location',
-    Resource_requirement = 'Resource_requirement',
+    Resource_requirement = 'Resource requirement',
     Notification = 'Notification',
+    Bench_resource = 'Bench Resource'
 }
 
 export enum Common {
@@ -38,7 +39,7 @@ export enum Common {
     status = 'status',
     password = 'password',
     confirmPassword = 'confirmPassword',
-    edit='edit',
-    text='text'
+    edit = 'edit',
+    text = 'text'
 }
 

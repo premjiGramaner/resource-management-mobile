@@ -5,14 +5,14 @@
         <h5>Bench Resource</h5>
       </ion-col>
       <ion-col class="mt-3">
-        <ion-icon name="download-outline" size="default" class="ion-float-right"></ion-icon>
-        <!-- <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon> -->
+        <ion-icon name="download-outline" size="default" (click)="openExportModel()" class="ion-float-right"></ion-icon>
+        <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
       </ion-col>
     </ion-row>
-    <!-- <ion-row>
+    <ion-row>
       <ion-searchbar *ngIf="showSearch" (ionInput)="handleSearch($event)" show-cancel-button="never"
         placeholder="Search" [debounce]="1000"></ion-searchbar>
-    </ion-row> -->
+    </ion-row>
   </ion-grid>
   <ion-grid>
     <ion-row>
