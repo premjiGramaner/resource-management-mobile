@@ -23,6 +23,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { ClientArrayData, UserInfo, Clientskill } from '../models/client.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { DropdownEvent } from 'src/app/core/base-model/base.model';
 import {
   CustomDropDownData,
   DropdownEvent,
@@ -151,7 +152,6 @@ export class AddClientComponent implements OnInit {
     this.clientForm.patchValue({
       ownership_id: event.value.user_id,
     });
-    console.log(event, this.clientForm.value);
   }
 
   getSkillList() {

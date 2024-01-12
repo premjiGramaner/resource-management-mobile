@@ -1,3 +1,3 @@
 <div>
-  <ngx-select-dropdown [config]="dropDownConfig" (change)="selectedEvent($event)" [(ngModel)]="selectedEventData" [options]=" this.dropDownData.data" ></ngx-select-dropdown>
+  <ngx-select-dropdown  [config]="dropDownData.config" (change)="selectedEvent($event)" [(ngModel)]="selectedEventData" [options]="dropDownData.data" ></ngx-select-dropdown>
 </div>
