@@ -15,8 +15,6 @@ export class ToastConstants {
     invalidUser = 'Invalid User';
     partner_dropdown_placeholder = 'Select Support Mode';
     partner_supportModeDropdown_title = 'supportMode';
-<<<<<<< Updated upstream
-=======
     client_dropdown_placeholder = 'Ownership Name';
     client_supportModeDropdown_title = 'Ownership';
     requirement_Dropdown_title = 'Requirement';
@@ -42,5 +40,4 @@ export class ToastConstants {
     priority_placeholder = 'Select Priority';
     select_skill = 'Select Skill';
     select_rating = 'Select Rating'
->>>>>>> Stashed changes
 }
