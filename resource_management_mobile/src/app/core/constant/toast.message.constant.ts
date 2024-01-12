@@ -24,7 +24,7 @@ export class ToastConstants {
     resource_card_placeholder = 'Select Resource';
     resource_card_stage_placeholder = 'Select Stage';
     resource_card_status_placeholder = 'Select Status';
-    location_error_message = `Location can't delete! Due to dependency exists !!`;
+    location_error_message = `Location doest't exists!`;
     hiring_stage_placeholder = 'Select Hiring Stage';
     hiring_status_placeholder = 'Select Hiring Status';
     status_placeholder = 'Select Status';
@@ -40,5 +40,4 @@ export class ToastConstants {
     priority_placeholder = 'Select Priority';
     select_skill = 'Select Skill';
     select_rating = 'Select Rating'
-
 }

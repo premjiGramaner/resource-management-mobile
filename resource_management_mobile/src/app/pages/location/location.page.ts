@@ -110,7 +110,7 @@ export class LocationPage implements OnInit {
         );
       },
       error: (error) => {
-        this.toastService.errorToast(error.message);
+        this.toastService.errorToast(this.toastConstants.location_error_message);
       },
     });
   }

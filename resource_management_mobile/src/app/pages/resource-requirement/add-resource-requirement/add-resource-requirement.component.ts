@@ -19,8 +19,13 @@ import {
   resourceEntireData,
   viewResourceData,
 } from '../models/resource-requirement-model';
-import { userProfile } from 'src/app/core/base-model/base.model';
+import {
+  CustomDropDownData,
+  DropdownEvent,
+  userProfile,
+} from 'src/app/core/base-model/base.model';
 import { DatePipe } from '@angular/common';
+import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 
 @Component({
   selector: 'app-add-resource-requirement',
@@ -40,6 +45,10 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
   @Input() flag!: string;
   @Input() viewResourceData!: viewResourceData;
   addedResource: resourceData[] = [];
+  requirementDropDownData: CustomDropDownData;
+  eveluateByDropDownData!: CustomDropDownData;
+  requirementSelectedDropDownData: string = '';
+  eveluateBySelectedDropDownData: string = '';
   constructor(
     private toastConstants: ToastConstants,
     private toastService: ToastService,
@@ -47,7 +56,27 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
     private profileService: ProfileService,
     private datePipe: DatePipe,
     private modalCtrl: ModalController,
-  ) { }
+    private staticDataConstants: StaticDataConstants
+  ) {
+    this.requirementDropDownData = {
+      title: toastConstants.requirement_Dropdown_title,
+      config: {
+        displayKey: 'name',
+        placeholder: toastConstants.requirement_placeholder,
+        searchOnKey: 'name',
+        search: true,
+      },
+    };
+    this.eveluateByDropDownData = {
+      title: toastConstants.evaluated_Dropdown_title,
+      config: {
+        displayKey: 'name',
+        placeholder: toastConstants.evaluated_dropdown_placeholder,
+        searchOnKey: 'name',
+        search: true,
+      },
+    };
+  }
 
   ngOnInit() {
     this.getRequirementService();
@@ -65,29 +94,40 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
     if (this.viewResourceData != undefined) {
       let convertedDate;
       try {
-        convertedDate = this.datePipe.transform(new Date(this.viewResourceData.evaluated_date), 'dd/MM/yyyy') as string
+        convertedDate = this.datePipe.transform(
+          new Date(this.viewResourceData.evaluated_date),
+          'dd/MM/yyyy'
+        ) as string;
       } catch (error) {
-        convertedDate = this.viewResourceData.evaluated_date
+        convertedDate = this.viewResourceData.evaluated_date;
       }
       this.resourceForm.patchValue({
         comments: this.viewResourceData.comments,
-        Requirement_requirement_id: '' + this.viewResourceData.Requirement_requirement_id,
+        Requirement_requirement_id:
+          '' + this.viewResourceData.Requirement_requirement_id,
         evaluated_by: '' + this.viewResourceData.evaluated_by,
         evaluated_date: convertedDate,
         evaluated_by_name: this.viewResourceData.evaluated_by_name,
         requirement: this.viewResourceData.requirement,
       });
+      /**Assign selected values on dropdown */
+      this.requirementSelectedDropDownData = this.viewResourceData
+        .requirement as string;
+      this.eveluateBySelectedDropDownData = this.viewResourceData
+        .evaluated_by_name as string;
       this.resourceId = this.viewResourceData.Requirement_requirement_id;
-      this.addedResource = this.viewResourceData.ResourceRequirementMappings.map((item: any) => {
-        item = item as ResourceRequirementMappingsNewKeys;
-        const { resourceName, stageDescription, statusDescription, ...rest } = item;
-        return {
-          resource_name: resourceName,
-          stage_description: stageDescription,
-          status_description: statusDescription,
-          ...rest,
-        };
-      });
+      this.addedResource =
+        this.viewResourceData.ResourceRequirementMappings.map((item: any) => {
+          item = item as ResourceRequirementMappingsNewKeys;
+          const { resourceName, stageDescription, statusDescription, ...rest } =
+            item;
+          return {
+            resource_name: resourceName,
+            stage_description: stageDescription,
+            status_description: statusDescription,
+            ...rest,
+          };
+        });
       this.addedResource.map((item: resourceData) => {
         this.resourceForm.value.resources.push({
           resource_id: item.Resource_resource_id,
@@ -105,43 +145,63 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
       this.isEnableEdit = true;
     }
   }
+  /**
+   *
+   * @param event contain dynamic values
+   */
+  requirementDropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.resourceId = event.value.requirement_id;
+    this.resourceForm.patchValue({
+      Requirement_requirement_id: event.value.requirement_id,
+      requirement: event.value.name,
+    });
+  }
 
   getRequirementService() {
     this.requirementService.getRequirementAllData().subscribe((requirement) => {
       this.requirementData = requirement.data.requirementInfo;
+      this.requirementDropDownData.data = requirement.data
+        .requirementInfo as [];
     });
   }
 
   /**
-   * 
+   *
    * @param event carry the date properties
    */
   evaluatedDate(event: any) {
     this.resourceForm.patchValue({
-      evaluated_date: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy')
-    })
-    this.modalCtrl.dismiss()
+      evaluated_date: this.datePipe.transform(event.detail.value, 'dd/MM/yyyy'),
+    });
+    this.modalCtrl.dismiss();
   }
-
 
   requirementSelected(event: number) {
     this.resourceId = event;
-    const resourceValue = this.requirementData.find((item => event == item.requirement_id)) as resourceEntireData;
+    const resourceValue = this.requirementData.find(
+      (item) => event == item.requirement_id
+    ) as resourceEntireData;
     this.resourceForm.patchValue({
-      requirement: resourceValue.name
-    })
+      requirement: resourceValue.name,
+    });
   }
 
-  evaluatedSelected(event: number) {
-    const evaluatedValue = this.userData.find((item => event == item.user_id)) as userProfile;
+  /**
+   *
+   * @param event contain dynamic values
+   */
+  evaluatedSelected(event: any) {
     this.resourceForm.patchValue({
-      evaluated_by_name: evaluatedValue.name
-    })
+      evaluated_by_name: event.value.name,
+      evaluated_by: event.value.user_id,
+    });
   }
 
   userService() {
     this.profileService.getUser().subscribe((user) => {
       this.userData = user.data.userInfo;
+      this.eveluateByDropDownData.data = user.data.userInfo as [];
     });
   }
 
@@ -163,7 +223,7 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
 
   isPartnerFormValid() {
     if (this.resourceForm.status == Status.INVALID) {
-      this.toastService.presentToast(this.toastConstants.all_required_field);
+      this.resourceForm.markAllAsTouched();
       return;
     }
     if (this.addedResource.length == 0) {
