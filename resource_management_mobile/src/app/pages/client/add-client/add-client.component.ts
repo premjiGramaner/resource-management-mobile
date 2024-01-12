@@ -23,6 +23,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { ClientArrayData, UserInfo, Clientskill } from '../models/client.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
+import { DropdownEvent } from 'src/app/core/base-model/base.model';
 
 @Component({
   selector: 'app-add-client',
@@ -135,8 +136,6 @@ export class AddClientComponent implements OnInit {
     });
   }
 
-<<<<<<< Updated upstream
-=======
   dropDownEvent(event: any) {
     event as DropdownEvent;
     this.clientForm.patchValue({
@@ -144,7 +143,6 @@ export class AddClientComponent implements OnInit {
     });
   }
 
->>>>>>> Stashed changes
   getSkillList() {
     this.clientService.getSkill().subscribe((res) => {
       this.skillList = res.data.skillInfo;
