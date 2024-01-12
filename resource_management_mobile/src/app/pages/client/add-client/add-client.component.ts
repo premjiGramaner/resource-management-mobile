@@ -135,6 +135,16 @@ export class AddClientComponent implements OnInit {
     });
   }
 
+<<<<<<< Updated upstream
+=======
+  dropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.clientForm.patchValue({
+      ownership_id: event.value.user_id,
+    });
+  }
+
+>>>>>>> Stashed changes
   getSkillList() {
     this.clientService.getSkill().subscribe((res) => {
       this.skillList = res.data.skillInfo;

@@ -8,22 +8,26 @@
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="clientDropDownData"   [selectedData]="clientBySelectedDropDownData" (dropDownEvent)="clientSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select client" formControlName="Client_client_id"
           errorText="Invalid client">
           <div slot="label">Select Client<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let client of clientList"
             value={{client.client_id}}>{{client.name}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="locationDropDownData"   [selectedData]="locationSelectedDropDownData" (dropDownEvent)="locationSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select location" formControlName="Location_Location_ID"
           errorText="Invalid location">
           <div slot="label">Select Location<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let location of locationList"
             value={{location.Location_ID}}>{{location.Description}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item>
         <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter Experience (in years)"
@@ -32,21 +36,25 @@
         </ion-input>
       </ion-item>
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="SPOCDropDownData"   [selectedData]="SPOCSelectedDropDownData" (dropDownEvent)="SPOCSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select SPOC" formControlName="SPOC_id"
           errorText="Invalid SPOC">
           <div slot="label">Select SPOC<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let user of userList"
             value={{user.user_id}}>{{user.name}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
 
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="sourceListDropDownData" (dropDownEvent)="sourceListDropDownEvent($event)"
+        [selectedData]="sourceListSelectedDropDownData" class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select source" formControlName="source_mode" errorText="Invalid source">
           <div slot="label">Select Source<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let source of sourceList" value={{source}}>{{source}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item *ngIf="(addform.value.source_mode=='Hire' || addform.value.source_mode=='Both')">
         <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter Hire Budget" 
@@ -71,31 +79,30 @@
           formControlName="notice_period" errorText="Invalid Notice Period">
           <div slot="label">Notice Period (in Months)<ion-text color="danger"> *</ion-text></div>
         </ion-input>
-      </ion-item>
-
-     
-      
+      </ion-item> 
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="priorityDropDownData" (dropDownEvent)="priorityDropDownEvent($event)"
+        [selectedData]="prioritySelectedDropDownData" class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Priority" formControlName="priority"
           errorText="Invalid Priority">
           <div slot="label">Select Priority<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let priority of priorityList"
             value={{priority}}>{{priority}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
 
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="statusDropDownData" (dropDownEvent)="statusDropDownEvent($event)"
+        [selectedData]="statusSelectedDropDownData" class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select status" formControlName="status"
           errorText="Invalid status">
           <div slot="label">Select Status<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let status of statusList"
             value={{status.status_id}}>{{status.description}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
-
-      
 
       <ion-item>
         <ion-textarea  class="inputTxtArea" type="text" fill="outline" labelPlacement="floating" [counter]="true" maxlength="2000"

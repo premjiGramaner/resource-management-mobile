@@ -12,6 +12,7 @@ import { ViewRequirementComponent } from './view-requirement/view-requirement.co
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
 import { PartnerCradComponent } from 'src/app/shared/components/partner-crad/partner-crad.component';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { SearchableDropdownComponent } from 'src/app/shared/components/searchable-dropdown/searchable-dropdown.component';
 
 @NgModule({
   imports: [
@@ -21,9 +22,10 @@ import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat
     RequirementPageRoutingModule,
     ReactiveFormsModule,
     SkillCardComponent,
-    PartnerCradComponent
+    PartnerCradComponent,
+    SearchableDropdownComponent
   ],
-  declarations: [RequirementPage,ViewRequirementComponent,AddRequirementComponent],
-  providers:[DatePipe, DateformatConverterPipe]
+  declarations: [RequirementPage, ViewRequirementComponent, AddRequirementComponent],
+  providers: [DatePipe, DateformatConverterPipe]
 })
-export class RequirementPageModule {}
+export class RequirementPageModule { }

@@ -15,4 +15,32 @@ export class ToastConstants {
     invalidUser = 'Invalid User';
     partner_dropdown_placeholder = 'Select Support Mode';
     partner_supportModeDropdown_title = 'supportMode';
+<<<<<<< Updated upstream
+=======
+    client_dropdown_placeholder = 'Ownership Name';
+    client_supportModeDropdown_title = 'Ownership';
+    requirement_Dropdown_title = 'Requirement';
+    requirement_placeholder = 'Requirement';
+    evaluated_Dropdown_title = 'Evaluated By';
+    evaluated_dropdown_placeholder = 'Evaluated By';
+    resource_card_placeholder = 'Select Resource';
+    resource_card_stage_placeholder = 'Select Stage';
+    resource_card_status_placeholder = 'Select Status';
+    location_error_message = `Location can't delete! Due to dependency exists !!`;
+    hiring_stage_placeholder = 'Select Hiring Stage';
+    hiring_status_placeholder = 'Select Hiring Status';
+    status_placeholder = 'Select Status';
+    select_source_placeholder = 'Select source';
+    select_type_placeholder = 'Select Type';
+    select_partner_placeholder = 'Select partner';
+    select_location_placeholder = 'Select Preferred Location';
+    work_select_location_placeholder = 'Select Work Location';
+    current_select_location_placeholder = 'Select Current Location';
+    Client_placeholder = 'Select Client';
+    location_placeholder = 'Select Location';
+    SPOC_placeholder = 'Select SPOC';
+    priority_placeholder = 'Select Priority';
+    select_skill = 'Select Skill';
+    select_rating = 'Select Rating'
+>>>>>>> Stashed changes
 }
