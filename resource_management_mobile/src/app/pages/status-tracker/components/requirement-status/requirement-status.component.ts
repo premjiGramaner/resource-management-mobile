@@ -53,8 +53,6 @@ export class RequirementStatusComponent implements OnInit {
         return undefined;
       // code block
     }
-
-    console.log(item.status)
   }
   handleSearch(event: any) {
     this.searchQuery = event.target.value.toLowerCase();

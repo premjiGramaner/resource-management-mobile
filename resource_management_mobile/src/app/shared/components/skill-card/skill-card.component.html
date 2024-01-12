@@ -6,12 +6,14 @@
   <form [formGroup]="addform" (ngSubmit)="onSubmit(addform)">
     <ion-list lines="none">
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="skillDropDownData"   [selectedData]="skillSelectedDropDownData" (dropDownEvent)="skillSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select Skill" formControlName="skill_id" errorText="Invalid skill" required>
           <div slot="label">Select Skill<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let skill of skillList"
             value={{skill.skill_id}}>{{skill.description}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item *ngIf="flag=='Resource'|| flag== 'Requirement' || flag == 'partner'">
         <ion-input class="inputTxt" type="number" fill="outline" labelPlacement="floating" placeholder="Enter Relevant Experience"
@@ -20,19 +22,23 @@
         </ion-input>
       </ion-item>
       <ion-item *ngIf="flag=='Resource'">
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="ratingDropDownData"   [selectedData]="ratingSelectedDropDownData" (dropDownEvent)="ratingSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select rating" formControlName="rating" errorText="Invalid rating" required>
           <div slot="label">Select Rating<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let rating of ratingList" value={{rating.id}}>{{rating.name}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item *ngIf="flag==''">
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
+        <app-searchable-dropdown [dropDownData]="ratingDropDownData"   [selectedData]="ratingSelectedDropDownData" (dropDownEvent)="specialisedSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
+        <!-- <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
           interface="popover" placeholder="Select rating" formControlName="specialised_ind" errorText="Invalid rating"
           required>
           <div slot="label">Select Rating<ion-text color="danger"> *</ion-text></div>
           <ion-select-option *ngFor="let rating of ratingList" value={{rating.id}}>{{rating.name}}</ion-select-option>
-        </ion-select>
+        </ion-select> -->
       </ion-item>
       <ion-item *ngIf="flag=='Resource'">
         <ion-toggle formControlName="primary_skill_ind">Primary Skill</ion-toggle>

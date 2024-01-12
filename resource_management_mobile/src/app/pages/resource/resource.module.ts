@@ -11,6 +11,7 @@ import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ViewResourceComponent } from './view-resource/view-resource.component';
 import { SkillCardComponent } from 'src/app/shared/components/skill-card/skill-card.component';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { SearchableDropdownComponent } from 'src/app/shared/components/searchable-dropdown/searchable-dropdown.component';
 
 @NgModule({
   imports: [
@@ -19,10 +20,11 @@ import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat
     IonicModule,
     ResourcePageRoutingModule,
     ReactiveFormsModule,
-    SkillCardComponent
+    SkillCardComponent,
+    SearchableDropdownComponent
   ],
-  declarations: [ResourcePage,AddResourceComponent, ViewResourceComponent],
-  providers:[DatePipe, DateformatConverterPipe]
+  declarations: [ResourcePage, AddResourceComponent, ViewResourceComponent],
+  providers: [DatePipe, DateformatConverterPipe]
 
 })
-export class ResourcePageModule {}
+export class ResourcePageModule { }

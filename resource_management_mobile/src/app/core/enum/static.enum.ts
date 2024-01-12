@@ -8,6 +8,8 @@ export enum Modules {
     Location = 'Location',
     Resource_requirement = 'Resource_requirement',
     Notification = 'Notification',
+    Partner = 'Partner',
+    Client = 'client'
 }
 
 export enum Common {
@@ -38,7 +40,7 @@ export enum Common {
     status = 'status',
     password = 'password',
     confirmPassword = 'confirmPassword',
-    edit='edit',
-    text='text'
+    edit = 'edit',
+    text = 'text'
 }
 

@@ -18,6 +18,7 @@ import { locationData, locationResponse } from '../../location/models/location.m
 import { statusData, statusResponse } from 'src/app/shared/models/common.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { CustomDropDownData, DropdownEvent } from 'src/app/core/base-model/base.model';
 
 @Component({
   selector: 'app-add-requirement',
@@ -40,7 +41,18 @@ export class AddRequirementComponent implements OnInit {
   module: string = Modules.Requirement;
   isModalOpen = false;
   addform!: FormGroup;
-
+  clientDropDownData!: CustomDropDownData;
+  clientBySelectedDropDownData: string = '';
+  locationDropDownData!: CustomDropDownData;
+  locationSelectedDropDownData: string = '';
+  SPOCDropDownData!: CustomDropDownData;
+  SPOCSelectedDropDownData: string = '';
+  sourceListDropDownData!: CustomDropDownData;
+  sourceListSelectedDropDownData: string = '';
+  priorityDropDownData!: CustomDropDownData;
+  prioritySelectedDropDownData: string = '';
+  statusDropDownData!: CustomDropDownData;
+  statusSelectedDropDownData: string = '';
   constructor(private staticData: StaticDataConstants,
     private commonService: CommonService,
     private skillService: SkillService,
@@ -59,6 +71,12 @@ export class AddRequirementComponent implements OnInit {
     this.getUserList();
     this.getStatusList();
     if (this.viewData) {
+      this.clientBySelectedDropDownData = this.viewData.client_name;
+      this.locationSelectedDropDownData = this.viewData.Location_Location_Name;
+      this.SPOCSelectedDropDownData = this.viewData.SPOC_name;
+      this.sourceListSelectedDropDownData = this.viewData.source_mode;
+      this.prioritySelectedDropDownData = this.viewData.priority;
+      this.statusSelectedDropDownData = this.viewData.status_name;
       this.addform = new FormGroup<addRequirementData>({
         requirement_id: new FormControl(this.viewData.requirement_id, Validators.required),
         name: new FormControl(this.viewData.name, Validators.required),
@@ -122,29 +140,96 @@ export class AddRequirementComponent implements OnInit {
       this.arrangePartnerData(this.addform.value.partner);
 
     });
+
+    this.clientDropDownData = {
+      title: '',
+      config: {
+        displayKey: 'name',
+        placeholder: this.toastConstants.Client_placeholder,
+        searchOnKey: 'name',
+        search: true,
+      },
+    };
+
+    this.locationDropDownData = {
+      title: '',
+      config: {
+        displayKey: 'Description',
+        placeholder: this.toastConstants.location_placeholder,
+        searchOnKey: 'Description',
+        search: true,
+      },
+    };
+
+    this.SPOCDropDownData = {
+      title: '',
+      config: {
+        displayKey: 'name',
+        placeholder: this.toastConstants.SPOC_placeholder,
+        searchOnKey: 'name',
+        search: true,
+      },
+    };
+
+    this.sourceListDropDownData = {
+      title: '',
+      data: this.sourceList as [],
+      config: {
+        displayKey: '',
+        placeholder: this.toastConstants.select_source_placeholder,
+        searchOnKey: '',
+        search: true,
+      },
+    };
+
+    this.priorityDropDownData = {
+      title: '',
+      data: this.priorityList as [],
+      config: {
+        displayKey: '',
+        placeholder: this.toastConstants.priority_placeholder,
+        searchOnKey: '',
+        search: true,
+      },
+    };
+
+    this.statusDropDownData = {
+      title: 'description',
+      config: {
+        displayKey: 'description',
+        placeholder: this.toastConstants.status_placeholder,
+        searchOnKey: '',
+        search: true,
+      },
+    };
+
   }
 
   getStatusList() {
     this.commonService.getStatus().subscribe((res: statusResponse) => {
       this.statusList = res.data.statusInfo;
+      this.statusDropDownData.data = res.data.statusInfo as [];
     });
   }
 
   getClientList() {
     this.clientService.getClientAllData().subscribe((res: clientResponce) => {
       this.clientList = res.data.clientInfo;
+      this.clientDropDownData.data = res.data.clientInfo as [];
     });
   }
 
   getUserList() {
     this.userService.getUser().subscribe((res: UserData) => {
       this.userList = res.data.userInfo;
+      this.SPOCDropDownData.data = res.data.userInfo as [];
     });
   }
 
   getLocationList() {
     this.locationService.getAllLocation().subscribe((res: locationResponse) => {
       this.locationList = res.data.locationInfo;
+      this.locationDropDownData.data = res.data.locationInfo as [];
     });
   }
 
@@ -169,6 +254,52 @@ export class AddRequirementComponent implements OnInit {
 
   }
 
+  /**
+ *
+ * @param event contain dynamic values
+ */
+  clientSelectedEvent(event: any) {
+    event as DropdownEvent;
+    this.addform.patchValue({
+      Client_client_id: event.value.client_id,
+    });
+  }
+
+  locationSelectedEvent(event: any) {
+    event as DropdownEvent;
+    this.addform.patchValue({
+      Location_Location_ID: event.value.Location_ID,
+      location_description: event.value.Description
+    });
+  }
+
+  SPOCSelectedEvent(event: any) {
+    event as DropdownEvent;
+    this.addform.patchValue({
+      SPOC_id: event.value.user_id,
+    });
+  }
+
+  sourceListDropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.addform.patchValue({
+      source_mode: event.value,
+    });
+  }
+
+  priorityDropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.addform.patchValue({
+      priority: event.value,
+    });
+  }
+
+  statusDropDownEvent(event: any) {
+    event as DropdownEvent;
+    this.addform.patchValue({
+      status: event.value.status_id,
+    });
+  }
   isFormValid() {
     if (this.addform.status == Status.INVALID) {
       this.addform.markAllAsTouched();
@@ -226,6 +357,7 @@ export class AddRequirementComponent implements OnInit {
     this.arrangePartnerData(this.addform.value.partner);
     sliding.close();
   }
+
   arrangeSkillData(skills: skill[]) {
     this.selectedSkillIds = [];
     for (var val of skills) {
