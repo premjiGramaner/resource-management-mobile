@@ -61,9 +61,13 @@ export class AddPartnerComponent implements OnInit, OnChanges {
     this.dropDownData = {
       title: this.toastConstants.partner_supportModeDropdown_title,
       data: this.supportMode,
-      displayKey: '',
-      placeholder: this.toastConstants.partner_dropdown_placeholder,
-      searchOnKey: '',
+      config: {
+        displayKey: '',
+        placeholder: this.toastConstants.partner_dropdown_placeholder,
+        searchOnKey: '',
+        search: true,
+      }
+
     };
     this.partnerForm = new FormGroup({
       name: new FormControl('', Validators.required),
