@@ -33,9 +33,9 @@ export class SearchableDropdownComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    this.dropDownConfig['displayKey'] = this.dropDownData.displayKey;
-    this.dropDownConfig['placeholder'] = this.dropDownData.placeholder;
-    this.dropDownConfig['searchOnKey'] = this.dropDownData.searchOnKey;
+    this.dropDownConfig['displayKey'] = this.dropDownData.displayKey as string;
+    this.dropDownConfig['placeholder'] = this.dropDownData.placeholder as string;
+    this.dropDownConfig['searchOnKey'] = this.dropDownData.searchOnKey as string;
     this.selectedEventData = this.selectedData;
   }
 

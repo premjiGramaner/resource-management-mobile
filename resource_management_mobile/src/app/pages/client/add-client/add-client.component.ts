@@ -24,6 +24,10 @@ import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-rem
 import { ClientArrayData, UserInfo, Clientskill } from '../models/client.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { DropdownEvent } from 'src/app/core/base-model/base.model';
+import {
+  CustomDropDownData,
+  DropdownEvent,
+} from 'src/app/core/base-model/base.model';
 
 @Component({
   selector: 'app-add-client',
@@ -42,14 +46,22 @@ export class AddClientComponent implements OnInit {
   selectedSkillIds: Clientskill[] = [];
   skilId: any;
   isModalOpen = false;
+  dropDownData: CustomDropDownData;
+  selectedDropDownData: string = '';
   constructor(
     private clientService: ClientService,
     private toastService: ToastService,
     private modalController: ModalController,
     private fb: FormBuilder,
-    private removeDuplicate: DuplicateRemoverPipe,
     private toastConstants: ToastConstants
-  ) { }
+  ) {
+    this.dropDownData = {
+      title: toastConstants.client_supportModeDropdown_title,
+      displayKey: 'name',
+      placeholder: toastConstants.client_dropdown_placeholder,
+      searchOnKey: 'name',
+    };
+  }
 
   ngOnInit() {
     this.clientForm = new FormGroup({
@@ -70,7 +82,7 @@ export class AddClientComponent implements OnInit {
       strength: new FormControl('', Validators.required),
       address: new FormControl('', Validators.required),
       skills: this.fb.array([]),
-      skill_ids: this.fb.array([])
+      skill_ids: this.fb.array([]),
     });
 
     this.getUserList();
@@ -102,7 +114,6 @@ export class AddClientComponent implements OnInit {
         finance_person_phone: this.viewClientData.finance_person_phone,
         strength: this.viewClientData.strength,
         address: this.viewClientData.address,
-
       });
 
       /**Add data to the skill_ids */
@@ -112,7 +123,6 @@ export class AddClientComponent implements OnInit {
         if (item != null) {
           idsFormArray.push(new FormControl(item.skill_id));
         }
-
       });
     }
   }
@@ -133,6 +143,7 @@ export class AddClientComponent implements OnInit {
   getUserList() {
     this.clientService.getUser().subscribe((res) => {
       this.userList = res.data.userInfo;
+      this.dropDownData.data = res.data.userInfo as [];
     });
   }
 
@@ -160,7 +171,7 @@ export class AddClientComponent implements OnInit {
   }
 
   addSkill(skill?: any) {
-    this.clientForm.value.skill_ids = this.clientForm.value.skill_ids || []
+    this.clientForm.value.skill_ids = this.clientForm.value.skill_ids || [];
     if (this.skilId) {
       if (this.skilId?.primary_skill) {
         this.selectedSkillIds.unshift(this.skilId);
@@ -170,12 +181,11 @@ export class AddClientComponent implements OnInit {
     }
     if (skill.skill_id != null) {
       this.clientForm.value.skills.push(skill);
-      this.clientForm.value.skill_ids.push(skill.skill_id)
+      this.clientForm.value.skill_ids.push(skill.skill_id);
       this.modalController.dismiss();
       this.skilId = '';
       this.skillObj(skill);
     }
-
   }
   skillObj(skill: any) {
     const index = this.skillList.findIndex(

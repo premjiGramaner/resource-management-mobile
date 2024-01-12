@@ -94,10 +94,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
         });
     }
   }
-  // hideLoader() {
-  //   this.loaderToShow = false;
-  //     this.loadingController.dismiss();
-  //   }
+
   hideLoader() {
     this.loaderToShow = false;
     this.loadingController.getTop().then((overlay) => {

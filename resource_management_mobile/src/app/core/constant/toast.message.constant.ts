@@ -40,4 +40,5 @@ export class ToastConstants {
     priority_placeholder = 'Select Priority';
     select_skill = 'Select Skill';
     select_rating = 'Select Rating'
+
 }
