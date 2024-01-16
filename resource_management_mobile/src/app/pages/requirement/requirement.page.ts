@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { RequirementService } from './services/requirement.service';
 import { deleteRequirementResponse, requiementData, requirementResponse } from './models/requirement.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { AddRequirementComponent } from './add-requirement/add-requirement.component';
@@ -10,6 +10,7 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
 import { Status } from 'src/app/core/enum/status.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-requirement',
@@ -26,13 +27,34 @@ export class RequirementPage implements OnInit {
   requirementData: requiementData | undefined;
   isModalOpen: boolean = false;
   modelType!: string;
-
+  client_Id: any = [];
   @ViewChild('add') add !: AddRequirementComponent;
 
-  constructor(private requirementService: RequirementService, private modalCtrl: ModalController, private toastService: ToastService, private staticData: StaticDataConstants) { }
+  constructor(
+    private requirementService: RequirementService,
+    private modalCtrl: ModalController,
+    private toastService: ToastService,
+    private staticData: StaticDataConstants,
+    private router: Router,
+    private routerState: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getRequirements(this.skip, 20, this.searchQuery);
+
+    this.routerState.paramMap
+      .pipe(map(() => window.history.state))
+      .subscribe((res: any) => {
+        this.client_Id = [];
+        this.items = [];
+        if (res.data != undefined) {
+          this.client_Id.push(res.data);
+        } else {
+          this.client_Id = []
+        }
+        console.log('client_Id', this.client_Id)
+        this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
+
+      })
+
   }
 
   async openExportModel() {
@@ -63,7 +85,7 @@ export class RequirementPage implements OnInit {
         data: res.data.requirementInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: Modules.Requirement + ' ' +Common.report,
+        title: Modules.Requirement + ' ' + Common.report,
         size: [400, 500],
       };
       const exportData = req;
@@ -90,17 +112,23 @@ export class RequirementPage implements OnInit {
     this.searchQuery = event.target.value.toLowerCase();
     this.items = [];
     this.skip = 0;
-    this.getRequirements(this.skip, 20, this.searchQuery);
+    this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
   }
 
-  private getRequirements(skip: number, limit: number, search: string) {
-    this.requirementService.getRequirement(skip, limit, search)
+  private getRequirements(skip: number, limit: number, search: string, client_Id?: number[]) {
+    this.requirementService.getRequirement(skip, limit, search, client_Id!)
       .subscribe((data: requirementResponse) => {
-        if(data.data.requirementInfo.length==0 && skip>0){
-          this.skip= skip-20;
+        if (data.data.requirementInfo.length == 0 && skip > 0) {
+          this.skip = skip - 20;
         }
         this.items = [...this.items, ...data.data.requirementInfo];
       });
+  }
+
+  onRefresh() {
+    this.client_Id = [];
+    this.items = [];
+    this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
   }
 
   private deleteRequirement(id: number, index: number) {
@@ -118,7 +146,8 @@ export class RequirementPage implements OnInit {
 
   onIonInfinite(ev: any) {
     this.skip = this.skip + 20;
-    this.getRequirements(this.skip, 20, this.searchQuery);
+    console.log(this.client_Id)
+    this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);

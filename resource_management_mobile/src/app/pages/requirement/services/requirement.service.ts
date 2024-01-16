@@ -13,15 +13,24 @@ export class RequirementService {
 
   constructor(private http: HttpClient) { }
 
-  getRequirement(skip: number, limit: number, search: string): Observable<any> {
-    let urlParams = new URLSearchParams();
-    urlParams.append(Common.skip, skip.toString());
-    urlParams.append(Common.limit, limit.toString());
-    urlParams.append(Common.search, search);
+  // getRequirement(skip: number, limit: number, search: string): Observable<any> {
+  //   let urlParams = new URLSearchParams();
+  //   urlParams.append(Common.skip, skip.toString());
+  //   urlParams.append(Common.limit, limit.toString());
+  //   urlParams.append(Common.search, search);
 
-    return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}?` + urlParams,);
+  //   return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}?` + urlParams,);
+  // }
+
+  getRequirement(skip: number, limit: number, search: string, client: number[]): Observable<any> {
+    let requirementRequest = {
+      skip: skip,
+      limit: limit,
+      search: search,
+      clients: client
+    }
+    return this.http.post<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`, requirementRequest);
   }
-
   getRequirementAllData() {
     return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`);
   }

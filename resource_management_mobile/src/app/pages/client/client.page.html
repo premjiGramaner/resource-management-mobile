@@ -70,9 +70,10 @@
             </ion-title>
           </ion-buttons>
           <ion-button slot="end" *ngIf="modelType === 'edit'" (click)="editEvent('editable_data')"
-            color="primary">Edit</ion-button>
+            color="primary">Edit</ion-button> 
           <ion-button slot="end" *ngIf="modelType === 'save' || modelType === 'editable_data'"
             (click)="saveClientForm()" color="success">Save</ion-button>
+          <ion-icon name="ellipsis-vertical-outline" slot="end" *ngIf="modelType === 'edit'" (click)="presentPopover($event)"></ion-icon>  
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
@@ -83,3 +84,16 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label  (click)="requirementPageNavigation()" >
+          Requirement
+        </ion-label>
+      </ion-item>
+      
+    </ion-content>
+  </ng-template>
+</ion-popover>

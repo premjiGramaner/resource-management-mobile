@@ -23,7 +23,6 @@ import { BehaviorSubject } from 'rxjs';
 import { DuplicateRemoverPipe } from 'src/app/shared/helpers/pipes/duplicate-remover.pipe';
 import { ClientArrayData, UserInfo, Clientskill } from '../models/client.model';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
-import { DropdownEvent } from 'src/app/core/base-model/base.model';
 import {
   CustomDropDownData,
   DropdownEvent,
