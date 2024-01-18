@@ -14,13 +14,16 @@ export class ResourceService {
   private URL = environment.baseUrl;
 
   constructor(private http: HttpClient) { }
-  getResources(skip: number, limit: number, search: string): Observable<resourceResponse> {
-    let urlParams = new URLSearchParams();
-    urlParams.append(Common.skip, skip.toString());
-    urlParams.append(Common.limit, limit.toString());
-    urlParams.append(Common.search, search);
 
-    return this.http.get<resourceResponse>(`${this.URL}${Modules.Resource.toLowerCase()}?` + urlParams,);
+  getResources(skip: number, limit: number, search: string, requirement_ID: number[], isBench: boolean): Observable<resourceResponse> {
+    let resourceRequest = {
+      skip: skip,
+      limit: limit,
+      search: search,
+      requirementIds: requirement_ID,
+      isBench: isBench
+    }
+    return this.http.post<resourceResponse>(`${this.URL}resource/getResources`, resourceRequest);
   }
 
   getResourceAllData() {

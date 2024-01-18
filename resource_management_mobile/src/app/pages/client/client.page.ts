@@ -30,7 +30,6 @@ export class ClientPage implements OnInit {
   modelType: string = 'save';
   clientEdit: boolean = false;
   @ViewChild('popover') popover: any;
-
   isOpen = false;
   @ViewChild('addClient') addClient!: AddClientComponent;
   constructor(
@@ -259,8 +258,8 @@ export class ClientPage implements OnInit {
   presentPopover(e: Event) {
     this.popover.event = e;
     this.isOpen = true;
-
   }
+
   requirementPageNavigation() {
     this.isModalOpen = false;
     this.isOpen = false;

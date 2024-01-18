@@ -57,17 +57,17 @@ export class HttpConfigInterceptor implements HttpInterceptor {
     request = request.clone({
       headers: request.headers.set('Accept', 'application/json'),
     });
-    this.showLoader();
+    // this.showLoader();
     return next
       .handle(request)
       .pipe(delay(500))
       .pipe(
         map((event: HttpEvent<any>) => {
-          this.hideLoader();
+          // this.hideLoader();
           return event;
         }),
         catchError((error: HttpErrorResponse) => {
-          this.hideLoader();
+          // this.hideLoader();
           if (
             error.error.error.name == this.toastConstants.tokenError ||
             error.error.error.name == this.toastConstants.tokenExpired

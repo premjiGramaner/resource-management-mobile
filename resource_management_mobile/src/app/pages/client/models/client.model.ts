@@ -53,6 +53,7 @@ export interface ClientArrayData {
     updated_date: string;
     skill_id?: string;
     skill_ids: [];
+    checked?: boolean;
 }
 
 export interface skillData extends BaseResponce {

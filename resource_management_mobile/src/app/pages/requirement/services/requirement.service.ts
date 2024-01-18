@@ -13,15 +13,6 @@ export class RequirementService {
 
   constructor(private http: HttpClient) { }
 
-  // getRequirement(skip: number, limit: number, search: string): Observable<any> {
-  //   let urlParams = new URLSearchParams();
-  //   urlParams.append(Common.skip, skip.toString());
-  //   urlParams.append(Common.limit, limit.toString());
-  //   urlParams.append(Common.search, search);
-
-  //   return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}?` + urlParams,);
-  // }
-
   getRequirement(skip: number, limit: number, search: string, client: number[]): Observable<any> {
     let requirementRequest = {
       skip: skip,
@@ -29,10 +20,13 @@ export class RequirementService {
       search: search,
       clients: client
     }
-    return this.http.post<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`, requirementRequest);
+    return this.http.post<requirementResponse>(`${this.URL}requirement/getRequirements`, requirementRequest);
   }
   getRequirementAllData() {
-    return this.http.get<requirementResponse>(`${this.URL}${Modules.Requirement.toLowerCase()}`);
+    let requirementRequest = {
+      clients: []
+    }
+    return this.http.post<requirementResponse>(`${this.URL}requirement/getRequirements`, requirementRequest);
   }
 
   addRequirement(data: addRequirementData) {
@@ -57,5 +51,21 @@ export class RequirementService {
       catchError((error: HttpErrorResponse) => {
         return throwError(Common.error_delete + Modules.Requirement.toLowerCase() + error.message);
       }));
+  }
+
+  markAsComplete(data: any): Observable<any> {
+    let markAsComplete = {
+      Requirement_requirement_id: data.id,
+      resourceIds: data.resourceIds,
+      Status_status_id: 4
+    }
+    return this.http.put<any>(`${this.URL}resource/requirement/resourceStatus`, markAsComplete);
+  }
+
+  resourceMatchedData(id: number): Observable<any> {
+    let req = {
+      requirementId: id
+    }
+    return this.http.post<any>(`${this.URL}resource/getMatch`, req);
   }
 }

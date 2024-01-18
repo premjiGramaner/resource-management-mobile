@@ -54,7 +54,7 @@
                   </ion-menu-toggle>
                 </div>
                 <div class="ion-padding sub_menu" slot="content" routerLinkActive="active">
-                  <ion-menu-toggle routerLink={{routeConstants.resource_requirement}}>Resource
+                  <ion-menu-toggle routerLink={{routeConstants.resource_requirement}} [state]="">Resource
                     Requirement</ion-menu-toggle>
                 </div>
                 <div class="ion-padding sub_menu" slot="content">
@@ -76,12 +76,12 @@
               </ion-item>
             </ion-menu-toggle>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.client}} routerLinkActive="active">
+              <ion-item routerLink={{routeConstants.client}}  routerLinkActive="active">
                 <ion-label>Client</ion-label>
               </ion-item>
             </ion-menu-toggle>
             <ion-menu-toggle>
-              <ion-item routerLink={{routeConstants.resource}} routerLinkActive="active">
+              <ion-item routerLink={{routeConstants.resource}} [state]="" routerLinkActive="active">
                 <ion-label>Resource</ion-label>
               </ion-item>
             </ion-menu-toggle>

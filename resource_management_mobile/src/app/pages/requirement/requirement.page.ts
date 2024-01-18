@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
 import { RequirementService } from './services/requirement.service';
 import { deleteRequirementResponse, requiementData, requirementResponse } from './models/requirement.model';
@@ -10,7 +10,10 @@ import { ToastService } from 'src/app/core/toast/toast.service';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
 import { Status } from 'src/app/core/enum/status.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { RouteConstants } from 'src/app/core/constant/routes.constants';
+import { ClientService } from '../client/service/client.service';
+import { ClientArrayData } from '../client/models/client.model';
 
 @Component({
   selector: 'app-requirement',
@@ -27,8 +30,14 @@ export class RequirementPage implements OnInit {
   requirementData: requiementData | undefined;
   isModalOpen: boolean = false;
   modelType!: string;
-  client_Id: any = [];
+  client_Id: number[] = [];
+  filterBasedClient_Id: number[] = [];
+  clientData: ClientArrayData[] = [];
   @ViewChild('add') add !: AddRequirementComponent;
+
+  @ViewChild('popover') popover: any;
+  isOpen = false;
+  clientId: number[] = [];
 
   constructor(
     private requirementService: RequirementService,
@@ -36,7 +45,9 @@ export class RequirementPage implements OnInit {
     private toastService: ToastService,
     private staticData: StaticDataConstants,
     private router: Router,
-    private routerState: ActivatedRoute) { }
+    private routerState: ActivatedRoute,
+    private routeConstants: RouteConstants,
+    private clientService: ClientService) { }
 
   ngOnInit() {
 
@@ -48,11 +59,9 @@ export class RequirementPage implements OnInit {
         if (res.data != undefined) {
           this.client_Id.push(res.data);
         } else {
-          this.client_Id = []
+          this.client_Id = [];
         }
-        console.log('client_Id', this.client_Id)
         this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
-
       })
 
   }
@@ -116,6 +125,7 @@ export class RequirementPage implements OnInit {
   }
 
   private getRequirements(skip: number, limit: number, search: string, client_Id?: number[]) {
+    console.log(skip, limit, search, client_Id)
     this.requirementService.getRequirement(skip, limit, search, client_Id!)
       .subscribe((data: requirementResponse) => {
         if (data.data.requirementInfo.length == 0 && skip > 0) {
@@ -123,13 +133,9 @@ export class RequirementPage implements OnInit {
         }
         this.items = [...this.items, ...data.data.requirementInfo];
       });
+    console.log(this.items)
   }
 
-  onRefresh() {
-    this.client_Id = [];
-    this.items = [];
-    this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
-  }
 
   private deleteRequirement(id: number, index: number) {
     this.requirementService.deleteRequirement(id).subscribe({
@@ -190,6 +196,7 @@ export class RequirementPage implements OnInit {
     this.modelType = type;
     this.isModalOpen = true;
   }
+
   setOpen(isOpen: boolean) {
     this.requirementData = undefined;
     this.modelType = isOpen ? Status.SAVE : Status.EDIT;
@@ -264,4 +271,74 @@ export class RequirementPage implements OnInit {
     this.modelType = type;
   }
 
+
+  presentPopover(e: Event) {
+    this.popover.event = e;
+    this.isOpen = true;
+  }
+
+  resourceNavigation() {
+    this.isModalOpen = false;
+    this.isOpen = false;
+    const navigationExtras: NavigationExtras = { state: { data: this.requirementData, clearHistory: true } };
+    setTimeout(() => {
+      this.router.navigate([this.routeConstants.resource], navigationExtras)
+    })
+  }
+
+  resourceRequirementNavigation() {
+    this.isModalOpen = false;
+    this.isOpen = false;
+    const navigationExtras: NavigationExtras = { state: { data: this.requirementData, clearHistory: true } };
+    setTimeout(() => {
+      this.router.navigate([this.routeConstants.resource_requirement], navigationExtras)
+    })
+  }
+
+
+  openClientFilter() {
+    this.clientService.getClientAllData().subscribe(async (res: any) => {
+      this.clientData = res.data.clientInfo;
+      if (this.filterBasedClient_Id.length != 0) {
+        this.filterBasedClient_Id.map((item) => {
+          this.clientData.map((client: any) => {
+            if (client.client_id == item) {
+              client.checked = true
+            }
+          })
+        })
+      }
+    })
+  }
+
+  getClientId(event: any, id: any) {
+    id = id as number;
+    if (event.target.checked) {
+      this.filterBasedClient_Id.push(id);
+    } else {
+      const index = this.filterBasedClient_Id.findIndex((item: any) => item.client_id == id)
+      this.filterBasedClient_Id.splice(index, 1);
+    }
+  }
+
+  canDismiss(data?: any, role?: string) {
+    console.log('trigger')
+    return role !== 'gesture';
+  }
+
+  applyClientFilter() {
+    console.log(this.filterBasedClient_Id)
+    if (this.filterBasedClient_Id) {
+      this.items = [];
+      this.getRequirements(this.skip, 20, this.searchQuery, this.filterBasedClient_Id);
+      this.modalCtrl.dismiss();
+    }
+  }
+
+  onRefresh() {
+    this.filterBasedClient_Id = [];
+    this.items = [];
+    this.getRequirements(this.skip, 20, this.searchQuery, this.client_Id);
+    this.modalCtrl.dismiss();
+  }
 }

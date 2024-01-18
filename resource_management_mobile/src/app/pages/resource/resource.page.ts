@@ -1,17 +1,18 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { InfiniteScrollCustomEvent, IonItemSliding, ModalController } from '@ionic/angular';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { ResourceService } from './service/resource.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
 import { AddResourceComponent } from './add-resource/add-resource.component';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
-import {  deleteResourceResponce, resourceData, resourceResponse } from './models/resource.model';
+import { deleteResourceResponce, resourceData, resourceResponse } from './models/resource.model';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
 import { StaticDataConstants } from 'src/app/core/constant/staticData.constants';
 import { DatePipe } from '@angular/common';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.page.html',
@@ -28,13 +29,33 @@ export class ResourcePage implements OnInit {
   isModalOpen: boolean = false;
   modelType!: string;
 
-
+  requirement_Id: number[] = [];
   @ViewChild('add') add !: AddResourceComponent;
+  filterBasedClient_Id: number[] = [];
 
-  constructor(private resourceService: ResourceService, private modalCtrl: ModalController, private toastService: ToastService,private staticData: StaticDataConstants, private dateformatConverterPipe: DateformatConverterPipe, private datePipe: DatePipe) { }
+  constructor(
+    private resourceService: ResourceService,
+    private modalCtrl: ModalController,
+    private toastService: ToastService,
+    private staticData: StaticDataConstants,
+    private dateformatConverterPipe: DateformatConverterPipe,
+    private datePipe: DatePipe,
+    private routerState: ActivatedRoute,) { }
 
   ngOnInit() {
-    this.getResources(this.skip, 20, this.searchQuery);
+    this.routerState.paramMap
+      .pipe(map(() => window.history.state))
+      .subscribe((res: any) => {
+        this.requirement_Id = [];
+        this.items = [];
+        if (res.data != undefined) {
+          this.requirement_Id.push(res.data.requirement_id);
+        } else {
+          this.requirement_Id = [];
+        }
+        console.log('requirement_Id', this.requirement_Id)
+        this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
+      })
   }
 
   saveForm() {
@@ -46,7 +67,7 @@ export class ResourcePage implements OnInit {
           this.isModalOpen = false;
           this.items = [];
           this.skip = 0;
-          this.getResources(this.skip, 20, this.searchQuery);
+          this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
         });
     } else {
       this.add.addform.markAllAsTouched();
@@ -98,7 +119,7 @@ export class ResourcePage implements OnInit {
         data: res.data.resourceInfo,
         pdfData: pdfTableData,
         pdfHeader: pdfHeader,
-        title: Modules.Resource+' '+Common.report,
+        title: Modules.Resource + ' ' + Common.report,
         size: [400, 500],
       };
       const exportData = req;
@@ -124,15 +145,16 @@ export class ResourcePage implements OnInit {
     this.searchQuery = event.target.value.toLowerCase();
     this.items = [];
     this.skip = 0;
-    this.getResources(this.skip, 20, this.searchQuery);
+    this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
   }
 
 
-  private getResources(skip: number, limit: number, search: string) {
-    this.resourceService.getResources(skip, limit, search)
+  private getResources(skip: number, limit: number, search: string, requirement_Id?: number[]) {
+    let isBench = false;
+    this.resourceService.getResources(skip, limit, search, requirement_Id!, isBench)
       .subscribe((data: resourceResponse) => {
-        if(data.data.resourceInfo.length==0 && skip>0){
-          this.skip= skip-20;
+        if (data.data.resourceInfo.length == 0 && skip > 0) {
+          this.skip = skip - 20;
         }
         this.items = [...this.items, ...data.data.resourceInfo];
       });
@@ -154,12 +176,17 @@ export class ResourcePage implements OnInit {
 
   onIonInfinite(ev: any) {
     this.skip = this.skip + 20;
-    this.getResources(this.skip, 20, this.searchQuery);
+    this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
     setTimeout(() => {
       (ev as InfiniteScrollCustomEvent).target.complete();
     }, 500);
   }
 
+  onRefresh() {
+    this.requirement_Id = [];
+    this.items = [];
+    this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
+  }
   async deleteModal(item: resourceData, index: number, sliding: IonItemSliding) {
     let data = {
       from: Modules.Resource,
@@ -244,5 +271,13 @@ export class ResourcePage implements OnInit {
   }
   editEvent(type: string) {
     this.modelType = type;
+  }
+
+  canDismiss(data?: any, role?: string) {
+    console.log('trigger')
+    return role !== 'gesture';
+  }
+  openResourceFilter() {
+
   }
 }

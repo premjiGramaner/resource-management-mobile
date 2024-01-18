@@ -1,12 +1,16 @@
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" #page>
   <ion-grid id="container" class="p-2 ps-3 pe-3 shadow">
     <ion-row >
       <ion-col>
         <h5>Resource List</h5>
       </ion-col>
       <ion-col class="mt-3">
-        <ion-icon name="download-outline" size="default" (click)="openExportModel()" class="ion-float-right"></ion-icon>
+        <div [ngClass]="filterBasedClient_Id.length != 0 ? 'filter-highlight':''" ></div>
+        <ion-icon name="filter-outline" size="default" (click)="openResourceFilter()" id="open-filter-modal" expand="block" class="ion-float-right">
+         </ion-icon>
+        <ion-icon name="download-outline" size="default" (click)="openExportModel()" class="ion-float-right me-4"></ion-icon>
         <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
+        <!-- <ion-icon name="refresh-outline"  size="default" (click)="onRefresh()" class="ion-float-right me-4"></ion-icon> -->
       </ion-col>
     </ion-row>
     <ion-row>
@@ -87,3 +91,35 @@
   </ion-modal>
 
 </ion-content>
+
+<ion-modal #modal trigger="open-filter-modal"  [canDismiss]="canDismiss" [presentingElement]="page">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Requirement</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="modal.dismiss()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+        <ion-list lines="full">
+          <ion-item >
+            <!-- <ion-checkbox labelPlacement="start" [checked]="client.checked" (ionChange)="getClientId($event,client.client_id)">{{client.name}}</ion-checkbox> -->
+          </ion-item>
+        </ion-list>
+        <ion-card class="bottom-btn">
+          <ion-grid>
+            <ion-row >
+              <ion-col>
+                <ion-button color="tertiary"  style="width:100%"  class="ion-activatable ripple-parent rounded-rectangle">Apply</ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button color="medium" (click)="onRefresh()" style="width:100%" class="ion-activatable ripple-parent rounded-rectangle">Clear</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </ion-card>
+    </ion-content>
+  </ng-template>
+</ion-modal>
