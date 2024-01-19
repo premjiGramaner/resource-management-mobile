@@ -13,6 +13,7 @@ import { AddRequirementComponent } from './add-requirement/add-requirement.compo
 import { PartnerCradComponent } from 'src/app/shared/components/partner-crad/partner-crad.component';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 import { SearchableDropdownComponent } from 'src/app/shared/components/searchable-dropdown/searchable-dropdown.component';
+import { ResourceRequirementPageModule } from '../resource-requirement/resource-requirement.module';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { SearchableDropdownComponent } from 'src/app/shared/components/searchabl
     ReactiveFormsModule,
     SkillCardComponent,
     PartnerCradComponent,
-    SearchableDropdownComponent
+    SearchableDropdownComponent,
+    ResourceRequirementPageModule
   ],
   declarations: [RequirementPage, ViewRequirementComponent, AddRequirementComponent],
   providers: [DatePipe, DateformatConverterPipe]

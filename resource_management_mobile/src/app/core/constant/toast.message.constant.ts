@@ -39,5 +39,6 @@ export class ToastConstants {
     SPOC_placeholder = 'Select SPOC';
     priority_placeholder = 'Select Priority';
     select_skill = 'Select Skill';
-    select_rating = 'Select Rating'
+    select_rating = 'Select Rating';
+    no_data = 'No Data Found !';
 }

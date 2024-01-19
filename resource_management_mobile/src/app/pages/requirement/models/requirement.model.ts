@@ -44,11 +44,12 @@ export interface requiementData {
     created_by: string,
     updated_by: string,
     skills: skill[],
-    partner: partner[]
+    partner: partner[],
+    checked?: boolean
 }
 
 export interface addRequirementData {
-    requirement_id?:FormControl,
+    requirement_id?: FormControl,
     name: FormControl,
     Client_client_id: FormControl,
     Location_Location_ID: FormControl,
@@ -58,7 +59,7 @@ export interface addRequirementData {
     duration: FormControl,
     notice_period: FormControl,
     source_mode: FormControl,
-    hire_budget:FormControl,
+    hire_budget: FormControl,
     contract_budget: FormControl,
     jd: FormControl,
     status: FormControl,
@@ -78,7 +79,7 @@ export interface addPartner {
     shared_on: FormControl
 }
 
-export interface skill  {
+export interface skill {
     skill_id: number,
     category: string,
     description: string,

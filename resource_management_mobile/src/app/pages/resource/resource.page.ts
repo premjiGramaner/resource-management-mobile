@@ -13,6 +13,9 @@ import { StaticDataConstants } from 'src/app/core/constant/staticData.constants'
 import { DatePipe } from '@angular/common';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
 import { ActivatedRoute } from '@angular/router';
+import { RequirementService } from '../requirement/services/requirement.service';
+import { requiementData, requirementResponse } from '../requirement/models/requirement.model';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 @Component({
   selector: 'app-resource',
   templateUrl: './resource.page.html',
@@ -24,7 +27,7 @@ export class ResourcePage implements OnInit {
   items: resourceData[] = [];
   skip: number = 0;
   searchQuery: string = '';
-
+  requirementNames: requiementData[] = [];
   resourceData: resourceData | undefined;
   isModalOpen: boolean = false;
   modelType!: string;
@@ -33,6 +36,8 @@ export class ResourcePage implements OnInit {
   @ViewChild('add') add !: AddResourceComponent;
   filterBasedClient_Id: number[] = [];
 
+  isBench: boolean = false;
+
   constructor(
     private resourceService: ResourceService,
     private modalCtrl: ModalController,
@@ -40,7 +45,9 @@ export class ResourcePage implements OnInit {
     private staticData: StaticDataConstants,
     private dateformatConverterPipe: DateformatConverterPipe,
     private datePipe: DatePipe,
-    private routerState: ActivatedRoute,) { }
+    private routerState: ActivatedRoute,
+    private requirementService: RequirementService,
+    protected toastConstants: ToastConstants) { }
 
   ngOnInit() {
     this.routerState.paramMap
@@ -150,8 +157,7 @@ export class ResourcePage implements OnInit {
 
 
   private getResources(skip: number, limit: number, search: string, requirement_Id?: number[]) {
-    let isBench = false;
-    this.resourceService.getResources(skip, limit, search, requirement_Id!, isBench)
+    this.resourceService.getResources(skip, limit, search, requirement_Id!, this.isBench)
       .subscribe((data: resourceResponse) => {
         if (data.data.resourceInfo.length == 0 && skip > 0) {
           this.skip = skip - 20;
@@ -183,10 +189,13 @@ export class ResourcePage implements OnInit {
   }
 
   onRefresh() {
-    this.requirement_Id = [];
+    this.filterBasedClient_Id = [];
     this.items = [];
+    this.isBench = false;
     this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
+    this.modalCtrl.dismiss();
   }
+
   async deleteModal(item: resourceData, index: number, sliding: IonItemSliding) {
     let data = {
       from: Modules.Resource,
@@ -274,10 +283,49 @@ export class ResourcePage implements OnInit {
   }
 
   canDismiss(data?: any, role?: string) {
-    console.log('trigger')
     return role !== 'gesture';
   }
-  openResourceFilter() {
 
+  getRequirementId(event: any, id: any) {
+    id = id as number;
+    if (event.target.checked) {
+      this.filterBasedClient_Id.push(id);
+    } else {
+      const index = this.filterBasedClient_Id.findIndex((item: any) => item.requirement_id == id)
+      this.filterBasedClient_Id.splice(index, 1);
+    }
+  }
+
+  openResourceFilter() {
+    this.requirementService.getRequirementAllData().subscribe(async (res: requirementResponse) => {
+      this.requirementNames = res.data.requirementInfo;
+      if (this.filterBasedClient_Id.length != 0) {
+        this.filterBasedClient_Id.map((item) => {
+          this.requirementNames.map((requirement: requiementData) => {
+            if (requirement.requirement_id == item) {
+              requirement.checked = true
+            }
+          })
+        })
+      }
+    })
+  }
+
+  applyRequirementFilter() {
+    if (this.filterBasedClient_Id) {
+      this.items = [];
+      this.getResources(this.skip, 20, this.searchQuery, this.filterBasedClient_Id);
+      this.modalCtrl.dismiss();
+    }
+  }
+
+  benchResourceList(event: any) {
+    if (event.target.checked) {
+      this.isBench = true;
+      this.filterBasedClient_Id = [];
+      // this.getResources(this.skip, 20, this.searchQuery, this.filterBasedClient_Id);
+    } else {
+      this.isBench = false;
+    }
   }
 }

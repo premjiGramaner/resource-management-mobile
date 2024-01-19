@@ -14,6 +14,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { RouteConstants } from 'src/app/core/constant/routes.constants';
 import { ClientService } from '../client/service/client.service';
 import { ClientArrayData } from '../client/models/client.model';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @Component({
   selector: 'app-requirement',
@@ -29,6 +30,7 @@ export class RequirementPage implements OnInit {
 
   requirementData: requiementData | undefined;
   isModalOpen: boolean = false;
+  isViewResourceModalOpen: boolean = false;
   modelType!: string;
   client_Id: number[] = [];
   filterBasedClient_Id: number[] = [];
@@ -47,7 +49,8 @@ export class RequirementPage implements OnInit {
     private router: Router,
     private routerState: ActivatedRoute,
     private routeConstants: RouteConstants,
-    private clientService: ClientService) { }
+    private clientService: ClientService,
+    protected toastConstants: ToastConstants) { }
 
   ngOnInit() {
 
@@ -289,10 +292,11 @@ export class RequirementPage implements OnInit {
   resourceRequirementNavigation() {
     this.isModalOpen = false;
     this.isOpen = false;
-    const navigationExtras: NavigationExtras = { state: { data: this.requirementData, clearHistory: true } };
-    setTimeout(() => {
-      this.router.navigate([this.routeConstants.resource_requirement], navigationExtras)
-    })
+    this.isViewResourceModalOpen = true
+    // const navigationExtras: NavigationExtras = { state: { data: this.requirementData, clearHistory: true } };
+    // setTimeout(() => {
+    //   this.router.navigate([this.routeConstants.resource_requirement], navigationExtras)
+    // })
   }
 
 
@@ -322,7 +326,6 @@ export class RequirementPage implements OnInit {
   }
 
   canDismiss(data?: any, role?: string) {
-    console.log('trigger')
     return role !== 'gesture';
   }
 
