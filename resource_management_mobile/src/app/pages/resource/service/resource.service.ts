@@ -27,7 +27,11 @@ export class ResourceService {
   }
 
   getResourceAllData() {
-    return this.http.get<resourceResponse>(`${this.URL}${Modules.Resource.toLowerCase()}`);
+    let resourceRequest = {
+      requirementIds: [],
+      isBench: false
+    }
+    return this.http.post<resourceResponse>(`${this.URL}resource/getResources`, resourceRequest);
   }
 
   addresource(data: addResourceData) {

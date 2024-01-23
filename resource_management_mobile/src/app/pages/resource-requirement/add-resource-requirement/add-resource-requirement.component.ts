@@ -90,7 +90,6 @@ export class AddResourceRequirementComponent implements OnInit, OnChanges {
       requirement: new FormControl(''),
       evaluated_by_name: new FormControl(''),
     });
-
     if (this.viewResourceData != undefined) {
       let convertedDate;
       try {

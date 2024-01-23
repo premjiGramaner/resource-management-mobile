@@ -148,7 +148,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button (click)="backForm(modelType)">
+          <ion-button (click)="backResourceRequirementForm(modelType)">
             <ion-icon class="back-icon" name="arrow-undo-outline"></ion-icon>
           </ion-button>
           <ion-title *ngIf="modelType === 'edit'" size="small">
@@ -157,17 +157,14 @@
           <ion-title *ngIf="modelType === 'save'" size="small">
             Edit Resource Requirement
           </ion-title>
-          <!-- <ion-title *ngIf="modelType === 'save' && !resourceEdit" size="small">
-            Add Resource Requirement
-          </ion-title> -->
         </ion-buttons>
-        <!-- <ion-button slot="end" *ngIf="modelType === 'edit'" color="primary" (click)="enableEdit()">Edit</ion-button>
+        <ion-button slot="end" *ngIf="modelType === 'edit'" color="primary" (click)="enableEdit()">Edit</ion-button>
         <ion-button slot="end" *ngIf="modelType === 'save' || modelType === 'editable_data'" color="success"
-          (click)="saveResourceForm()">Save</ion-button> -->
+          (click)="saveResourceForm()">Save</ion-button>
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-      <app-add-resource-requirement ></app-add-resource-requirement>
+      <app-add-resource-requirement #addResource [flag]="modelType" [viewResourceData]=resourceMoreData></app-add-resource-requirement>
     </ion-content>
   </ng-template>
 </ion-modal>

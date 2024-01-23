@@ -10,7 +10,7 @@ export interface clientResponce extends BaseResponce {
 export interface clientData {
     created_date: string;
     updated_date: string;
-    client_id: string;
+    client_id: number;
     name: string;
     contact_person_name: string;
     contact_person_email_id: string;
@@ -28,11 +28,12 @@ export interface clientData {
     updated_by: string;
     ownership_name: string;
     skills: skill[];
+    skill_ids: []
 }
 
 export interface ClientArrayData {
     address: string;
-    client_id: string;
+    client_id: number;
     contact_person_email_id: string;
     contact_person_name: string;
     contact_person_phone: string;

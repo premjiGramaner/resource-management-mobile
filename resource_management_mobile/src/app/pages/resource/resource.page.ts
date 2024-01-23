@@ -37,7 +37,7 @@ export class ResourcePage implements OnInit {
   filterBasedClient_Id: number[] = [];
 
   isBench: boolean = false;
-
+  isDisableCheckBox: boolean = false;
   constructor(
     private resourceService: ResourceService,
     private modalCtrl: ModalController,
@@ -50,8 +50,12 @@ export class ResourcePage implements OnInit {
     protected toastConstants: ToastConstants) { }
 
   ngOnInit() {
+
     this.routerState.paramMap
       .pipe(map(() => window.history.state))
+      /**
+       * Response contain router state events 
+       **/
       .subscribe((res: any) => {
         this.requirement_Id = [];
         this.items = [];
@@ -60,7 +64,6 @@ export class ResourcePage implements OnInit {
         } else {
           this.requirement_Id = [];
         }
-        console.log('requirement_Id', this.requirement_Id)
         this.getResources(this.skip, 20, this.searchQuery, this.requirement_Id);
       })
   }
@@ -291,7 +294,7 @@ export class ResourcePage implements OnInit {
     if (event.target.checked) {
       this.filterBasedClient_Id.push(id);
     } else {
-      const index = this.filterBasedClient_Id.findIndex((item: any) => item.requirement_id == id)
+      const index = this.filterBasedClient_Id.findIndex((item: number) => item == id);
       this.filterBasedClient_Id.splice(index, 1);
     }
   }
@@ -314,6 +317,9 @@ export class ResourcePage implements OnInit {
   applyRequirementFilter() {
     if (this.filterBasedClient_Id) {
       this.items = [];
+      if (this.isBench) {
+        this.filterBasedClient_Id = []
+      }
       this.getResources(this.skip, 20, this.searchQuery, this.filterBasedClient_Id);
       this.modalCtrl.dismiss();
     }
@@ -322,10 +328,19 @@ export class ResourcePage implements OnInit {
   benchResourceList(event: any) {
     if (event.target.checked) {
       this.isBench = true;
-      this.filterBasedClient_Id = [];
-      // this.getResources(this.skip, 20, this.searchQuery, this.filterBasedClient_Id);
+      this.isDisableCheckBox = true;
+      if (this.filterBasedClient_Id.length != 0) {
+        this.filterBasedClient_Id.map((item) => {
+          this.requirementNames.map((requirement: requiementData) => {
+            if (requirement.requirement_id == item) {
+              requirement.checked = false
+            }
+          })
+        })
+      }
     } else {
       this.isBench = false;
+      this.isDisableCheckBox = false;
     }
   }
 }

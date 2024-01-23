@@ -103,12 +103,12 @@
       </ion-toolbar>
     </ion-header>
     <ion-content class="ion-padding">
-        <div class="bench-resource-card">
-          <ion-checkbox labelPlacement="start" [checked]="isBench" (ionChange)="benchResourceList($event)">Bench Resources</ion-checkbox>
-        </div>
-        <ion-list lines="full" *ngIf="!isBench">
+        <ion-list lines="full">
+          <ion-item class="bench-resource-card">
+            <ion-checkbox  labelPlacement="start"  [checked]="isBench" (ionChange)="benchResourceList($event)">Bench Resources</ion-checkbox>
+          </ion-item>
           <ion-item  *ngFor="let requirement of requirementNames">
-            <ion-checkbox labelPlacement="start" [checked]="requirement.checked"  (ionChange)="getRequirementId($event,requirement.requirement_id)">{{requirement.name}}</ion-checkbox>
+            <ion-checkbox labelPlacement="start" [disabled]=isDisableCheckBox [checked]="requirement.checked"  (ionChange)="getRequirementId($event,requirement.requirement_id)">{{requirement.name}}</ion-checkbox>
           </ion-item>
         </ion-list>
         <ion-card class="bottom-btn">

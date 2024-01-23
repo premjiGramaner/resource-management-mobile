@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { partner, requiementData, skill } from '../models/requirement.model';
+import { multiResource, multiResourceResponse, partner, requiementData, skill } from '../models/requirement.model';
 import { RequirementService } from '../services/requirement.service';
+import { ToastService } from 'src/app/core/toast/toast.service';
+import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 
 @Component({
   selector: 'app-view-requirement',
@@ -10,7 +12,9 @@ import { RequirementService } from '../services/requirement.service';
 export class ViewRequirementComponent implements OnInit {
   @Input() viewData: requiementData | undefined;
   constructor(
-    private requirementService: RequirementService
+    private requirementService: RequirementService,
+    private toastService: ToastService,
+    private toastConstants: ToastConstants
   ) { }
 
   ngOnInit() {
@@ -36,22 +40,17 @@ export class ViewRequirementComponent implements OnInit {
 
   updateMarkAsComplete() {
 
-    let resourceIds: number[] = []
-    let updateMarkAsCompleteReq = {
-      id: this.viewData?.requirement_id,
-      resourceIds: resourceIds
+    let multiResourceReq: multiResource = {
+      Requirement_requirement_id: 2,
+      resourceIds: [],
+      Status_status_id: 4
     }
-    const requirement_Id = this.viewData?.requirement_id;
-    this.requirementService.resourceMatchedData(requirement_Id!).subscribe((res) => {
-      res.data.resourceInfo.map((item: any) => {
-        resourceIds.push(item.resource_id)
-      })
-      updateMarkAsCompleteReq['resourceIds'] = resourceIds;
-      this.requirementService.markAsComplete(updateMarkAsCompleteReq).subscribe(res => {
-
-      })
+    this.requirementService.updateMultiResourceRquirementById(multiResourceReq).subscribe((res: multiResourceResponse) => {
+      if (res.statusCode == 200) {
+        this.toastService.presentToast(res.message)
+      } else {
+        this.toastService.errorToast(this.toastConstants.try_again)
+      }
     })
-    console.log(this.viewData, updateMarkAsCompleteReq)
-
   }
 }

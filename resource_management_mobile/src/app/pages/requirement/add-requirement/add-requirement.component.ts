@@ -301,7 +301,6 @@ export class AddRequirementComponent implements OnInit {
     });
   }
   isFormValid() {
-    console.log(this.addform.status, this.addform.value)
     if (this.addform.status == Status.INVALID) {
       this.addform.markAllAsTouched();
       return false;

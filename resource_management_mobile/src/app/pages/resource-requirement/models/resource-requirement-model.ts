@@ -20,19 +20,17 @@ export interface updateStatusResponse extends BaseResponce {
     };
 }
 
-
 export interface postResourceRequest extends requirementBasicData {
     resources?: resourceIDs[];
     Resource_requirement_id?: number;
     evaluated_by_name?: string;
     requirement?: string;
-
 }
 
 export interface deleteResponce {
     data: {
-        resourceRequirementInfo: requirementData | boolean
-    }
+        resourceRequirementInfo: requirementData | boolean;
+    };
 }
 
 export interface editResourceRequest extends postResourceRequest {
@@ -44,7 +42,6 @@ export interface requirementData extends requirementBasicData {
     ResourceRequirementMappings: requirementDataMaping[];
     requirement: string;
     evaluated_by_name: string;
-
 }
 
 export interface updateStatus {
@@ -62,7 +59,9 @@ export interface adminRequirementData extends updateStatus {
     status: string;
 }
 
-export interface resourceData extends resourceIDs, ResourceRequirementMappingsNewKeys {
+export interface resourceData
+    extends resourceIDs,
+    ResourceRequirementMappingsNewKeys {
     resource_name: string;
     stage_description: string;
     status_description: string;
@@ -95,7 +94,6 @@ export interface requirementBasicData {
     Requirement_requirement_id: number;
     evaluated_by: number;
     comments: string;
-
 }
 
 export interface resourceIDs {
@@ -208,5 +206,3 @@ export interface resourcePartner {
     partner_id: number;
     shared_on: string;
 }
-
-

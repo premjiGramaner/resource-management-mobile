@@ -105,7 +105,6 @@
           <ion-col class="card-user-info ">
             <ion-row class="d-flex justify-content-between">
               <ion-label class="skill-heading">Partner <ion-text color="danger"> *</ion-text></ion-label>
-
             </ion-row>
             <ion-row>
               <ion-list class="w-100">
@@ -126,6 +125,7 @@
       </ion-card>
     </ion-item>
   </ion-list>
-    <ion-button color="success" expand="block" (click)="updateMarkAsComplete()" class="bottom-btn ion-activatable ripple-parent rounded-rectangle">Mark as complete</ion-button>
+    <ion-button color="success" *ngIf="viewData?.status != 3" expand="block" (click)="updateMarkAsComplete()" class="bottom-btn ion-activatable ripple-parent rounded-rectangle">Mark as complete</ion-button>
+    <ion-button color="success" [disabled]="true" *ngIf="viewData?.status == 3" expand="block"  class="bottom-btn ion-activatable ripple-parent rounded-rectangle"> Completed</ion-button>
 </ion-content>
 

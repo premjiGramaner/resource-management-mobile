@@ -55,11 +55,6 @@ export class ResourceRequirementPage implements OnInit {
     this.routerState.paramMap
       .pipe(map(() => window.history.state))
       .subscribe((res: any) => {
-        if (res.data != undefined) {
-          console.log(res.data)
-        } else {
-
-        }
 
       })
   }
