@@ -1,5 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { multiResource, multiResourceResponse, partner, requiementData, skill } from '../models/requirement.model';
+import {
+  multiResource,
+  multiResourceResponse,
+  partner,
+  requiementData,
+  skill,
+} from '../models/requirement.model';
 import { RequirementService } from '../services/requirement.service';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
@@ -18,8 +24,7 @@ export class ViewRequirementComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.viewData)
-      this.arrangeData(this.viewData);
+    if (this.viewData) this.arrangeData(this.viewData);
   }
 
   arrangeData(data: requiementData) {
@@ -31,26 +36,27 @@ export class ViewRequirementComponent implements OnInit {
     }
   }
   skillObj(skill: skill) {
-    Object.assign(skill, { description: skill?.description })
+    Object.assign(skill, { description: skill?.description });
   }
 
   partnerObj(partner: partner) {
-    Object.assign(partner, { name: partner?.name })
+    Object.assign(partner, { name: partner?.name });
   }
 
   updateMarkAsComplete() {
-
     let multiResourceReq: multiResource = {
       Requirement_requirement_id: 2,
       resourceIds: [],
-      Status_status_id: 4
-    }
-    this.requirementService.updateMultiResourceRquirementById(multiResourceReq).subscribe((res: multiResourceResponse) => {
-      if (res.statusCode == 200) {
-        this.toastService.presentToast(res.message)
-      } else {
-        this.toastService.errorToast(this.toastConstants.try_again)
-      }
-    })
+      Status_status_id: 4,
+    };
+    this.requirementService
+      .updateMultiResourceRquirementById(multiResourceReq)
+      .subscribe((res: multiResourceResponse) => {
+        if (res.statusCode == 200) {
+          this.toastService.presentToast(res.message);
+        } else {
+          this.toastService.errorToast(this.toastConstants.try_again);
+        }
+      });
   }
 }

@@ -243,6 +243,5 @@ ion-popover {
 }
 
 .bench-resource-card{
-    --background: #d7deff;
-   
+    --background:  var(--bench-select-color);
 }

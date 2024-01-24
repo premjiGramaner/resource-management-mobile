@@ -9,7 +9,6 @@ import {
   deleteRequirementResponse,
   requiementData,
   requirementResponse,
-  singleResourceResponse,
 } from './models/requirement.model';
 import { BehaviorSubject, map } from 'rxjs';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
@@ -78,7 +77,7 @@ export class RequirementPage implements OnInit {
   ngOnInit() {
     this.routerState.paramMap
       .pipe(map(() => window.history.state))
-      .subscribe((res: any) => {
+      .subscribe((res) => {
         this.client_Id = [];
         this.items = [];
         if (res.data != undefined) {
@@ -157,6 +156,9 @@ export class RequirementPage implements OnInit {
     search: string,
     client_Id?: number[]
   ) {
+    if (client_Id == undefined) {
+      client_Id = []
+    }
     this.requirementService
       .getRequirement(skip, limit, search, client_Id!)
       .subscribe((data: requirementResponse) => {

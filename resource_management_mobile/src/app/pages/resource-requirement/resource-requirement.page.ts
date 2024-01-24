@@ -47,22 +47,21 @@ export class ResourceRequirementPage implements OnInit {
     private modalCtrl: ModalController,
     private toastConstants: ToastConstants,
     private dateformatConverterPipe: DateformatConverterPipe,
-    private routerState: ActivatedRoute,
+    private routerState: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.getResource(this.skip, 20, this.searchQuery);
     this.routerState.paramMap
       .pipe(map(() => window.history.state))
-      .subscribe((res: any) => {
-
-      })
+      .subscribe((res: any) => { });
   }
 
   saveResourceForm() {
     if (this.addResource.isPartnerFormValid()) {
       let addResourceRequest: postResourceRequest = {
-        Requirement_requirement_id: this.addResource.resourceForm.value.Requirement_requirement_id,
+        Requirement_requirement_id:
+          this.addResource.resourceForm.value.Requirement_requirement_id,
         evaluated_by: this.addResource.resourceForm.value.evaluated_by,
         resources: this.addResource.resourceForm.value.resources,
         evaluated_date: this.dateformatConverterPipe.transform(

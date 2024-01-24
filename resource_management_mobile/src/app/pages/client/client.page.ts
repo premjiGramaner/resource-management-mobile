@@ -53,7 +53,6 @@ export class ClientPage implements OnInit {
   }
 
   saveClientForm() {
-
     if (this.addClient.isClientFormValid()) {
       if (this.modelType.toLowerCase() == Status.SAVE.toLowerCase()) {
         this.clientService
@@ -263,9 +262,11 @@ export class ClientPage implements OnInit {
   requirementPageNavigation() {
     this.isModalOpen = false;
     this.isOpen = false;
-    const navigationExtras: NavigationExtras = { state: { data: this.clientMoreData.client_id, clearHistory: true } };
+    const navigationExtras: NavigationExtras = {
+      state: { data: this.clientMoreData.client_id, clearHistory: true },
+    };
     setTimeout(() => {
-      this.router.navigate([this.routeConstants.requirement], navigationExtras)
-    })
+      this.router.navigate([this.routeConstants.requirement], navigationExtras);
+    });
   }
 }

@@ -80,6 +80,7 @@
   --active-menu-primary: #050579;
   --label-secondary: #35314d;
   --login-primary-color: #535395;
+  --bench-select-color:#d7deff;
 }
 
 
@@ -100,6 +101,7 @@
     --active-footer-menu: var(--active-menu-primary);
     --card-header: var(--card-header);
     --search-dropdown-border-color: rgb(190 188 188);
+    --bench-select-color:#d7deff;
   }
 }
 
@@ -114,7 +116,7 @@
     --search-dropdown-text: var(--ion-color-dark);
     --active-footer-menu: var(--active-menu-primary);
     --search-dropdown-border-color: rgb(190 188 188);
-
+    --bench-select-color:#53928f;
     // --card-background: #1e1e1e;
     // --login-type-text: var(--white-color);
     // --ion-col-background: #404040;
@@ -361,6 +363,7 @@ body.dark {
   --active-footer-menu: #19e7fe;
   --card-header: #3a3a4b;
   --search-dropdown-border-color: rgb(59 54 54);
+  --bench-select-color:#53928f;
 }
 
 /*
@@ -410,6 +413,7 @@ body.dark {
   --active-footer-menu: #19e7fe;
   --card-header: #3a3a4b;
   --search-dropdown-border-color: rgb(59 54 54);
+  --bench-select-color:#53928f;
 }
 
 .ios body.dark ion-modal {
@@ -470,4 +474,5 @@ body.dark {
   --active-footer-menu: #19e7fe;
   --card-header: #3a3a4b;
   --search-dropdown-border-color: rgb(59 54 54);
+  --bench-select-color:#53928f;
 }
