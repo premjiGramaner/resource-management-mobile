@@ -96,7 +96,7 @@ export class HttpConfigInterceptor implements HttpInterceptor {
   }
 
   hideLoader() {
-    // this.loaderToShow = false;
+    this.loaderToShow = false;
     this.loadingController.getTop().then((overlay) => {
       if (overlay) {
         overlay.dismiss();
