@@ -12,6 +12,8 @@ import { AddClientComponent } from './add-client/add-client.component';
 import { ClientArrayData, clientResponce } from './models/client.model';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { Status } from 'src/app/core/enum/status.enum';
+import { NavigationExtras, Router } from '@angular/router';
+import { RouteConstants } from 'src/app/core/constant/routes.constants';
 
 @Component({
   selector: 'app-client',
@@ -27,11 +29,15 @@ export class ClientPage implements OnInit {
   isModalOpen: boolean = false;
   modelType: string = 'save';
   clientEdit: boolean = false;
+  @ViewChild('popover') popover: any;
+  isOpen = false;
   @ViewChild('addClient') addClient!: AddClientComponent;
   constructor(
     private clientService: ClientService,
     private toastService: ToastService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private router: Router,
+    private routeConstants: RouteConstants
   ) { }
 
   ngOnInit() {
@@ -47,7 +53,6 @@ export class ClientPage implements OnInit {
   }
 
   saveClientForm() {
-
     if (this.addClient.isClientFormValid()) {
       if (this.modelType.toLowerCase() == Status.SAVE.toLowerCase()) {
         this.clientService
@@ -247,5 +252,21 @@ export class ClientPage implements OnInit {
     this.clientData = [];
     this.skip = 0;
     this.getClient(this.skip, 20, this.searchQuery);
+  }
+
+  presentPopover(e: Event) {
+    this.popover.event = e;
+    this.isOpen = true;
+  }
+
+  requirementPageNavigation() {
+    this.isModalOpen = false;
+    this.isOpen = false;
+    const navigationExtras: NavigationExtras = {
+      state: { data: this.clientMoreData.client_id, clearHistory: true },
+    };
+    setTimeout(() => {
+      this.router.navigate([this.routeConstants.requirement], navigationExtras);
+    });
   }
 }

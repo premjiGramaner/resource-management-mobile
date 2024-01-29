@@ -5,8 +5,7 @@
         <h5> Client </h5>
       </ion-col>
       <ion-col class="mt-3">
-        <ion-icon name="download-outline" size="default" (click)="openExportModel()"
-          class="ion-float-right"></ion-icon>
+        <ion-icon name="download-outline" size="default" (click)="openExportModel()" class="ion-float-right"></ion-icon>
         <ion-icon name="search" size="default" (click)="onSearch()" class="ion-float-right me-4"></ion-icon>
       </ion-col>
     </ion-row>
@@ -73,6 +72,8 @@
             color="primary">Edit</ion-button>
           <ion-button slot="end" *ngIf="modelType === 'save' || modelType === 'editable_data'"
             (click)="saveClientForm()" color="success">Save</ion-button>
+          <ion-icon name="ellipsis-vertical-outline" slot="end" *ngIf="modelType === 'edit'"
+            (click)="presentPopover($event)"></ion-icon>
         </ion-toolbar>
       </ion-header>
       <ion-content class="ion-padding">
@@ -83,3 +84,15 @@
     </ng-template>
   </ion-modal>
 </ion-content>
+
+<ion-popover #popover [isOpen]="isOpen" (didDismiss)="isOpen = false">
+  <ng-template>
+    <ion-content class="ion-padding">
+      <ion-item>
+        <ion-label (click)="requirementPageNavigation()">
+          Requirement
+        </ion-label>
+      </ion-item>
+    </ion-content>
+  </ng-template>
+</ion-popover>

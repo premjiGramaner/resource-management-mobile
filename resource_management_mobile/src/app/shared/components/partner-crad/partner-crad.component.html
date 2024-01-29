@@ -6,13 +6,8 @@
   <form [formGroup]="addform" (ngSubmit)="onSubmit(addform)">
     <ion-list lines="none">
       <ion-item>
-        <ion-select class="always-flip inputTxt" label-placement="floating" fill="outline" toggleIcon="caret-down-sharp"
-          interface="popover" placeholder="Select Partner" formControlName="partner_id" errorText="Invalid Partner"
-          required>
-          <div slot="label">Select Partner<ion-text color="danger"> *</ion-text></div>
-          <ion-select-option *ngFor="let partner of partnerList"
-            value={{partner.partner_id}}>{{partner.name}}</ion-select-option>
-        </ion-select>
+        <app-searchable-dropdown [dropDownData]="partnerDropDownData"   (dropDownEvent)="partnerSelectedEvent($event)"
+        class="search-dropdown-padding"></app-searchable-dropdown>
       </ion-item>
 
       <ion-item>

@@ -8,7 +8,7 @@ import {
 import { ToastConstants } from 'src/app/core/constant/toast.message.constant';
 import { ToastService } from 'src/app/core/toast/toast.service';
 import { DeleteNavComponent } from 'src/app/shared/components/delete-nav/delete-nav.component';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, map } from 'rxjs';
 import { AddResourceRequirementComponent } from './add-resource-requirement/add-resource-requirement.component';
 import { Status } from 'src/app/core/enum/status.enum';
 import { Common, Modules } from 'src/app/core/enum/static.enum';
@@ -21,6 +21,8 @@ import {
 } from './models/resource-requirement-model';
 import { ExportOptionComponent } from 'src/app/shared/components/export-option/export-option.component';
 import { DateformatConverterPipe } from 'src/app/shared/helpers/pipes/dateformat-converter.pipe';
+import { RouteConstants } from 'src/app/core/constant/routes.constants';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-resource-requirement',
@@ -44,17 +46,22 @@ export class ResourceRequirementPage implements OnInit {
     private toastService: ToastService,
     private modalCtrl: ModalController,
     private toastConstants: ToastConstants,
-    private dateformatConverterPipe: DateformatConverterPipe
+    private dateformatConverterPipe: DateformatConverterPipe,
+    private routerState: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.getResource(this.skip, 20, this.searchQuery);
+    this.routerState.paramMap
+      .pipe(map(() => window.history.state))
+      .subscribe((res: any) => { });
   }
 
   saveResourceForm() {
     if (this.addResource.isPartnerFormValid()) {
       let addResourceRequest: postResourceRequest = {
-        Requirement_requirement_id: this.addResource.resourceForm.value.Requirement_requirement_id,
+        Requirement_requirement_id:
+          this.addResource.resourceForm.value.Requirement_requirement_id,
         evaluated_by: this.addResource.resourceForm.value.evaluated_by,
         resources: this.addResource.resourceForm.value.resources,
         evaluated_date: this.dateformatConverterPipe.transform(

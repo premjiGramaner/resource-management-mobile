@@ -39,4 +39,5 @@ export class SearchableDropdownComponent implements OnInit, OnChanges {
     event as DropdownEvent;
     this.dropDownEvent.emit(event)
   }
+
 }

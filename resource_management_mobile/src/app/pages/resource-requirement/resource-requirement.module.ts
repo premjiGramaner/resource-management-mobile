@@ -22,6 +22,7 @@ import { SearchableDropdownComponent } from 'src/app/shared/components/searchabl
     SearchableDropdownComponent
   ],
   declarations: [ResourceRequirementPage, AddResourceRequirementComponent],
-  providers: [DatePipe, DateformatConverterPipe]
+  providers: [DatePipe, DateformatConverterPipe],
+  exports: [AddResourceRequirementComponent]
 })
 export class ResourceRequirementPageModule { }

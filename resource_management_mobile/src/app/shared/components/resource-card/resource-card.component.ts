@@ -60,7 +60,6 @@ export class ResourceCardComponent implements OnInit {
     private toastConstants: ToastConstants,
     private toastService: ToastService,
     private commonService: CommonService,
-    private staticDataConstants: StaticDataConstants
   ) {
     this.resourceDropDownData = {
       title: toastConstants.resource_card_placeholder,

@@ -218,8 +218,30 @@ ion-popover {
     justify-content: $justify-content-center;
 }
 
-.search-dropdown-padding{
+.search-dropdown-padding {
     width: 100%;
     margin-top: 13px;
     margin-bottom: 4px;
+}
+
+.bottom-btn {
+    position: fixed;
+    bottom: 0;
+    width: 95%;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+.filter-highlight {
+    height: 13px;
+    width: 13px;
+    background-color: #dd2626;
+    border-radius: 50%;
+    position: absolute;
+    left: 95%;
+}
+
+.bench-resource-card{
+    --background:  var(--bench-select-color);
 }
