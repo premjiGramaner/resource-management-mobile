@@ -9,7 +9,6 @@ export class SharedPage implements OnInit {
 
   constructor() { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
 }
