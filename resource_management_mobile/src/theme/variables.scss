@@ -100,7 +100,7 @@
     --search-dropdown-text: var(--ion-color-dark);
     --active-footer-menu: var(--active-menu-primary);
     --card-header: var(--card-header);
-    --search-dropdown-border-color: rgb(190 188 188);
+    --search-dropdown-border-color: #b3b3b3;
     --bench-select-color:#d7deff;
   }
 }
@@ -115,7 +115,7 @@
     --search-dropdown-color: var(--white-color);
     --search-dropdown-text: var(--ion-color-dark);
     --active-footer-menu: var(--active-menu-primary);
-    --search-dropdown-border-color: rgb(190 188 188);
+    --search-dropdown-border-color: #b3b3b3;
     --bench-select-color:#53928f;
     // --card-background: #1e1e1e;
     // --login-type-text: var(--white-color);
@@ -219,7 +219,7 @@
   //     --ion-color-step-550: #8c8c8c;
   //     --ion-color-step-600: #999999;
   //     --ion-color-step-650: #a6a6a6;
-  //     --ion-color-step-700: #b3b3b3;
+  //     --ion-color-step-700: #595959;
   //     --ion-color-step-750: #bfbfbf;
   //     --ion-color-step-800: #cccccc;
   //     --ion-color-step-850: #d9d9d9;
@@ -362,7 +362,7 @@ body.dark {
   --search-dropdown-text: var(--white-color);
   --active-footer-menu: #19e7fe;
   --card-header: #3a3a4b;
-  --search-dropdown-border-color: rgb(59 54 54);
+  --search-dropdown-border-color: #595959;
   --bench-select-color:#53928f;
 }
 
@@ -391,7 +391,7 @@ body.dark {
   --ion-color-step-550: #8c8c8c;
   --ion-color-step-600: #999999;
   --ion-color-step-650: #a6a6a6;
-  --ion-color-step-700: #b3b3b3;
+  --ion-color-step-700: #595959;
   --ion-color-step-750: #bfbfbf;
   --ion-color-step-800: #cccccc;
   --ion-color-step-850: #d9d9d9;
@@ -412,7 +412,7 @@ body.dark {
   --search-dropdown-text: var(--white-color);
   --active-footer-menu: #19e7fe;
   --card-header: #3a3a4b;
-  --search-dropdown-border-color: rgb(59 54 54);
+  --search-dropdown-border-color: #595959;
   --bench-select-color:#53928f;
 }
 
@@ -473,6 +473,6 @@ body.dark {
   --search-dropdown-text: var(--white-color);
   --active-footer-menu: #19e7fe;
   --card-header: #3a3a4b;
-  --search-dropdown-border-color: rgb(59 54 54);
+  --search-dropdown-border-color: #595959;
   --bench-select-color:#53928f;
 }
